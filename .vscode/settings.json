@@ -1,0 +1,70 @@
+{
+	/* ------------------------------------------------------------------ */
+	/*  Format & lint à la sauvegarde                                      */
+	/* ------------------------------------------------------------------ */
+	// 1) Pas de formatteur VS Code : c’est ESLint qui exécute Prettier.
+	"editor.formatOnSave": false,
+
+	// 2) Exécute : fixes ESLint + organise les imports TypeScript.
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit",
+		"source.addMissingImports": "explicit",
+		"source.removeUnusedImports": "explicit",
+		"source.organizeImports": "explicit",
+		"source.fixAll": "explicit",
+	},
+
+	/* ------------------------------------------------------------------ */
+	/*  ESLint (extension dbaeumer.vscode-eslint)                          */
+	/* ------------------------------------------------------------------ */
+	"eslint.useFlatConfig": true,
+	"eslint.validate": ["javascript", "typescript", "javascriptreact", "typescriptreact"],
+	"eslint.workingDirectories": [{ "pattern": "apps/*" }, { "pattern": "packages/*" }],
+
+
+  /* ------------------------------------------------------------------ */
+  /*  Semicolons (extension ms-vscode.typescript-language-features)     */
+  /* ------------------------------------------------------------------ */
+  "typescript.preferences.semicolons": "remove",
+  "javascript.preferences.semicolons": "remove",
+
+  // (optionnel, rétro-compat pour VS Code/TS plus anciens)
+  "typescript.format.semicolons": "remove",
+  "javascript.format.semicolons": "remove",
+
+	/* ------------------------------------------------------------------ */
+	/*  Import helpers (TypeScript server)                                 */
+	/* ------------------------------------------------------------------ */
+	"typescript.preferences.importModuleSpecifier": "non-relative",
+	"typescript.preferences.includePackageJsonAutoImports": "on",
+
+	/* ------------------------------------------------------------------ */
+	/*  Style cohérent (aligné sur .editorconfig & Prettier)               */
+	/* ------------------------------------------------------------------ */
+	"editor.tabSize": 2,
+	"editor.insertSpaces": true,
+	"files.trimTrailingWhitespace": true,
+	"files.insertFinalNewline": true,
+	"files.eol": "\n",
+
+	/* ------------------------------------------------------------------ */
+	/*  Tailwind CSS                                                      */
+	/* ------------------------------------------------------------------ */
+  "files.associations": {
+    "**/*.css": "tailwindcss",
+    "**/*.module.css": "tailwindcss"
+  },
+  "css.validate": false,
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.experimental.classRegex": [
+    "class(?:Name)?=\"([^\"]*)\"",
+    "class(?:Name)?=\\{`([^`]*)`\\}",
+		// "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"
+  ],
+	"tailwindCSS.classFunctions": ["cva", "cx", "cn"],
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html",
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  }
+}

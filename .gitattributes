@@ -1,0 +1,11 @@
+# Tout fichier texte est stocké en LF dans le repo (multi-OS friendly)
+* text=auto eol=lf
+
+# Binaries
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
