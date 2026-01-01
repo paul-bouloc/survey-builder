@@ -5,10 +5,23 @@
  * - derived/flags via "path"
  * -------------------------------------------------------------------------- */
 
-import {
-  ConditionOperator,
-  ConditionOperatorType
-} from '@/shared/types/nodes/condition/condition-operator.type'
+export const ConditionOperator = {
+  EQUALS: 'eq',
+  NOT_EQUALS: 'neq',
+  IN: 'in',
+  INCLUDES: 'includes',
+  GREATER_THAN: 'gt',
+  GREATER_THAN_OR_EQUALS: 'gte',
+  LESS_THAN: 'lt',
+  LESS_THAN_OR_EQUALS: 'lte',
+  EXISTS: 'exists',
+  AND: 'and',
+  OR: 'or',
+  NOT: 'not'
+} as const
+
+export type ConditionOperatorType =
+  (typeof ConditionOperator)[keyof typeof ConditionOperator]
 
 /**
  * If "path" is omitted, the engine may interpret the condition against

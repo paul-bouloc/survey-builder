@@ -1,5 +1,5 @@
 import { NodeId } from '@/shared/types/brands.type'
-import { Condition } from '@/shared/types/nodes/condition/condition.type'
+import { Condition } from '@/shared/types/nodes/condition.type'
 import { DividerNode } from '@/shared/types/nodes/divider-node.type'
 import { GroupNode } from '@/shared/types/nodes/group-node.type'
 import { InfoNode } from '@/shared/types/nodes/info-node.type'

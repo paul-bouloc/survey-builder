@@ -1,5 +1,5 @@
 import { Action } from '@/shared/types/nodes/action.type'
-import { Condition } from '@/shared/types/nodes/condition/condition.type'
+import { Condition } from '@/shared/types/nodes/condition.type'
 
 export const TriggerTiming = {
   CHANGE: 'change',
