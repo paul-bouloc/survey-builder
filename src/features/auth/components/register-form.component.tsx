@@ -31,8 +31,7 @@ export function RegisterForm(props: {
     resolver: zodResolver(RegisterBodySchema),
     defaultValues: {
       email: '',
-      firstName: '',
-      lastName: '',
+      name: '',
       password: '',
       passwordConfirm: '',
       acceptTerms: false
@@ -92,47 +91,23 @@ export function RegisterForm(props: {
           </div>
         ) : null}
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Controller
-            name="firstName"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="register-firstName">First name</FieldLabel>
-                <Input
-                  {...field}
-                  id="register-firstName"
-                  placeholder="John"
-                  autoComplete="given-name"
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
-          />
-
-          <Controller
-            name="lastName"
-            control={control}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="register-lastName">Last name</FieldLabel>
-                <Input
-                  {...field}
-                  id="register-lastName"
-                  placeholder="Doe"
-                  autoComplete="family-name"
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid && (
-                  <FieldError errors={[fieldState.error]} />
-                )}
-              </Field>
-            )}
-          />
-        </div>
+        <Controller
+          name="name"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="register-name">Name</FieldLabel>
+              <Input
+                {...field}
+                id="register-name"
+                placeholder="John Doe"
+                autoComplete="name"
+                aria-invalid={fieldState.invalid}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
         <Controller
           name="email"

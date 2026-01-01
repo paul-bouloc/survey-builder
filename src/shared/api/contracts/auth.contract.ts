@@ -1,6 +1,5 @@
 import { emailPolicy } from '@/shared/validation/policies/email.policy'
-import { firstnamePolicy } from '@/shared/validation/policies/firstname.policy'
-import { lastnamePolicy } from '@/shared/validation/policies/lastname.policy'
+import { namePolicy } from '@/shared/validation/policies/name.policy'
 import { passwordPolicy } from '@/shared/validation/policies/password.policy'
 import { termsPolicy } from '@/shared/validation/policies/terms.policy'
 import { z } from 'zod'
@@ -8,8 +7,7 @@ import { z } from 'zod'
 export const RegisterBodySchema = z
   .object({
     email: emailPolicy,
-    firstName: firstnamePolicy,
-    lastName: lastnamePolicy,
+    name: namePolicy,
     password: passwordPolicy,
     passwordConfirm: z.string(),
     acceptTerms: termsPolicy

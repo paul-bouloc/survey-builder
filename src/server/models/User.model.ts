@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs'
+import { generateShortId } from '@/lib/string'
 import {
   Schema,
   model,
@@ -8,27 +8,30 @@ import {
   type Types
 } from 'mongoose'
 
-export interface IUser extends Document {
+export interface IUserDocument extends Document {
   _id: Types.ObjectId
+  shortId: string
   email: string
-  firstName: string
-  lastName: string
-  password: string
-  emailVerified: boolean
-  acceptTerms: boolean
+  name: string
   createdAt: Date
   updatedAt: Date
-  comparePassword(candidatePassword: string): Promise<boolean>
 }
 
-interface IUserMethods {
-  comparePassword(candidatePassword: string): Promise<boolean>
-}
+type UserModel = Model<IUserDocument>
 
-type UserModel = Model<IUser, Record<string, never>, IUserMethods>
-
-const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
+const UserSchema = new Schema<IUserDocument, UserModel>(
   {
+    shortId: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+      default: generateShortId,
+      validate: {
+        validator: (v: string) => v.length === 6,
+        message: 'shortId must be exactly 6 characters'
+      }
+    },
     email: {
       type: String,
       required: [true, 'Email is required'],
@@ -38,35 +41,12 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
       match: [/^\S+@\S+\.\S+$/, 'Please provide a valid email address'],
       index: true
     },
-    firstName: {
+    name: {
       type: String,
-      required: [true, 'First name is required'],
+      required: [true, 'Name is required'],
       trim: true,
-      minlength: [2, 'First name must be at least 2 characters'],
-      maxlength: [50, 'First name must not exceed 50 characters']
-    },
-    lastName: {
-      type: String,
-      required: [true, 'Last name is required'],
-      trim: true,
-      minlength: [2, 'Last name must be at least 2 characters'],
-      maxlength: [50, 'Last name must not exceed 50 characters']
-    },
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
-      minlength: [10, 'Password must be at least 10 characters'],
-      maxlength: [128, 'Password must not exceed 128 characters'],
-      select: false // Don't include password in queries by default
-    },
-    emailVerified: {
-      type: Boolean,
-      default: false
-    },
-    acceptTerms: {
-      type: Boolean,
-      required: [true, 'You must accept the terms and conditions'],
-      default: false
+      minlength: [2, 'Name must be at least 2 characters'],
+      maxlength: [100, 'Name must not exceed 100 characters']
     }
   },
   {
@@ -75,30 +55,38 @@ const UserSchema = new Schema<IUser, UserModel, IUserMethods>(
   }
 )
 
-// Hash password before saving
 UserSchema.pre('save', async function () {
-  // Only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) {
-    return
-  }
+  if (!this.shortId || this.shortId.length !== 6) {
+    let newShortId: string
+    let isUnique = false
+    let attempts = 0
+    const maxAttempts = 10
 
-  // Hash password with cost of 12
-  const salt = await bcrypt.genSalt(12)
-  this.password = await bcrypt.hash(this.password, salt)
+    const UserModel = this.db.models.User || this.constructor
+
+    while (!isUnique && attempts < maxAttempts) {
+      newShortId = generateShortId()
+      const existing = await UserModel.findOne({ shortId: newShortId })
+      if (!existing) {
+        isUnique = true
+        this.shortId = newShortId
+      }
+      attempts++
+    }
+
+    if (!isUnique) {
+      throw new Error(
+        'Failed to generate unique shortId after multiple attempts'
+      )
+    }
+  }
 })
 
-// Method to compare password
-UserSchema.methods.comparePassword = async function (
-  candidatePassword: string
-): Promise<boolean> {
-  return bcrypt.compare(candidatePassword, this.password)
-}
-
-// Create index on email for faster lookups
 UserSchema.index({ email: 1 })
+UserSchema.index({ shortId: 1 })
 
-// Export the model
 export const User: UserModel =
-  (models.User as UserModel) || model<IUser, UserModel>('User', UserSchema)
+  (models.User as UserModel) ||
+  model<IUserDocument, UserModel>('User', UserSchema)
 
 export default User

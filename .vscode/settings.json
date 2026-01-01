@@ -8,8 +8,6 @@
 	// 2) Exécute : fixes ESLint + organise les imports TypeScript.
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit",
-		"source.addMissingImports": "explicit",
-		"source.removeUnusedImports": "explicit",
 		"source.organizeImports": "explicit",
 		"source.fixAll": "explicit",
 	},

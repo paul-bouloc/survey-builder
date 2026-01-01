@@ -22,10 +22,7 @@ export const postRegister = createEndpoint(
 
     const user = await User.create({
       email: body.email,
-      firstName: body.firstName,
-      lastName: body.lastName,
-      password: body.password,
-      acceptTerms: body.acceptTerms
+      name: body.name
     })
 
     const created = {
