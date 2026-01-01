@@ -1,7 +1,7 @@
-import { BaseNode } from '@/shared/types/nodes/node.type'
+import { BaseNode, NodeKind } from '@/shared/types/surveys/nodes/node.type'
 
 export interface InfoNode extends BaseNode {
-  kind: 'info'
+  kind: typeof NodeKind.INFO
   info: {
     type: 'info' | 'warning' | 'error' | 'success' | 'neutral'
     title: string

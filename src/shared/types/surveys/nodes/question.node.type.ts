@@ -1,3 +1,36 @@
+import { BaseNode, NodeKind } from '@/shared/types/surveys/nodes/node.type'
+
+export const QuestionType = {
+  TEXT: 'text',
+  TEXTAREA: 'textarea',
+  NUMBER: 'number',
+  DATE: 'date',
+  RADIO: 'radio',
+  CHECKBOXES: 'checkboxes',
+  SELECT: 'select',
+  SCALE: 'scale',
+  FORM: 'form'
+} as const
+
+export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
+
+export interface QuestionNode extends BaseNode {
+  kind: typeof NodeKind.QUESTION
+  type: QuestionType
+  required?: boolean
+
+  /**
+   * Config depends on question type
+   */
+  config: QuestionConfig
+
+  /**
+   * Optional children nodes for nested conditional questions.
+   * Ex: "if YES, ask sub-question"
+   */
+  children?: Node[]
+}
+
 export type QuestionConfig =
   | TextConfig
   | TextareaConfig

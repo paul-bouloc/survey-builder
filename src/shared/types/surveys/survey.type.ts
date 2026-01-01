@@ -1,6 +1,13 @@
 import { ObjectId, ShortId } from '@/shared/types/brands.type'
-import { PageNode } from '@/shared/types/nodes/page-node.type'
-import { SurveyStatus } from '@/shared/types/survey/survey-status.type'
+import { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
+
+export const SurveyStatus = {
+  DRAFT: 'draft',
+  PUBLISHED: 'published',
+  ARCHIVED: 'archived'
+} as const
+
+export type SurveyStatus = (typeof SurveyStatus)[keyof typeof SurveyStatus]
 
 export interface Survey {
   _id: ObjectId
