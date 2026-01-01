@@ -1,4 +1,8 @@
-import { BaseNode, NodeKind } from '@/shared/types/surveys/nodes/node.type'
+import {
+  BaseNode,
+  Node,
+  NodeKind
+} from '@/shared/types/surveys/nodes/node.type'
 
 export const QuestionType = {
   TEXT: 'text',
@@ -8,8 +12,7 @@ export const QuestionType = {
   RADIO: 'radio',
   CHECKBOXES: 'checkboxes',
   SELECT: 'select',
-  SCALE: 'scale',
-  FORM: 'form'
+  SCALE: 'scale'
 } as const
 
 export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
@@ -40,7 +43,6 @@ export type QuestionConfig =
   | CheckboxesConfig
   | SelectConfig
   | ScaleConfig
-  | FormConfig
 
 /* ---- basic ---- */
 
@@ -124,56 +126,4 @@ export interface ScaleConfig {
    */
   labels?: Record<number, string>
   commit?: 'change' | 'next'
-}
-
-/* ---- composite ---- */
-
-export type FormFieldType = 'text' | 'number' | 'date' | 'select'
-
-export interface FormFieldBase {
-  key: string // unique within this form question
-  label: string
-  required?: boolean
-  helperText?: string
-}
-
-export interface FormTextField extends FormFieldBase {
-  type: 'text'
-  placeholder?: string
-  maxLength?: number
-}
-
-export interface FormNumberField extends FormFieldBase {
-  type: 'number'
-  min?: number
-  max?: number
-  step?: number
-  integer?: boolean
-  unit?: string
-}
-
-export interface FormDateField extends FormFieldBase {
-  type: 'date'
-  min?: string
-  max?: string
-}
-
-export interface FormSelectField extends FormFieldBase {
-  type: 'select'
-  options: ChoiceOption[]
-  placeholder?: string
-}
-
-export type FormField =
-  | FormTextField
-  | FormNumberField
-  | FormDateField
-  | FormSelectField
-
-export interface FormConfig {
-  type: 'form'
-  fields: FormField[]
-  layout?: 'stack' | 'grid'
-  columns?: number
-  commit?: 'next' // usually commit on next step
 }
