@@ -82,9 +82,6 @@ UserSchema.pre('save', async function () {
   }
 })
 
-UserSchema.index({ email: 1 })
-UserSchema.index({ shortId: 1 })
-
 export const User: UserModel =
   (models.User as UserModel) ||
   model<IUserDocument, UserModel>('User', UserSchema)

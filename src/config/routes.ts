@@ -4,6 +4,18 @@ export const routes = {
     name: 'My Surveys',
     getHref: () => '/'
   },
+  auth: {
+    login: {
+      path: '/auth/login',
+      name: 'Login',
+      getHref: (redirect?: string) => {
+        const baseUrl = '/auth/login'
+        return redirect
+          ? `${baseUrl}?redirect=${encodeURIComponent(redirect)}`
+          : baseUrl
+      }
+    }
+  },
   survey: {
     new: {
       path: '/s/new',

@@ -1,5 +1,5 @@
+import { UserMenu } from '@/components/layouts/user-menu.component'
 import SurveyLogo from '@/components/survey-logo.component'
-import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { TooltipLinkButton } from '@/components/ui/tooltip-link-button'
 import { routes } from '@/config/routes'
 import { Home } from 'lucide-react'
@@ -13,7 +13,7 @@ export default function SurveyNavbar() {
           <Home className="size-4" />
         </TooltipLinkButton>
 
-        <ThemeToggle />
+        <UserMenu />
       </div>
     </div>
   )

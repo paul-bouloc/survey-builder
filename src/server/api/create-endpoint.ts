@@ -1,4 +1,6 @@
 import { handleApiError } from '@/server/api/errors'
+import type { AuthenticatedRequest } from '@/server/auth/require-auth'
+import { requireAuth } from '@/server/auth/require-auth'
 import connectDB from '@/server/database/mongoose'
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import type { z, ZodType } from 'zod'
@@ -10,7 +12,8 @@ type Infer<S extends ZodType | undefined> = S extends ZodType
 type EndpointConfig<
   TBody extends ZodType | undefined,
   TQuery extends ZodType | undefined,
-  TRes extends ZodType | undefined
+  TRes extends ZodType | undefined,
+  TRequireAuth extends boolean | undefined
 > = {
   /**
    * The body schema of the endpoint. This will be parsed from the request body.
@@ -34,16 +37,26 @@ type EndpointConfig<
    * Default: true
    */
   withDb?: boolean
+  /**
+   * Require authentication for this endpoint.
+   * Default: true (set to false for public endpoints like login)
+   */
+  requireAuth?: TRequireAuth
 }
+
+// Type conditionnel pour déterminer le type de req selon requireAuth
+type RequestType<TRequireAuth extends boolean | undefined> =
+  TRequireAuth extends false ? NextApiRequest : AuthenticatedRequest
 
 export function createEndpoint<
   TBody extends ZodType | undefined = undefined,
   TQuery extends ZodType | undefined = undefined,
-  TRes extends ZodType | undefined = undefined
+  TRes extends ZodType | undefined = undefined,
+  TRequireAuth extends boolean | undefined = undefined
 >(
-  config: EndpointConfig<TBody, TQuery, TRes>,
+  config: EndpointConfig<TBody, TQuery, TRes, TRequireAuth>,
   handler: (ctx: {
-    req: NextApiRequest
+    req: RequestType<TRequireAuth>
     res: NextApiResponse
     body: Infer<TBody>
     query: Infer<TQuery>
@@ -62,6 +75,10 @@ export function createEndpoint<
 
       if (config.withDb ?? true) {
         await connectDB()
+      }
+
+      if (config.requireAuth !== false) {
+        await requireAuth(req as AuthenticatedRequest)
       }
 
       const result = await handler({ req, res, body, query })

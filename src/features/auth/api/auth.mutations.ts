@@ -1,9 +1,45 @@
-import type { RegisterBody } from '@/shared/api/contracts/auth.contract'
-import { useMutation } from '@tanstack/react-query'
+import { useQueryInvalidation } from '@/lib/react-query/query-invalidation'
+import type {
+  AuthCheckBody,
+  AuthRegisterBody
+} from '@/shared/api/contracts/auth.contract'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { authClient } from './auth.client'
+import { authQueryKeys } from './query-keys'
 
-export function useRegister() {
+export function useAuth() {
+  const { refetchSession } = useQueryInvalidation()
+
   return useMutation({
-    mutationFn: (payload: RegisterBody) => authClient.register(payload)
+    mutationFn: (payload: AuthCheckBody | AuthRegisterBody) =>
+      authClient.auth(payload),
+    onSuccess: async () => {
+      await refetchSession()
+    }
+  })
+}
+
+export function useLogout() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: () => authClient.logout(),
+    onSuccess: async () => {
+      queryClient.removeQueries({
+        queryKey: authQueryKeys.session()
+      })
+    }
+  })
+}
+
+export function useSession() {
+  return useQuery({
+    queryKey: authQueryKeys.session(),
+    queryFn: () => authClient.getSession(),
+    retry: false,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
   })
 }

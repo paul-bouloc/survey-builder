@@ -1,8 +1,8 @@
 import SurveyLogo from '@/components/survey-logo.component'
-import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { TooltipLinkButton } from '@/components/ui/tooltip-link-button'
 import { routes } from '@/config/routes'
 import { Home, Plus } from 'lucide-react'
+import { UserMenu } from '../user-menu.component'
 
 export default function RootNavbar() {
   return (
@@ -20,7 +20,7 @@ export default function RootNavbar() {
           <Plus className="size-4" />
         </TooltipLinkButton>
 
-        <ThemeToggle />
+        <UserMenu />
       </div>
     </div>
   )
