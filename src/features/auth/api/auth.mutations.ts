@@ -1,4 +1,3 @@
-import { useQueryInvalidation } from '@/lib/react-query/query-invalidation'
 import type {
   AuthCheckBody,
   AuthRegisterBody
@@ -8,13 +7,21 @@ import { authClient } from './auth.client'
 import { authQueryKeys } from './query-keys'
 
 export function useAuth() {
-  const { refetchSession } = useQueryInvalidation()
+  const queryClient = useQueryClient()
 
   return useMutation({
     mutationFn: (payload: AuthCheckBody | AuthRegisterBody) =>
       authClient.auth(payload),
-    onSuccess: async () => {
-      await refetchSession()
+    onSuccess: async (data) => {
+      if (data.userId && !data.needsRegistration) {
+        queryClient.setQueryData(authQueryKeys.session(), {
+          userId: data.userId,
+          email: data.email,
+          name: data.name,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+      }
     }
   })
 }
