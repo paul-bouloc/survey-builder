@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty'
+import { routes } from '@/config/routes'
 import { Survey } from '@/shared/types/surveys/survey.type'
 import { FolderOpen } from 'lucide-react'
+import Link from 'next/link'
 import { SurveyCard } from './survey-card.component'
 
 interface MySurveysListProps {
@@ -24,7 +26,9 @@ export function MySurveysList({ surveys }: MySurveysListProps) {
         </EmptyHeader>
         <EmptyContent>
           <div className="flex gap-2">
-            <Button>Create Survey 🔥</Button>
+            <Link href={routes.survey.new.getHref()}>
+              <Button>Create Survey 🔥</Button>
+            </Link>
           </div>
         </EmptyContent>
       </Empty>
