@@ -20,16 +20,17 @@ export type NodeKind = (typeof NodeKind)[keyof typeof NodeKind]
 export interface BaseNode {
   id: NodeId
   kind: NodeKind
+  order: number
 
-  title?: string
-  subtitle?: string
-  description?: string
+  title: string | null
+  subtitle: string | null
+  description: string | null
 
   /**
    * Optional stable code for "special questions" / reporting.
    * Example: "IMMEDIATE_RISK", "CONSENT", etc.
    */
-  code?: string
+  code: string | null
 
   /**
    * Visibility condition for this node itself.

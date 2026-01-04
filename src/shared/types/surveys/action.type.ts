@@ -34,7 +34,8 @@ export interface UnflagAction extends BaseAction {
 
 export interface GotoAction extends BaseAction {
   type: typeof ActionType.GOTO
-  target: 'NEXT' | 'PREVIOUS' | 'END' | NodeId
+  target: 'NEXT' | 'PREVIOUS' | 'END' | 'NODE'
+  nodeId?: NodeId
 }
 
 export interface ToastAction extends BaseAction {
@@ -48,5 +49,5 @@ export interface ConfirmAction extends BaseAction {
   type: typeof ActionType.CONFIRM
   title: string
   message: string
-  onCancel?: 'stop' | 'noop'
+  onCancel: 'stop' | 'noop'
 }
