@@ -1,25 +1,8 @@
 import { generateShortId } from '@/lib/string'
-import {
-  Schema,
-  model,
-  models,
-  type Document,
-  type Model,
-  type Types
-} from 'mongoose'
+import { IUserDocument, UserModel } from '@/server/models/user/user.document'
+import { Schema } from 'mongoose'
 
-export interface IUserDocument extends Document {
-  _id: Types.ObjectId
-  shortId: string
-  email: string
-  name: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-type UserModel = Model<IUserDocument>
-
-const UserSchema = new Schema<IUserDocument, UserModel>(
+export const UserSchema = new Schema<IUserDocument, UserModel>(
   {
     shortId: {
       type: String,
@@ -81,9 +64,3 @@ UserSchema.pre('save', async function () {
     }
   }
 })
-
-export const User: UserModel =
-  (models.User as UserModel) ||
-  model<IUserDocument, UserModel>('User', UserSchema)
-
-export default User

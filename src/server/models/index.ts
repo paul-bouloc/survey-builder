@@ -1,1 +1,1 @@
-export { User, type IUserDocument } from './User.model'
+export * from './user'

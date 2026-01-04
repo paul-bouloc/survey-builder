@@ -23,7 +23,7 @@ export interface BaseAction {
 
 export interface FlagAction extends BaseAction {
   type: typeof ActionType.FLAG
-  path: string // flags.xxx | derived.xxx | meta.xxx | answers.xxx (optional)
+  path: string
   value: unknown
 }
 
@@ -48,8 +48,5 @@ export interface ConfirmAction extends BaseAction {
   type: typeof ActionType.CONFIRM
   title: string
   message: string
-  /**
-   * If false, engine should stop the current flow (e.g. prevent goto/submit).
-   */
   onCancel?: 'stop' | 'noop'
 }
