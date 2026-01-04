@@ -25,6 +25,11 @@ const QuestionNodeSchema = new Schema(
     children: {
       type: [NodeSchema],
       default: undefined,
+      validate: {
+        validator: (arr: unknown[]) =>
+          arr ? Array.isArray(arr) && arr.every((n: any) => n?.kind !== NodeKind.PAGE) : true,
+        message: 'children must be an array of nodes, not empty, and must not contain PageNode',
+      },
     },
   },
   { _id: false }

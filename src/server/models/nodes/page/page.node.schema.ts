@@ -8,6 +8,13 @@ const PageNodeSchema = new Schema(
       type: [NodeSchema],
       required: true,
       default: [],
+      validate: {
+        validator: (arr: unknown[]) =>
+          Array.isArray(arr) &&
+          arr.length > 0 &&
+          arr.every((n: any) => n?.kind !== NodeKind.PAGE),
+        message: 'children must be an array of nodes, not empty, and must not contain PageNode',
+      },
     },
 
     page: {
