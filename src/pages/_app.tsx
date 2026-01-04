@@ -5,7 +5,7 @@ import { routes } from '@/config/routes'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import { Inter } from 'next/font/google'
+import { Geist_Mono, Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
 import type { ReactElement, ReactNode } from 'react'
 import { useState } from 'react'
@@ -13,6 +13,7 @@ import { Toaster } from 'sonner'
 import '../styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
+const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 
 export type NextPageWithLayout<P = Record<string, never>, IP = P> = NextPage<
   P,
@@ -68,7 +69,7 @@ export default function App(props: AppPropsWithLayout) {
       disableTransitionOnChange
     >
       <QueryClientProvider client={queryClient}>
-        <div className={`${inter.variable} antialiased`}>
+        <div className={`${inter.variable} ${geistMono.variable} antialiased`}>
           <AppContent {...props} />
         </div>
         <Toaster position="bottom-center" />
