@@ -1,5 +1,6 @@
 import { routes } from '@/config/routes'
 import { useSession } from '@/features/auth/api/auth.mutations'
+import { getSafeRedirectFromQuery } from '@/lib/safe-redirect'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
@@ -9,10 +10,11 @@ export function AuthRedirect() {
 
   useEffect(() => {
     if (!isLoading && session) {
-      const redirectTo =
-        typeof router.query.redirect === 'string'
-          ? decodeURIComponent(router.query.redirect)
-          : routes.home.getHref()
+      const redirectTo = getSafeRedirectFromQuery(
+        router.query,
+        routes.home.getHref()
+      )
+
       router.push(redirectTo)
     }
   }, [session, isLoading, router])

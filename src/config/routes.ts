@@ -1,13 +1,13 @@
 export const routes = {
   home: {
     path: '/',
-    name: 'My Surveys',
+    labelKey: 'home',
     getHref: () => '/'
   },
   auth: {
     login: {
       path: '/auth/login',
-      name: 'Login',
+      labelKey: 'auth.login',
       getHref: (redirect?: string) => {
         const baseUrl = '/auth/login'
         return redirect
@@ -19,22 +19,22 @@ export const routes = {
   survey: {
     new: {
       path: '/s/new',
-      name: 'New Survey',
+      labelKey: 'survey.new',
       getHref: () => '/s/new'
     },
     run: {
       path: '/s/[surveyId]/run',
-      name: 'Run Survey',
+      labelKey: 'survey.run',
       getHref: (surveyId: string) => `/s/${surveyId}/run`
     },
     edit: {
       path: '/s/[surveyId]/edit',
-      name: 'Edit Survey',
+      labelKey: 'survey.edit',
       getHref: (surveyId: string) => `/s/${surveyId}/edit`
     },
     results: {
       path: '/s/[surveyId]/res',
-      name: 'Survey Results',
+      labelKey: 'survey.results',
       getHref: (surveyId: string) => `/s/${surveyId}/res`
     }
   }

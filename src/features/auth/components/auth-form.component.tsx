@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input'
 import { routes } from '@/config/routes'
 import { useAuth } from '@/features/auth/api/auth.mutations'
 import { getErrorMessage } from '@/lib/api-error'
+import { getSafeRedirectFromQuery } from '@/lib/safe-redirect'
 import {
   AuthCheckBodySchema,
   AuthRegisterBodySchema
@@ -31,11 +32,7 @@ export function AuthForm() {
   const auth = useAuth()
   const [needsRegistration, setNeedsRegistration] = useState(false)
 
-  // Get redirect URL from query params
-  const redirectTo =
-    typeof router.query.redirect === 'string'
-      ? decodeURIComponent(router.query.redirect)
-      : routes.home.getHref()
+  const redirectTo = getSafeRedirectFromQuery(router.query, routes.home.getHref())
 
   const emailForm = useForm<EmailFormValues>({
     resolver: zodResolver(AuthCheckBodySchema),
