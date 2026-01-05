@@ -1,5 +1,10 @@
 {
   "home": "Accueil",
   "create": "Créer un questionnaire",
-  "logout": "Déconnexion"
+  "switchLanguage": "Changer de langue",
+  "account": "Mon compte",
+  "darkMode": "Mode sombre",
+  "lightMode": "Mode clair",
+  "logout": "Déconnexion",
+  "loggingOut": "Déconnexion en cours..."
 }

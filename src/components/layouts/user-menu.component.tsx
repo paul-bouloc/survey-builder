@@ -15,6 +15,7 @@ import {
 import { routes } from '@/config/routes'
 import { useLogout, useSession } from '@/features/auth/api/auth.mutations'
 import { LogOut, Moon, Sun, User } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import * as React from 'react'
@@ -25,6 +26,7 @@ export function UserMenu() {
   const router = useRouter()
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
+  const t = useTranslations('nav');
 
   React.useEffect(() => {
     setMounted(true)
@@ -61,7 +63,7 @@ export function UserMenu() {
           </DropdownMenuTrigger>
         </TooltipTrigger>
         <TooltipContent>
-          <p>Account</p>
+          <p>{t('account')}</p>
         </TooltipContent>
       </Tooltip>
       <DropdownMenuContent align="end" className="w-48">
@@ -73,12 +75,12 @@ export function UserMenu() {
           {theme === 'dark' ? (
             <>
               <Sun className="size-4" />
-              <span>Light mode</span>
+              <span>{t('lightMode')}</span>
             </>
           ) : (
             <>
               <Moon className="size-4" />
-              <span>Dark mode</span>
+              <span>{t('darkMode')}</span>
             </>
           )}
         </DropdownMenuItem>
@@ -88,7 +90,7 @@ export function UserMenu() {
           disabled={logout.isPending}
         >
           <LogOut className="size-4" />
-          <span>{logout.isPending ? 'Logging out...' : 'Log out'}</span>
+          <span>{logout.isPending ? t('loggingOut') : t('logout')}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

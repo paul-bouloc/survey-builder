@@ -18,8 +18,6 @@ import '../styles/globals.css'
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
 
-// const messagesByLocale: Record<'fr' | 'en', AbstractIntlMessages> = { fr, en };
-
 export type NextPageWithLayout<P = Record<string, never>, IP = P> = NextPage<
   P,
   IP

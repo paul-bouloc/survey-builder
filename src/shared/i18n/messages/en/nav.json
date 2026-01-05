@@ -1,5 +1,10 @@
 {
   "home": "Home",
   "create": "Create a survey",
-  "logout": "Logout"
+  "switchLanguage": "Switch language",
+  "account": "Account",
+  "darkMode": "Dark mode",
+  "lightMode": "Light mode",
+  "logout": "Logout",
+  "loggingOut": "Logging out..."
 }
