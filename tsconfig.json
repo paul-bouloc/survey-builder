@@ -29,7 +29,10 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "**/*.mjs"
-, "eslint.config.js"  ],
+    "**/*.mjs",
+    "eslint.config.js",
+    "src/shared/i18n/**/*.json",
+    "src/shared/i18n/**/*.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

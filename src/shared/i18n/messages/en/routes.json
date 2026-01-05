@@ -1,0 +1,12 @@
+{
+  "home": "Home",
+  "auth": {
+    "login": "Login"
+  },
+  "survey": {
+    "new": "Create a survey",
+    "run": "Run a survey",
+    "edit": "Edit a survey",
+    "results": "Survey results"
+  }
+}
