@@ -23,27 +23,37 @@ export function LanguageSwitch() {
     <Tooltip>
       <TooltipTrigger asChild>
         <Button variant="outline" size="icon-sm" onClick={toggle}>
-          <div className="relative size-4">
-            <AnimatePresence mode="wait">
+          <div className="relative size-4 overflow-hidden">
+            <AnimatePresence>
               {router.locale === 'fr' ? (
                 <motion.div
                   key="fr"
-                  initial={{ opacity: 0, scale: 0.8, rotate: -90 }}
-                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute inset-0"
+                  initial={{ opacity: 0, y: -8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 400,
+                    damping: 20,
+                    mass: 1.5
+                  }}
+                  className="absolute inset-0 flex items-center justify-center"
                 >
                   <FrIcon />
                 </motion.div>
               ) : (
                 <motion.div
                   key="en"
-                  initial={{ opacity: 0, scale: 0.8, rotate: -90 }}
-                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                  exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
-                  transition={{ duration: 0.15 }}
-                  className="absolute inset-0"
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 8 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 400,
+                    damping: 20,
+                    mass: 1.5
+                  }}
+                  className="absolute inset-0 flex items-center justify-center"
                 >
                   <EnIcon />
                 </motion.div>
