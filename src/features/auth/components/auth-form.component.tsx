@@ -10,7 +10,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { routes } from '@/config/routes'
 import { useAuth } from '@/features/auth/api/auth.mutations'
-import { getErrorMessage } from '@/lib/api-error'
 import { getSafeRedirectFromQuery } from '@/lib/safe-redirect'
 import {
   AuthCheckBodySchema,
@@ -18,6 +17,7 @@ import {
 } from '@/shared/api/contracts/auth.contract'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -30,6 +30,9 @@ type RegisterFormValues = z.infer<typeof AuthRegisterBodySchema>
 export function AuthForm() {
   const router = useRouter()
   const auth = useAuth()
+  const t = useTranslations('auth.login')
+  const tForm = useTranslations('form')
+  const tCommon = useTranslations('common')
   const [needsRegistration, setNeedsRegistration] = useState(false)
 
   const redirectTo = getSafeRedirectFromQuery(router.query, routes.home.getHref())
@@ -57,17 +60,11 @@ export function AuthForm() {
         setNeedsRegistration(true)
         registerForm.setValue('email', values.email)
       } else {
-        toast.success('Login successful')
+        toast.success(t('toasts.loginSuccessful'))
         router.push(redirectTo)
       }
     } catch (error) {
-      const errorMessage = getErrorMessage(error)
-
-      toast.error(errorMessage)
-      emailForm.setError('root', {
-        type: 'server',
-        message: errorMessage
-      })
+      toast.error(t('toasts.loginFailed'))
     }
   }
 
@@ -76,20 +73,14 @@ export function AuthForm() {
       const result = await auth.mutateAsync(values)
 
       if (result.isNewUser) {
-        toast.success('Registration successful')
+        toast.success(t('toasts.registrationSuccessful'))
       } else {
-        toast.success('Login successful')
+        toast.success(t('toasts.loginSuccessful'))
       }
 
       router.push(redirectTo)
     } catch (error) {
-      const errorMessage = getErrorMessage(error)
-
-      toast.error(errorMessage)
-      registerForm.setError('root', {
-        type: 'server',
-        message: errorMessage
-      })
+      toast.error(t('toasts.registrationFailed'))
     }
   }
 
@@ -138,28 +129,18 @@ export function AuthForm() {
               transition={{ duration: 0.15, ease: 'easeInOut' }}
             >
               <FieldLegend>
-                {needsRegistration ? 'Create an account' : 'Login'}
+                {needsRegistration ? t('register') : t('login')}
               </FieldLegend>
               <FieldDescription>
                 {needsRegistration
-                  ? 'Please enter your name to complete your registration.'
-                  : 'Enter your email address to sign in or create an account.'}
+                  ? t('registerDescription')
+                  : t('loginDescription')}
               </FieldDescription>
             </motion.div>
           </AnimatePresence>
         </div>
 
         <FieldGroup className="mt-6 [&>[data-slot=field]:first-of-type]:mb-0">
-          {(needsRegistration
-            ? registerForm.formState.errors.root?.message
-            : emailForm.formState.errors.root?.message) ? (
-            <div className="text-destructive rounded-md border px-4 py-3 text-sm">
-              {needsRegistration
-                ? registerForm.formState.errors.root?.message
-                : emailForm.formState.errors.root?.message}
-            </div>
-          ) : null}
-
           {needsRegistration ? (
             <Controller
               name="email"
@@ -172,12 +153,12 @@ export function AuthForm() {
                   transition={{ duration: 0.2 }}
                 >
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="auth-email">Email</FieldLabel>
+                    <FieldLabel htmlFor="auth-email">{tForm('inputs.email.label')}</FieldLabel>
                     <Input
                       {...field}
                       id="auth-email"
                       type="email"
-                      placeholder="your@email.com"
+                      placeholder={tForm('inputs.email.placeholder')}
                       autoComplete="email"
                       inputMode="email"
                       disabled
@@ -197,12 +178,12 @@ export function AuthForm() {
               control={emailForm.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="auth-email">Email</FieldLabel>
+                  <FieldLabel htmlFor="auth-email">{tForm('inputs.email.label')}</FieldLabel>
                   <Input
                     {...field}
                     id="auth-email"
                     type="email"
-                    placeholder="your@email.com"
+                    placeholder={tForm('inputs.email.placeholder')}
                     autoComplete="email"
                     inputMode="email"
                     aria-invalid={fieldState.invalid}
@@ -230,11 +211,11 @@ export function AuthForm() {
                   control={registerForm.control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="auth-name">Name</FieldLabel>
+                      <FieldLabel htmlFor="auth-name">{tForm('inputs.name.label')}</FieldLabel>
                       <Input
                         {...field}
                         id="auth-name"
-                        placeholder="Your name"
+                        placeholder={tForm('inputs.name.placeholder')}
                         autoComplete="name"
                         aria-invalid={fieldState.invalid}
                       />
@@ -274,7 +255,7 @@ export function AuthForm() {
                     }}
                     disabled={auth.isPending}
                   >
-                    Back
+                    {tCommon('back')}
                   </Button>
                 </motion.div>
               )}
@@ -292,7 +273,7 @@ export function AuthForm() {
                 type="submit"
                 isLoading={auth.isPending}
               >
-                {needsRegistration ? 'Sign up' : 'Continue'}
+                {needsRegistration ? t('register') : tCommon('continue')}
               </Button>
             </motion.div>
           </motion.div>

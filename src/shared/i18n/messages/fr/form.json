@@ -1,0 +1,12 @@
+{
+  "inputs": {
+    "email": {
+      "label": "Email",
+      "placeholder": "votre@email.com"
+    },
+    "name": {
+      "label": "Nom",
+      "placeholder": "Marie"
+    }
+  }
+}
