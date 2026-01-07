@@ -2,8 +2,8 @@ import { toTitleCase } from '@/lib/string'
 import z from 'zod'
 
 export const namePolicy = z
-  .string()
+  .string('errors.common.required')
   .trim()
-  .min(2, 'Min 2 characters')
-  .max(100, 'Max 100 characters')
+  .min(2, 'errors.common.min')
+  .max(100, 'errors.common.max')
   .transform(toTitleCase)

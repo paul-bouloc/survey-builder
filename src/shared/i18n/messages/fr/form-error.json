@@ -1,0 +1,13 @@
+{
+  "errors": {
+    "common": {
+      "format": "Format invalide",
+      "min": "Trop court",
+      "max": "Trop long",
+      "required": "Champ requis"
+    },
+    "email": {
+      "invalid": "Email invalide"
+    }
+  }
+}

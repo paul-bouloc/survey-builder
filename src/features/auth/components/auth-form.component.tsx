@@ -15,6 +15,7 @@ import {
   AuthCheckBodySchema,
   AuthRegisterBodySchema
 } from '@/shared/api/contracts/auth.contract'
+import { translateFieldErrors } from '@/shared/i18n/zod-error'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
@@ -33,6 +34,7 @@ export function AuthForm() {
   const t = useTranslations('auth.login')
   const tForm = useTranslations('form')
   const tCommon = useTranslations('common')
+  const tFormError = useTranslations('formError')
   const [needsRegistration, setNeedsRegistration] = useState(false)
 
   const redirectTo = getSafeRedirectFromQuery(router.query, routes.home.getHref())
@@ -166,7 +168,7 @@ export function AuthForm() {
                       aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
+                      <FieldError errors={translateFieldErrors(fieldState.error, tFormError)} />
                     )}
                   </Field>
                 </motion.div>
@@ -189,7 +191,7 @@ export function AuthForm() {
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
+                    <FieldError errors={translateFieldErrors(fieldState.error, tFormError)} />
                   )}
                 </Field>
               )}
@@ -220,7 +222,7 @@ export function AuthForm() {
                         aria-invalid={fieldState.invalid}
                       />
                       {fieldState.invalid && (
-                        <FieldError errors={[fieldState.error]} />
+                        <FieldError errors={translateFieldErrors(fieldState.error, tFormError)} />
                       )}
                     </Field>
                   )}
