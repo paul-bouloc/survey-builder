@@ -3,6 +3,7 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import { routes } from '@/config/routes'
 import { Survey } from '@/shared/types/surveys/survey.type'
 import { FolderOpen } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { SurveyCard } from './survey-card.component'
 
@@ -11,6 +12,8 @@ interface MySurveysListProps {
 }
 
 export function MySurveysList({ surveys }: MySurveysListProps) {
+  const t = useTranslations('surveys.list.mySurveys.empty')
+
   if (surveys.length === 0) {
     return (
       <Empty className='bg-neutral-50 dark:bg-neutral-900 border'>
@@ -18,16 +21,15 @@ export function MySurveysList({ surveys }: MySurveysListProps) {
           <EmptyMedia variant="icon" className='bg-neutral-200 dark:bg-neutral-800'>
             <FolderOpen />
           </EmptyMedia>
-          <EmptyTitle>No survey created</EmptyTitle>
+          <EmptyTitle>{t('title')}</EmptyTitle>
           <EmptyDescription>
-            You haven&apos;t created any survey yet. Get started by creating
-            your first survey.
+            {t('description')}
           </EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
           <div className="flex gap-2">
             <Link href={routes.survey.new.getHref()}>
-              <Button>Create Survey 🔥</Button>
+              <Button>{t('createButton')}</Button>
             </Link>
           </div>
         </EmptyContent>

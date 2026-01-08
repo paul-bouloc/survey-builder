@@ -3,6 +3,7 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTi
 import { SurveyResponse } from '@/shared/types/surveys/survey-response.type'
 import { Survey } from '@/shared/types/surveys/survey.type'
 import { FolderOpen } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { RespondedSurveyCard } from './responded-survey-card.component'
 
 interface RespondedSurveysListProps {
@@ -14,35 +15,32 @@ export function RespondedSurveysList({
   surveys,
   responses
 }: RespondedSurveysListProps) {
-  // Créer un map pour associer rapidement les surveys à leurs réponses
-  const surveyMap = new Map(surveys.map(survey => [survey._id, survey]))
+  const t = useTranslations('surveys.list.respondedSurveys.empty')
+
   const responseMap = new Map(responses.map(response => [response.surveyId, response]))
 
-  // Filtrer les surveys qui ont une réponse
   const surveysWithResponses = surveys.filter(survey =>
     responseMap.has(survey._id)
   )
 
   if (surveysWithResponses.length === 0) {
     return (
-      (
-        <Empty className='bg-neutral-50 dark:bg-neutral-900 border'>
-          <EmptyHeader>
-            <EmptyMedia variant="icon" className='bg-neutral-200 dark:bg-neutral-800'>
-              <FolderOpen />
-            </EmptyMedia>
-            <EmptyTitle>No survey responded</EmptyTitle>
-            <EmptyDescription>
-              You haven&apos;t responded to any survey yet. Respond to a survey to see it appear here!
-            </EmptyDescription>
-          </EmptyHeader>
-          <EmptyContent>
-            <div className="flex gap-2">
-              <Button variant="outline">Start a survey 🔎</Button>
-            </div>
-          </EmptyContent>
-        </Empty>
-      )
+      <Empty className='bg-neutral-50 dark:bg-neutral-900 border'>
+        <EmptyHeader>
+          <EmptyMedia variant="icon" className='bg-neutral-200 dark:bg-neutral-800'>
+            <FolderOpen />
+          </EmptyMedia>
+          <EmptyTitle>{t('title')}</EmptyTitle>
+          <EmptyDescription>
+            {t('description')}
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <div className="flex gap-2">
+            <Button variant="outline">{t('startButton')}</Button>
+          </div>
+        </EmptyContent>
+      </Empty>
     )
   }
 

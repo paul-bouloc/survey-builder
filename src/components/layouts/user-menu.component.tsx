@@ -36,8 +36,6 @@ export function UserMenu() {
     return null
   }
 
-  const firstLetter = session.name.charAt(0).toUpperCase()
-
   const handleLogout = async () => {
     try {
       await logout.mutateAsync()

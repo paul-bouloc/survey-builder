@@ -22,12 +22,13 @@ export function LanguageSwitch() {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant="outline" size="icon-sm" onClick={toggle}>
+        <Button variant="outline" size="icon-sm" onClick={toggle} aria-label="Switch language">
           <div className="relative size-4 overflow-hidden">
             <AnimatePresence>
               {router.locale === 'fr' ? (
                 <motion.div
                   key="fr"
+                  aria-label="Français"
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -8 }}
@@ -44,6 +45,7 @@ export function LanguageSwitch() {
               ) : (
                 <motion.div
                   key="en"
+                  aria-label="English"
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 8 }}

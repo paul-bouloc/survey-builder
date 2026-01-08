@@ -1,0 +1,32 @@
+{
+  "title": "Questionnaires",
+  "list": {
+    "tabs": {
+      "created": "Créés",
+      "responded": "Répondus",
+      "descriptions": {
+        "mySurveys": "Gérez et consultez tous les questionnaires que vous avez créés. Suivez les réponses et modifiez vos questionnaires.",
+        "responded": "Consultez tous les questionnaires auxquels vous avez répondu. Continuez les réponses incomplètes ou consultez celles terminées."
+      }
+    },
+    "mySurveys": {
+      "empty": {
+        "title": "Aucun questionnaire créé",
+        "description": "Vous n'avez pas encore créé de questionnaire. Commencez par créer votre premier questionnaire.",
+        "createButton": "Créer un questionnaire 🔥"
+      }
+    },
+    "respondedSurveys": {
+      "empty": {
+        "title": "Aucune réponse",
+        "description": "Vous n'avez pas encore répondu à un questionnaire. Répondez à un questionnaire pour le voir apparaître ici !",
+        "startButton": "Commencer un questionnaire 🔎"
+      }
+    }
+  },
+  "create": {},
+  "edit": {},
+  "questions": {},
+  "analytics": {},
+  "run": {}
+}

@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SurveyResponse } from '@/shared/types/surveys/survey-response.type'
 import { Survey } from '@/shared/types/surveys/survey.type'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { MySurveysList } from './my-surveys-list.component'
 import { RespondedSurveysList } from './responded-surveys-list.component'
@@ -17,13 +18,12 @@ export function SurveysTabs({
   respondedSurveys,
   responses
 }: SurveysTabsProps) {
+  const t = useTranslations('surveys.list.tabs')
   const [activeTab, setActiveTab] = useState<'my-surveys' | 'responded'>('my-surveys')
 
   const descriptions = {
-    'my-surveys':
-      'Manage and view all the surveys you have created. Track responses and edit your surveys.',
-    'responded':
-      'View all the surveys you have responded to. Continue incomplete responses or review completed ones.'
+    'my-surveys': t('descriptions.mySurveys'),
+    'responded': t('descriptions.responded')
   }
 
   const textVariants = {
@@ -54,10 +54,10 @@ export function SurveysTabs({
       >
         <TabsList className="w-full max-w-md">
           <TabsTrigger value="my-surveys" className="flex-1">
-            Created
+            {t('created')}
           </TabsTrigger>
           <TabsTrigger value="responded" className="flex-1">
-            Responded
+            {t('responded')}
           </TabsTrigger>
         </TabsList>
         <TabsContent value="my-surveys" className="mt-1.5">

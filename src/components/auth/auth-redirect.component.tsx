@@ -1,10 +1,12 @@
 import { routes } from '@/config/routes'
 import { useSession } from '@/features/auth/api/auth.mutations'
 import { getSafeRedirectFromQuery } from '@/lib/safe-redirect'
+import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
 export function AuthRedirect() {
+  const tCommon = useTranslations('common')
   const router = useRouter()
   const { data: session, isLoading } = useSession()
 
@@ -24,7 +26,7 @@ export function AuthRedirect() {
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="border-primary size-8 animate-spin rounded-full border-4 border-t-transparent" />
-          <p className="muted-foreground text-sm">Loading...</p>
+          <p className="muted-foreground text-sm">{tCommon('loading')}...</p>
         </div>
       </div>
     )

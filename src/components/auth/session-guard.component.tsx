@@ -1,5 +1,6 @@
 import { routes } from '@/config/routes'
 import { useSession } from '@/features/auth/api/auth.mutations'
+import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
@@ -10,6 +11,7 @@ interface SessionGuardProps {
 export function SessionGuard({ children }: SessionGuardProps) {
   const router = useRouter()
   const { data: session, isLoading, isError } = useSession()
+  const tCommon = useTranslations('common')
 
   useEffect(() => {
     if (!isLoading && (isError || !session)) {
@@ -28,7 +30,7 @@ export function SessionGuard({ children }: SessionGuardProps) {
       <div className="flex min-h-screen items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="border-primary size-8 animate-spin rounded-full border-4 border-t-transparent" />
-          <p className="text-muted-foreground text-sm">Loading...</p>
+          <p className="text-muted-foreground text-sm">{tCommon('loading')}...</p>
         </div>
       </div>
     )
