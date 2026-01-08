@@ -13,18 +13,13 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+import { formatDate } from '@/shared/i18n/format'
 import { Survey, SurveyStatus } from '@/shared/types/surveys/survey.type'
-import dayjs from 'dayjs'
+import { useFormatter, useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 interface SurveyCardProps {
   survey: Survey
-}
-
-const statusLabels: Record<SurveyStatus, string> = {
-  draft: 'Draft',
-  published: 'Published',
-  archived: 'Archived'
 }
 
 const statusVariants: Record<SurveyStatus, 'default' | 'secondary' | 'outline'> = {
@@ -34,14 +29,23 @@ const statusVariants: Record<SurveyStatus, 'default' | 'secondary' | 'outline'> 
 }
 
 export function SurveyCard({ survey }: SurveyCardProps) {
+  const tStatus = useTranslations('surveys.status.survey')
+  const tDate = useTranslations('surveys.date')
+  const tCard = useTranslations('surveys.card')
+  const formatter = useFormatter()
+
   const handleCopyShortId = async (e: React.MouseEvent) => {
     e.stopPropagation()
     try {
       await navigator.clipboard.writeText(survey.shortId)
-      toast.success('Short ID copied to clipboard')
+      toast.success(tCard('toast.copySuccess'))
     } catch (error) {
-      toast.error('Failed to copy Short ID')
+      toast.error(tCard('toast.copyError'))
     }
+  }
+
+  const getStatusLabel = () => {
+    return tStatus(survey.status)
   }
 
   return (
@@ -61,13 +65,13 @@ export function SurveyCard({ survey }: SurveyCardProps) {
         <CardDescription>{survey.subtitle}</CardDescription>
         <CardAction>
           <Badge variant={statusVariants[survey.status]}>
-            {statusLabels[survey.status]}
+            {getStatusLabel()}
           </Badge>
         </CardAction>
       </CardHeader>
 
       <CardFooter className={cn("flex items-center justify-between text-xs text-muted-foreground", getArchivedStyle(survey))}>
-        {getDateStatusLabel(survey)}
+        {getDateStatusLabel(survey, formatter, tDate)}
         <Tooltip>
           <TooltipTrigger asChild>
             <button
@@ -79,21 +83,43 @@ export function SurveyCard({ survey }: SurveyCardProps) {
               {survey.shortId}
             </button>
           </TooltipTrigger>
-          <TooltipContent>Click to copy Short ID</TooltipContent>
+          <TooltipContent>{tCard('tooltip.copyShortId')}</TooltipContent>
         </Tooltip>
       </CardFooter>
     </Card>
   )
 }
 
-const getDateStatusLabel = (survey: Survey) => {
+function getDateStatusLabel(
+  survey: Survey,
+  formatter: ReturnType<typeof useFormatter>,
+  tDate: ReturnType<typeof useTranslations<'surveys.date'>>
+): string | null {
   switch (survey.status) {
     case SurveyStatus.PUBLISHED:
-      return `Published on ${dayjs(survey.publishedAt).format('MMMM D, YYYY')}`
+      if (!survey.publishedAt) return null
+      const { value: publishedValue, isRelative: publishedIsRelative } = formatDate(
+        survey.publishedAt,
+        formatter
+      )
+      const publishedKey = publishedIsRelative ? 'publishedAtRelative' : 'publishedAt'
+      return tDate(publishedKey, { date: publishedValue })
     case SurveyStatus.ARCHIVED:
-      return `Archived on ${dayjs(survey.archivedAt).format('MMMM D, YYYY')}`
+      if (!survey.archivedAt) return null
+      const { value: archivedValue, isRelative: archivedIsRelative } = formatDate(
+        survey.archivedAt,
+        formatter
+      )
+      const archivedKey = archivedIsRelative ? 'archivedAtRelative' : 'archivedAt'
+      return tDate(archivedKey, { date: archivedValue })
     default:
-      return `Last updated on ${dayjs(survey.updatedAt).format('MMMM D, YYYY')}`
+      if (!survey.updatedAt) return null
+      const { value: updatedValue, isRelative: updatedIsRelative } = formatDate(
+        survey.updatedAt,
+        formatter
+      )
+      const updatedKey = updatedIsRelative ? 'updatedAtRelative' : 'updatedAt'
+      return tDate(updatedKey, { date: updatedValue })
   }
 }
 
