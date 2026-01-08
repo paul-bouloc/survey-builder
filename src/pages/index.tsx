@@ -1,167 +1,168 @@
 import { SurveysTabs } from '@/features/surveys/components/surveys-tabs.component'
+import { NodeKind } from '@/shared/types/surveys/nodes/node.type'
 import { SurveyResponse } from '@/shared/types/surveys/survey-response.type'
-import { Survey } from '@/shared/types/surveys/survey.type'
+import { Survey, SurveyStatus } from '@/shared/types/surveys/survey.type'
 import { useTranslations } from 'next-intl'
 
 // Données mockées pour le développement
 // TODO: Remplacer par des appels API réels
 const mockMySurveys: Survey[] = [
-  // {
-  //   _id: '507f1f77bcf86cd799439011' as any,
-  //   shortId: 'abc123' as any,
-  //   createdBy: '507f1f77bcf86cd799439012' as any,
-  //   title: 'Satisfaction client 2024',
-  //   subtitle: 'Enquête trimestrielle',
-  //   description:
-  //     'Cette enquête nous permet de mieux comprendre les besoins de nos clients et d\'améliorer nos services.',
-  //   status: SurveyStatus.PUBLISHED,
-  //   pages: [
-  //     {
-  //       id: '507f1f77bcf86cd799439013' as any,
-  //       kind: NodeKind.PAGE,
-  //       order: 0,
-  //       title: null,
-  //       subtitle: null,
-  //       description: null,
-  //       code: null,
-  //       condition: null,
-  //       triggers: [],
-  //       children: [],
-  //       page: {
-  //         skippable: false
-  //       }
-  //     }
-  //   ],
-  //   createdAt: new Date('2024-01-15'),
-  //   updatedAt: new Date('2024-01-20'),
-  //   publishedAt: new Date('2024-01-20'),
-  //   archivedAt: null,
-  //   responseCount: 42
-  // },
-  // {
-  //   _id: '507f1f77bcf86cd799439014' as any,
-  //   shortId: 'def456' as any,
-  //   createdBy: '507f1f77bcf86cd799439012' as any,
-  //   title: 'Enquête sur les habitudes alimentaires',
-  //   description: 'Aidez-nous à comprendre vos préférences alimentaires.',
-  //   status: SurveyStatus.DRAFT,
-  //   pages: [
-  //     {
-  //       id: '507f1f77bcf86cd799439015' as any,
-  //       kind: NodeKind.PAGE,
-  //       order: 0,
-  //       title: null,
-  //       subtitle: null,
-  //       description: null,
-  //       code: null,
-  //       condition: null,
-  //       triggers: [],
-  //       children: [],
-  //       page: {
-  //         skippable: false
-  //       }
-  //     }
-  //   ],
-  //   createdAt: new Date('2024-02-01'),
-  //   updatedAt: new Date('2024-02-05'),
-  //   publishedAt: null,
-  //   archivedAt: null,
-  //   responseCount: 0
-  // },
-  // {
-  //   _id: '507f1f77bcf86cd799439016' as any,
-  //   shortId: 'ghi789' as any,
-  //   createdBy: '507f1f77bcf86cd799439012' as any,
-  //   title: 'Enquête bien-être au travail',
-  //   subtitle: 'Édition 2024',
-  //   status: SurveyStatus.ARCHIVED,
-  //   pages: [
-  //     {
-  //       id: '507f1f77bcf86cd799439017' as any,
-  //       kind: NodeKind.PAGE,
-  //       order: 0,
-  //       title: null,
-  //       subtitle: null,
-  //       description: null,
-  //       code: null,
-  //       condition: null,
-  //       triggers: [],
-  //       children: [],
-  //       page: {
-  //         skippable: false
-  //       }
-  //     }
-  //   ],
-  //   createdAt: new Date('2023-12-01'),
-  //   updatedAt: new Date('2023-12-31'),
-  //   publishedAt: new Date('2023-12-05'),
-  //   archivedAt: new Date('2023-12-31'),
-  //   responseCount: 156
-  // }
+  {
+    _id: '507f1f77bcf86cd799439011' as any,
+    shortId: 'abc123' as any,
+    createdBy: '507f1f77bcf86cd799439012' as any,
+    title: 'Satisfaction client 2024',
+    subtitle: 'Enquête trimestrielle',
+    description:
+      'Cette enquête nous permet de mieux comprendre les besoins de nos clients et d\'améliorer nos services.',
+    status: SurveyStatus.PUBLISHED,
+    pages: [
+      {
+        id: '507f1f77bcf86cd799439013' as any,
+        kind: NodeKind.PAGE,
+        order: 0,
+        title: null,
+        subtitle: null,
+        description: null,
+        code: null,
+        condition: null,
+        triggers: [],
+        children: [],
+        page: {
+          skippable: false
+        }
+      }
+    ],
+    createdAt: new Date('2024-01-15'),
+    updatedAt: new Date('2024-01-20'),
+    publishedAt: new Date('2024-01-20'),
+    archivedAt: null,
+    responseCount: 42
+  },
+  {
+    _id: '507f1f77bcf86cd799439014' as any,
+    shortId: 'def456' as any,
+    createdBy: '507f1f77bcf86cd799439012' as any,
+    title: 'Enquête sur les habitudes alimentaires',
+    description: 'Aidez-nous à comprendre vos préférences alimentaires.',
+    status: SurveyStatus.DRAFT,
+    pages: [
+      {
+        id: '507f1f77bcf86cd799439015' as any,
+        kind: NodeKind.PAGE,
+        order: 0,
+        title: null,
+        subtitle: null,
+        description: null,
+        code: null,
+        condition: null,
+        triggers: [],
+        children: [],
+        page: {
+          skippable: false
+        }
+      }
+    ],
+    createdAt: new Date('2024-02-01'),
+    updatedAt: new Date('2024-02-05'),
+    publishedAt: null,
+    archivedAt: null,
+    responseCount: 0
+  },
+  {
+    _id: '507f1f77bcf86cd799439016' as any,
+    shortId: 'ghi789' as any,
+    createdBy: '507f1f77bcf86cd799439012' as any,
+    title: 'Enquête bien-être au travail',
+    subtitle: 'Édition 2024',
+    status: SurveyStatus.ARCHIVED,
+    pages: [
+      {
+        id: '507f1f77bcf86cd799439017' as any,
+        kind: NodeKind.PAGE,
+        order: 0,
+        title: null,
+        subtitle: null,
+        description: null,
+        code: null,
+        condition: null,
+        triggers: [],
+        children: [],
+        page: {
+          skippable: false
+        }
+      }
+    ],
+    createdAt: new Date('2023-12-01'),
+    updatedAt: new Date('2023-12-31'),
+    publishedAt: new Date('2023-12-05'),
+    archivedAt: new Date('2023-12-31'),
+    responseCount: 156
+  }
 ]
 
 const mockRespondedSurveys: Survey[] = [
-  // {
-  //   _id: '507f1f77bcf86cd799439018' as any,
-  //   shortId: 'jkl012' as any,
-  //   createdBy: '507f1f77bcf86cd799439019' as any,
-  //   title: 'Enquête de satisfaction produit',
-  //   subtitle: 'Version 2.0',
-  //   description: 'Votre avis compte ! Partagez votre expérience avec notre produit.',
-  //   status: SurveyStatus.PUBLISHED,
-  //   pages: [
-  //     {
-  //       id: '507f1f77bcf86cd799439020' as any,
-  //       kind: NodeKind.PAGE,
-  //       order: 0,
-  //       title: null,
-  //       subtitle: null,
-  //       description: null,
-  //       code: null,
-  //       condition: null,
-  //       triggers: [],
-  //       children: [],
-  //       page: {
-  //         skippable: false
-  //       }
-  //     }
-  //   ],
-  //   createdAt: new Date('2024-01-10'),
-  //   updatedAt: new Date('2024-01-15'),
-  //   publishedAt: new Date('2024-01-15'),
-  //   archivedAt: null,
-  //   responseCount: 89
-  // },
-  // {
-  //   _id: '507f1f77bcf86cd799439021' as any,
-  //   shortId: 'mno345' as any,
-  //   createdBy: '507f1f77bcf86cd799439022' as any,
-  //   title: 'Sondage sur les transports',
-  //   description: 'Aidez-nous à améliorer les transports en commun.',
-  //   status: SurveyStatus.PUBLISHED,
-  //   pages: [
-  //     {
-  //       id: '507f1f77bcf86cd799439023' as any,
-  //       kind: NodeKind.PAGE,
-  //       order: 0,
-  //       title: null,
-  //       subtitle: null,
-  //       description: null,
-  //       code: null,
-  //       condition: null,
-  //       triggers: [],
-  //       children: [],
-  //       page: {
-  //         skippable: false
-  //       }
-  //     }
-  //   ],
-  //   createdAt: new Date('2024-02-10'),
-  //   updatedAt: new Date('2024-02-12'),
-  //   publishedAt: new Date('2024-02-12'),
-  //   archivedAt: null,
-  //   responseCount: 234
-  // }
+  {
+    _id: '507f1f77bcf86cd799439018' as any,
+    shortId: 'jkl012' as any,
+    createdBy: '507f1f77bcf86cd799439019' as any,
+    title: 'Enquête de satisfaction produit',
+    subtitle: 'Version 2.0',
+    description: 'Votre avis compte ! Partagez votre expérience avec notre produit.',
+    status: SurveyStatus.PUBLISHED,
+    pages: [
+      {
+        id: '507f1f77bcf86cd799439020' as any,
+        kind: NodeKind.PAGE,
+        order: 0,
+        title: null,
+        subtitle: null,
+        description: null,
+        code: null,
+        condition: null,
+        triggers: [],
+        children: [],
+        page: {
+          skippable: false
+        }
+      }
+    ],
+    createdAt: new Date('2024-01-10'),
+    updatedAt: new Date('2024-01-15'),
+    publishedAt: new Date('2024-01-15'),
+    archivedAt: null,
+    responseCount: 89
+  },
+  {
+    _id: '507f1f77bcf86cd799439021' as any,
+    shortId: 'mno345' as any,
+    createdBy: '507f1f77bcf86cd799439022' as any,
+    title: 'Sondage sur les transports',
+    description: 'Aidez-nous à améliorer les transports en commun.',
+    status: SurveyStatus.PUBLISHED,
+    pages: [
+      {
+        id: '507f1f77bcf86cd799439023' as any,
+        kind: NodeKind.PAGE,
+        order: 0,
+        title: null,
+        subtitle: null,
+        description: null,
+        code: null,
+        condition: null,
+        triggers: [],
+        children: [],
+        page: {
+          skippable: false
+        }
+      }
+    ],
+    createdAt: new Date('2024-02-10'),
+    updatedAt: new Date('2024-02-12'),
+    publishedAt: new Date('2024-02-12'),
+    archivedAt: null,
+    responseCount: 234
+  }
 ]
 
 const mockResponses: SurveyResponse[] = [
@@ -175,7 +176,7 @@ const mockResponses: SurveyResponse[] = [
     answers: {},
     createdAt: new Date('2024-01-16'),
     updatedAt: new Date('2024-01-16'),
-    completedAt: new Date('2024-01-16')
+    completedAt: new Date('2026-01-06:23:00')
   },
   {
     _id: '507f1f77bcf86cd799439025' as any,

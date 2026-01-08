@@ -1,5 +1,35 @@
 {
   "title": "Surveys",
+  "status": {
+    "survey": {
+      "draft": "Draft",
+      "published": "Published",
+      "archived": "Archived"
+    },
+    "response": {
+      "inProgress": "In Progress",
+      "completed": "Completed"
+    }
+  },
+  "date": {
+    "publishedAt": "Published on {date}",
+    "publishedAtRelative": "Published {date}",
+    "archivedAt": "Archived on {date}",
+    "archivedAtRelative": "Archived {date}",
+    "updatedAt": "Updated on {date}",
+    "updatedAtRelative": "Updated {date}",
+    "completedAt": "Completed on {date}",
+    "completedAtRelative": "Completed {date}"
+  },
+  "card": {
+    "tooltip": {
+      "copyShortId": "Click to copy ID"
+    },
+    "toast": {
+      "copySuccess": "ID copied to clipboard",
+      "copyError": "Failed to copy ID"
+    }
+  },
   "list": {
     "tabs": {
       "created": "Created",

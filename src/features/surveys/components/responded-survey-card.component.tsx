@@ -13,19 +13,15 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip'
 import { cn } from '@/lib/utils'
+import { formatDate } from '@/shared/i18n/format'
 import { ResponseStatus, SurveyResponse } from '@/shared/types/surveys/survey-response.type'
 import { Survey } from '@/shared/types/surveys/survey.type'
-import dayjs from 'dayjs'
+import { useFormatter, useTranslations } from 'next-intl'
 import { toast } from 'sonner'
 
 interface RespondedSurveyCardProps {
   survey: Survey
   response: SurveyResponse
-}
-
-const responseStatusLabels: Record<ResponseStatus, string> = {
-  in_progress: 'In Progress',
-  completed: 'Completed'
 }
 
 const responseStatusVariants: Record<ResponseStatus, 'default' | 'secondary'> = {
@@ -34,14 +30,25 @@ const responseStatusVariants: Record<ResponseStatus, 'default' | 'secondary'> = 
 }
 
 export function RespondedSurveyCard({ survey, response }: RespondedSurveyCardProps) {
+  const tStatus = useTranslations('surveys.status.response')
+  const tDate = useTranslations('surveys.date')
+  const tCard = useTranslations('surveys.card')
+  const formatter = useFormatter()
+
   const handleCopyShortId = async (e: React.MouseEvent) => {
     e.stopPropagation()
     try {
       await navigator.clipboard.writeText(survey.shortId)
-      toast.success('Short ID copied to clipboard')
+      toast.success(tCard('toast.copySuccess'))
     } catch (error) {
-      toast.error('Failed to copy Short ID')
+      toast.error(tCard('toast.copyError'))
     }
+  }
+
+  const getStatusLabel = () => {
+    return response.status === 'completed'
+      ? tStatus('completed')
+      : tStatus('inProgress')
   }
 
   return (
@@ -53,12 +60,12 @@ export function RespondedSurveyCard({ survey, response }: RespondedSurveyCardPro
         <CardDescription>{survey.subtitle}</CardDescription>
         <CardAction>
           <Badge variant={responseStatusVariants[response.status]}>
-            {responseStatusLabels[response.status]}
+            {getStatusLabel()}
           </Badge>
         </CardAction>
       </CardHeader>
       <CardFooter className="flex items-center justify-between text-xs text-muted-foreground">
-        {getDateStatusLabel(response)}
+        {getDateStatusLabel(response, formatter, tDate)}
         <Tooltip>
           <TooltipTrigger asChild>
             <button
@@ -70,19 +77,33 @@ export function RespondedSurveyCard({ survey, response }: RespondedSurveyCardPro
               {survey.shortId}
             </button>
           </TooltipTrigger>
-          <TooltipContent>Click to copy Short ID</TooltipContent>
+          <TooltipContent>{tCard('tooltip.copyShortId')}</TooltipContent>
         </Tooltip>
       </CardFooter>
     </Card>
   )
 }
 
-const getDateStatusLabel = (response: SurveyResponse) => {
+function getDateStatusLabel(
+  response: SurveyResponse,
+  formatter: ReturnType<typeof useFormatter>,
+  tDate: ReturnType<typeof useTranslations<'surveys.date'>>
+): string | null {
   if (response.completedAt) {
-    return `Completed on ${dayjs(response.completedAt).format('MMMM D, YYYY')}`
+    const { value, isRelative } = formatDate(
+      response.completedAt,
+      formatter,
+    )
+    const key = isRelative ? 'completedAtRelative' : 'completedAt'
+    return tDate(key, { date: value })
   }
   if (response.updatedAt) {
-    return `Last updated on ${dayjs(response.updatedAt).format('MMMM D, YYYY')}`
+    const { value, isRelative } = formatDate(
+      response.updatedAt,
+      formatter,
+    )
+    const key = isRelative ? 'updatedAtRelative' : 'updatedAt'
+    return tDate(key, { date: value })
   }
   return null
 }

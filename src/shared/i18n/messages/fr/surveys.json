@@ -1,5 +1,35 @@
 {
   "title": "Questionnaires",
+  "status": {
+    "survey": {
+      "draft": "Brouillon",
+      "published": "Publié",
+      "archived": "Archivé"
+    },
+    "response": {
+      "inProgress": "En cours",
+      "completed": "Terminé"
+    }
+  },
+  "date": {
+    "publishedAt": "Publié le {date}",
+    "publishedAtRelative": "Publié {date}",
+    "archivedAt": "Archivé le {date}",
+    "archivedAtRelative": "Archivé {date}",
+    "updatedAt": "Mis à jour le {date}",
+    "updatedAtRelative": "Mis à jour {date}",
+    "completedAt": "Terminé le {date}",
+    "completedAtRelative": "Terminé {date}"
+  },
+  "card": {
+    "tooltip": {
+      "copyShortId": "Cliquer pour copier l'ID"
+    },
+    "toast": {
+      "copySuccess": "ID copié dans le presse-papier",
+      "copyError": "Échec de la copie de l'ID"
+    }
+  },
   "list": {
     "tabs": {
       "created": "Créés",
