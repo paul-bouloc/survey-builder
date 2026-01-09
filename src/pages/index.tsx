@@ -2,7 +2,9 @@ import { SurveysTabs } from '@/features/surveys/components/surveys-tabs.componen
 import { NodeKind } from '@/shared/types/surveys/nodes/node.type'
 import { SurveyResponse } from '@/shared/types/surveys/survey-response.type'
 import { Survey, SurveyStatus } from '@/shared/types/surveys/survey.type'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
+import { useState } from 'react'
 
 // Données mockées pour le développement
 // TODO: Remplacer par des appels API réels
@@ -196,16 +198,46 @@ const mockResponses: SurveyResponse[] = [
 
 export default function HomePage() {
   const t = useTranslations('surveys')
+  const tDescriptions = useTranslations('surveys.list.tabs.descriptions')
+  const [activeTab, setActiveTab] = useState<'my-surveys' | 'responded'>('my-surveys')
+
+  const descriptions = {
+    'my-surveys': tDescriptions('mySurveys'),
+    'responded': tDescriptions('responded')
+  }
+
+  const textVariants = {
+    initial: { opacity: 0, y: -10 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 10 }
+  }
 
   return (
     <div className="flex w-full flex-col items-center p-4">
       <div className="w-full max-w-md">
         <h1 className="mb-2 text-3xl font-semibold">{t('title')}</h1>
-        <SurveysTabs
-          mySurveys={mockMySurveys}
-          respondedSurveys={mockRespondedSurveys}
-          responses={mockResponses}
-        />
+        <div className="w-full">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={activeTab}
+              variants={textVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.15, ease: 'easeInOut' }}
+              className="mb-6 text-sm text-muted-foreground"
+            >
+              {descriptions[activeTab]}
+            </motion.p>
+          </AnimatePresence>
+          <SurveysTabs
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+            mySurveys={mockMySurveys}
+            respondedSurveys={mockRespondedSurveys}
+            responses={mockResponses}
+          />
+        </div>
       </div>
     </div>
   )
