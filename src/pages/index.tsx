@@ -1,4 +1,4 @@
-import { SurveysTabs } from '@/features/surveys/components/surveys-tabs.component'
+import { SurveysTabs } from '@/features/surveys/components/surveys-lists/surveys-tabs.component'
 import { NodeKind } from '@/shared/types/surveys/nodes/node.type'
 import { SurveyResponse } from '@/shared/types/surveys/survey-response.type'
 import { Survey, SurveyStatus } from '@/shared/types/surveys/survey.type'
