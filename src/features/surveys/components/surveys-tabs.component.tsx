@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SurveyResponse } from '@/shared/types/surveys/survey-response.type'
 import { Survey } from '@/shared/types/surveys/survey.type'
 import { useTranslations } from 'next-intl'
-import { MySurveysList } from './my-surveys-list.component'
+import { CreatedSurveysList } from './created-surveys-list.component'
 import { RespondedSurveysList } from './responded-surveys-list.component'
 
 interface SurveysTabsProps {
@@ -37,7 +37,7 @@ export function SurveysTabs({
         </TabsTrigger>
       </TabsList>
       <TabsContent value="my-surveys" className="mt-1.5">
-        <MySurveysList surveys={mySurveys} />
+        <CreatedSurveysList surveys={mySurveys} />
       </TabsContent>
       <TabsContent value="responded" className="mt-1.5">
         <RespondedSurveysList surveys={respondedSurveys} responses={responses} />

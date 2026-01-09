@@ -35,11 +35,11 @@
       "created": "Créés",
       "responded": "Répondus",
       "descriptions": {
-        "mySurveys": "Gérez et consultez tous les questionnaires que vous avez créés. Suivez les réponses et modifiez vos questionnaires.",
+        "createdSurveys": "Gérez et consultez tous les questionnaires que vous avez créés. Suivez les réponses et modifiez vos questionnaires.",
         "responded": "Consultez tous les questionnaires auxquels vous avez répondu. Continuez les réponses incomplètes ou consultez celles terminées."
       }
     },
-    "mySurveys": {
+    "createdSurveys": {
       "empty": {
         "title": "Aucun questionnaire créé",
         "description": "Vous n'avez pas encore créé de questionnaire. Commencez par créer votre premier questionnaire.",

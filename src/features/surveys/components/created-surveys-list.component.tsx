@@ -7,12 +7,12 @@ import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { SurveyCard } from './survey-card.component'
 
-interface MySurveysListProps {
+interface CreatedSurveysListProps {
   surveys: Survey[]
 }
 
-export function MySurveysList({ surveys }: MySurveysListProps) {
-  const t = useTranslations('surveys.list.mySurveys.empty')
+export function CreatedSurveysList({ surveys }: CreatedSurveysListProps) {
+  const t = useTranslations('surveys.list.createdSurveys.empty')
 
   if (surveys.length === 0) {
     return (

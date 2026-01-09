@@ -35,11 +35,11 @@
       "created": "Created",
       "responded": "Responded",
       "descriptions": {
-        "mySurveys": "Manage and view all the surveys you have created. Track responses and edit your surveys.",
+        "createdSurveys": "Manage and view all the surveys you have created. Track responses and edit your surveys.",
         "responded": "View all the surveys you have responded to. Continue incomplete responses or review completed ones."
       }
     },
-    "mySurveys": {
+    "createdSurveys": {
       "empty": {
         "title": "No survey created",
         "description": "You haven't created any survey yet. Get started by creating your first survey.",

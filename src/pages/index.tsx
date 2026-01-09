@@ -202,7 +202,7 @@ export default function HomePage() {
   const [activeTab, setActiveTab] = useState<'my-surveys' | 'responded'>('my-surveys')
 
   const descriptions = {
-    'my-surveys': tDescriptions('mySurveys'),
+    'my-surveys': tDescriptions('createdSurveys'),
     'responded': tDescriptions('responded')
   }
 
