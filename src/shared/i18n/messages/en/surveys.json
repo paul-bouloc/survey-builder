@@ -41,15 +41,15 @@
     },
     "createdSurveys": {
       "empty": {
-        "title": "No survey created",
-        "description": "You haven't created any survey yet. Get started by creating your first survey.",
+        "title": "No surveys created",
+        "description": "You haven't created any surveys yet. Get started by creating your first survey.",
         "createButton": "Create Survey 🔥"
       }
     },
     "respondedSurveys": {
       "empty": {
-        "title": "No survey responded",
-        "description": "You haven't responded to any survey yet. Respond to a survey to see it appear here!",
+        "title": "No surveys responded",
+        "description": "You haven't responded to any surveys yet. Respond to a survey to see it appear here!",
         "startButton": "Start a survey 🔎"
       }
     }
