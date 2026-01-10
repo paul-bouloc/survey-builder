@@ -6,8 +6,8 @@ export const QuestionConfigSchema = new Schema(
     type: {
       type: String,
       required: true,
-      enum: Object.values(QuestionType),
-    },
+      enum: Object.values(QuestionType)
+    }
   },
   { _id: false, discriminatorKey: 'type' }
 )
@@ -22,7 +22,7 @@ QuestionConfigSchema.discriminator(
       maxLength: Number,
       minLength: Number,
       pattern: String,
-      commit: { type: String, enum: ['change', 'blur', 'next'] },
+      commit: { type: String, enum: ['change', 'blur', 'next'] }
     },
     { _id: false }
   )
@@ -36,7 +36,7 @@ QuestionConfigSchema.discriminator(
       maxLength: Number,
       minLength: Number,
       rows: Number,
-      commit: { type: String, enum: ['blur', 'next'] },
+      commit: { type: String, enum: ['blur', 'next'] }
     },
     { _id: false }
   )
@@ -51,7 +51,7 @@ QuestionConfigSchema.discriminator(
       step: Number,
       integer: Boolean,
       unit: String,
-      commit: { type: String, enum: ['change', 'blur', 'next'] },
+      commit: { type: String, enum: ['change', 'blur', 'next'] }
     },
     { _id: false }
   )
@@ -63,7 +63,7 @@ QuestionConfigSchema.discriminator(
     {
       min: String,
       max: String,
-      commit: { type: String, enum: ['change', 'blur', 'next'] },
+      commit: { type: String, enum: ['change', 'blur', 'next'] }
     },
     { _id: false }
   )
@@ -76,7 +76,7 @@ const ChoiceOptionSchema = new Schema(
     value: { type: String, required: true },
     label: { type: String, required: true },
     description: String,
-    disabled: Boolean,
+    disabled: Boolean
   },
   { _id: false }
 )
@@ -87,7 +87,7 @@ QuestionConfigSchema.discriminator(
     {
       options: { type: [ChoiceOptionSchema], required: true },
       layout: { type: String, enum: ['stack', 'grid'] },
-      commit: { type: String, enum: ['change', 'next'] },
+      commit: { type: String, enum: ['change', 'next'] }
     },
     { _id: false }
   )
@@ -101,7 +101,7 @@ QuestionConfigSchema.discriminator(
       minChecked: Number,
       maxChecked: Number,
       layout: { type: String, enum: ['stack', 'grid'] },
-      commit: { type: String, enum: ['change', 'next'] },
+      commit: { type: String, enum: ['change', 'next'] }
     },
     { _id: false }
   )
@@ -114,7 +114,7 @@ QuestionConfigSchema.discriminator(
       options: { type: [ChoiceOptionSchema], required: true },
       placeholder: String,
       searchable: Boolean,
-      commit: { type: String, enum: ['change', 'next'] },
+      commit: { type: String, enum: ['change', 'next'] }
     },
     { _id: false }
   )
@@ -131,9 +131,9 @@ QuestionConfigSchema.discriminator(
       step: Number,
       labels: {
         type: Map,
-        of: String,
+        of: String
       },
-      commit: { type: String, enum: ['change', 'next'] },
+      commit: { type: String, enum: ['change', 'next'] }
     },
     { _id: false }
   )

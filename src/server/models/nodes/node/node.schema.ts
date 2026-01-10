@@ -8,59 +8,59 @@ export const NodeSchema = new Schema(
   {
     id: {
       type: String,
-      required: true,
+      required: true
     },
 
     kind: {
       type: String,
       required: true,
-      enum: Object.values(NodeKind),
+      enum: Object.values(NodeKind)
     },
 
     order: {
       type: Number,
-      required: true,
+      required: true
     },
 
     title: {
       type: String,
       required: false,
-      default: null,
+      default: null
     },
 
     subtitle: {
       type: String,
       required: false,
-      default: null,
+      default: null
     },
 
     description: {
       type: String,
       required: false,
-      default: null,
+      default: null
     },
 
     code: {
       type: String,
       required: false,
       default: null,
-      index: true,
+      index: true
     },
 
     condition: {
       type: ConditionSchema,
       required: false,
-      default: null,
+      default: null
     },
 
     triggers: {
       type: [TriggerRuleSchema],
       required: true,
-      default: [],
-    },
+      default: []
+    }
   },
   {
     _id: false,
-    discriminatorKey: 'kind',
+    discriminatorKey: 'kind'
   }
 )

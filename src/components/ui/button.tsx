@@ -8,8 +8,7 @@ import { buttonVariants } from '@/components/ui/button-variants'
 import { cn } from '@/lib/utils'
 
 interface ButtonProps
-  extends React.ComponentProps<'button'>,
-    VariantProps<typeof buttonVariants> {
+  extends React.ComponentProps<'button'>, VariantProps<typeof buttonVariants> {
   asChild?: boolean
   isLoading?: boolean
 }
@@ -74,7 +73,7 @@ function Button({
         ref={measureRef}
         className={cn(
           buttonVariants({ variant, size }),
-          'invisible absolute pointer-events-none whitespace-nowrap'
+          'pointer-events-none invisible absolute whitespace-nowrap'
         )}
         aria-hidden="true"
       >
@@ -111,33 +110,33 @@ function Button({
           ref={contentRef}
           className="inline-flex items-center justify-center gap-1.5"
         >
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={String(children)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15, ease: 'easeInOut' }}
-            className="inline-block"
-          >
-            {children}
-          </motion.span>
-        </AnimatePresence>
-        <AnimatePresence>
-          {isLoading && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8, width: 0 }}
-              animate={{ opacity: 1, scale: 1, width: 'auto' }}
-              exit={{ opacity: 0, scale: 0.8, width: 0 }}
-              transition={{ duration: 0.2, ease: 'easeOut' }}
-              className="overflow-hidden"
+          <AnimatePresence mode="wait">
+            <motion.span
+              key={String(children)}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15, ease: 'easeInOut' }}
+              className="inline-block"
             >
-              <Loader2 className="size-4 animate-spin" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </span>
-    </motion.button>
+              {children}
+            </motion.span>
+          </AnimatePresence>
+          <AnimatePresence>
+            {isLoading && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8, width: 0 }}
+                animate={{ opacity: 1, scale: 1, width: 'auto' }}
+                exit={{ opacity: 0, scale: 0.8, width: 0 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
+                className="overflow-hidden"
+              >
+                <Loader2 className="size-4 animate-spin" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </span>
+      </motion.button>
     </>
   )
 }

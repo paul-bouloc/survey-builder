@@ -13,7 +13,7 @@ import frNav from './fr/nav.json'
 import frRoutes from './fr/routes.json'
 import frSurveys from './fr/surveys.json'
 
-export type Locale = 'fr' | 'en';
+export type Locale = 'fr' | 'en'
 
 export const frMessages = {
   common: frCommon,
@@ -23,7 +23,7 @@ export const frMessages = {
   auth: frAuth,
   formError: frFormError,
   surveys: frSurveys
-} as const;
+} as const
 
 export const enMessages = {
   common: enCommon,
@@ -33,9 +33,9 @@ export const enMessages = {
   auth: enAuth,
   formError: enFormError,
   surveys: enSurveys
-} satisfies typeof frMessages;
+} satisfies typeof frMessages
 
 export const messagesByLocale = {
   fr: frMessages,
   en: enMessages
-} as const satisfies Record<Locale, typeof frMessages>;
+} as const satisfies Record<Locale, typeof frMessages>

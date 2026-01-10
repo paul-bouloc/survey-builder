@@ -1,11 +1,8 @@
 import SurveyLogo from '@/components/survey-logo.component'
 import { LanguageSwitch } from '@/components/ui/language-switch'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
-import { useTranslations } from 'next-intl'
 
 export default function AuthNavbar() {
-  const t = useTranslations('nav')
-
   return (
     <div className="flex w-full items-center justify-between p-4">
       <SurveyLogo />

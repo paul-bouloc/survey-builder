@@ -40,9 +40,11 @@ export function SurveysTabs({
         <CreatedSurveysList surveys={mySurveys} />
       </TabsContent>
       <TabsContent value="responded" className="mt-1.5">
-        <RespondedSurveysList surveys={respondedSurveys} responses={responses} />
+        <RespondedSurveysList
+          surveys={respondedSurveys}
+          responses={responses}
+        />
       </TabsContent>
     </Tabs>
   )
 }
-

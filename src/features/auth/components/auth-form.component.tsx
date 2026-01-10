@@ -37,7 +37,10 @@ export function AuthForm() {
   const tFormError = useTranslations('formError')
   const [needsRegistration, setNeedsRegistration] = useState(false)
 
-  const redirectTo = getSafeRedirectFromQuery(router.query, routes.home.getHref())
+  const redirectTo = getSafeRedirectFromQuery(
+    router.query,
+    routes.home.getHref()
+  )
 
   const emailForm = useForm<EmailFormValues>({
     resolver: zodResolver(AuthCheckBodySchema),
@@ -65,7 +68,7 @@ export function AuthForm() {
         toast.success(t('toasts.loginSuccessful'))
         router.push(redirectTo)
       }
-    } catch (error) {
+    } catch (_error) {
       toast.error(t('toasts.loginFailed'))
     }
   }
@@ -81,7 +84,7 @@ export function AuthForm() {
       }
 
       router.push(redirectTo)
-    } catch (error) {
+    } catch (_error) {
       toast.error(t('toasts.registrationFailed'))
     }
   }
@@ -155,7 +158,9 @@ export function AuthForm() {
                   transition={{ duration: 0.2 }}
                 >
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor="auth-email">{tForm('inputs.email.label')}</FieldLabel>
+                    <FieldLabel htmlFor="auth-email">
+                      {tForm('inputs.email.label')}
+                    </FieldLabel>
                     <Input
                       {...field}
                       id="auth-email"
@@ -168,7 +173,12 @@ export function AuthForm() {
                       aria-invalid={fieldState.invalid}
                     />
                     {fieldState.invalid && (
-                      <FieldError errors={translateFieldErrors(fieldState.error, tFormError)} />
+                      <FieldError
+                        errors={translateFieldErrors(
+                          fieldState.error,
+                          tFormError
+                        )}
+                      />
                     )}
                   </Field>
                 </motion.div>
@@ -180,7 +190,9 @@ export function AuthForm() {
               control={emailForm.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="auth-email">{tForm('inputs.email.label')}</FieldLabel>
+                  <FieldLabel htmlFor="auth-email">
+                    {tForm('inputs.email.label')}
+                  </FieldLabel>
                   <Input
                     {...field}
                     id="auth-email"
@@ -191,7 +203,12 @@ export function AuthForm() {
                     aria-invalid={fieldState.invalid}
                   />
                   {fieldState.invalid && (
-                    <FieldError errors={translateFieldErrors(fieldState.error, tFormError)} />
+                    <FieldError
+                      errors={translateFieldErrors(
+                        fieldState.error,
+                        tFormError
+                      )}
+                    />
                   )}
                 </Field>
               )}
@@ -213,7 +230,9 @@ export function AuthForm() {
                   control={registerForm.control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel htmlFor="auth-name">{tForm('inputs.name.label')}</FieldLabel>
+                      <FieldLabel htmlFor="auth-name">
+                        {tForm('inputs.name.label')}
+                      </FieldLabel>
                       <Input
                         {...field}
                         id="auth-name"
@@ -222,7 +241,12 @@ export function AuthForm() {
                         aria-invalid={fieldState.invalid}
                       />
                       {fieldState.invalid && (
-                        <FieldError errors={translateFieldErrors(fieldState.error, tFormError)} />
+                        <FieldError
+                          errors={translateFieldErrors(
+                            fieldState.error,
+                            tFormError
+                          )}
+                        />
                       )}
                     </Field>
                   )}
@@ -269,12 +293,13 @@ export function AuthForm() {
                 width: 'auto'
               }}
               transition={{ duration: 0.3, ease: 'easeInOut' }}
-              style={{ display: 'flex', justifyContent: 'flex-end', flexShrink: 0 }}
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                flexShrink: 0
+              }}
             >
-              <Button
-                type="submit"
-                isLoading={auth.isPending}
-              >
+              <Button type="submit" isLoading={auth.isPending}>
                 {needsRegistration ? t('register') : tCommon('continue')}
               </Button>
             </motion.div>

@@ -1,4 +1,7 @@
-import { ConditionOperator, ConditionOperatorType } from '@/shared/types/surveys/condition.type'
+import {
+  ConditionOperator,
+  ConditionOperatorType
+} from '@/shared/types/surveys/condition.type'
 
 export interface IBaseConditionSubdoc {
   op: ConditionOperatorType
@@ -43,4 +46,3 @@ export type ConditionSubdoc =
   | IExistsConditionSubdoc
   | ILogicalConditionSubdoc
   | INotConditionSubdoc
-

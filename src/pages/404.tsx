@@ -18,9 +18,7 @@ export default function NotFound() {
       <EmptyHeader>
         <IllustrativeIcon name="edvardMunch" />
         <EmptyTitle>{t('title')}</EmptyTitle>
-        <EmptyDescription>
-          {t('description')}
-        </EmptyDescription>
+        <EmptyDescription>{t('description')}</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
         <EmptyDescription>

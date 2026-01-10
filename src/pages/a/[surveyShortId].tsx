@@ -13,4 +13,3 @@ const AnswerSurveyPage: NextPageWithLayout = () => {
 }
 
 export default AnswerSurveyPage
-

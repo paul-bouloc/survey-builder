@@ -16,7 +16,10 @@ import { Toaster } from 'sonner'
 import '../styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
-const geistMono = Geist_Mono({ subsets: ['latin'], variable: '--font-geist-mono' })
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  variable: '--font-geist-mono'
+})
 
 export type NextPageWithLayout<P = Record<string, never>, IP = P> = NextPage<
   P,
@@ -52,9 +55,9 @@ function AppContent({ Component, pageProps }: AppPropsWithLayout) {
 }
 
 export default function App(props: AppPropsWithLayout) {
-  const router = useRouter();
-  const locale = (router.locale ?? router.defaultLocale ?? 'fr') as Locale;
-const messages = props.pageProps.messages ?? messagesByLocale[locale];
+  const router = useRouter()
+  const locale = (router.locale ?? router.defaultLocale ?? 'fr') as Locale
+  const messages = props.pageProps.messages ?? messagesByLocale[locale]
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -79,7 +82,9 @@ const messages = props.pageProps.messages ?? messagesByLocale[locale];
     >
       <NextIntlClientProvider messages={messages} locale={locale}>
         <QueryClientProvider client={queryClient}>
-          <div className={`${inter.variable} ${geistMono.variable} antialiased`}>
+          <div
+            className={`${inter.variable} ${geistMono.variable} antialiased`}
+          >
             <AppContent {...props} />
           </div>
           <Toaster position="bottom-center" />

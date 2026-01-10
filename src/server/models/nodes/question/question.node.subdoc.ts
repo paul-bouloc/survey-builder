@@ -1,7 +1,7 @@
 import type { Node, NodeKind } from '@/shared/types/surveys/nodes/node.type'
 import type {
   QuestionConfig,
-  QuestionType,
+  QuestionType
 } from '@/shared/types/surveys/nodes/question.node.type'
 import type { IBaseNodeSubdoc } from '../node'
 

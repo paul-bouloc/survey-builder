@@ -10,21 +10,21 @@ const InfoNodeSchema = new Schema(
           type: {
             type: String,
             required: true,
-            enum: ['info', 'warning', 'error', 'success', 'neutral'],
+            enum: ['info', 'warning', 'error', 'success', 'neutral']
           },
           title: {
             type: String,
-            required: true,
+            required: true
           },
           description: {
             type: String,
-            required: true,
-          },
+            required: true
+          }
         },
         { _id: false }
       ),
-      required: true,
-    },
+      required: true
+    }
   },
   { _id: false }
 )

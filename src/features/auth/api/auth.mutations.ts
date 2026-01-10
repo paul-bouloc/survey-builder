@@ -12,7 +12,7 @@ export function useAuth() {
   return useMutation({
     mutationFn: (payload: AuthCheckBody | AuthRegisterBody) =>
       authClient.auth(payload),
-    onSuccess: async (data) => {
+    onSuccess: async data => {
       if (data.userId && !data.needsRegistration) {
         queryClient.setQueryData(authQueryKeys.session(), {
           userId: data.userId,

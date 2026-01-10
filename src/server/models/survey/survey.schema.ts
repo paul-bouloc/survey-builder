@@ -15,15 +15,15 @@ export const SurveySchema = new Schema<ISurveyDocument, SurveyModel>(
       default: generateShortId,
       validate: {
         validator: (v: string) => v.length === 6,
-        message: 'shortId must be exactly 6 characters',
-      },
+        message: 'shortId must be exactly 6 characters'
+      }
     },
 
     createdBy: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: 'User',
-      index: true,
+      index: true
     },
 
     title: { type: String, required: true, trim: true },
@@ -35,7 +35,7 @@ export const SurveySchema = new Schema<ISurveyDocument, SurveyModel>(
       required: true,
       enum: Object.values(SurveyStatus),
       default: SurveyStatus.DRAFT,
-      index: true,
+      index: true
     },
 
     pages: {
@@ -44,18 +44,18 @@ export const SurveySchema = new Schema<ISurveyDocument, SurveyModel>(
       default: [],
       validate: {
         validator: (arr: any[]) =>
-          Array.isArray(arr) && arr.every((n) => n?.kind === NodeKind.PAGE),
-        message: 'pages must contain only PageNode (kind="page")',
-      },
+          Array.isArray(arr) && arr.every(n => n?.kind === NodeKind.PAGE),
+        message: 'pages must contain only PageNode (kind="page")'
+      }
     },
 
     publishedAt: { type: Date, required: false, default: null, index: true },
     archivedAt: { type: Date, required: false, default: null, index: true },
 
-    responseCount: { type: Number, required: true, default: 0, min: 0 },
+    responseCount: { type: Number, required: true, default: 0, min: 0 }
   },
   {
     timestamps: true,
-    collection: 'surveys',
+    collection: 'surveys'
   }
 )

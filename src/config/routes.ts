@@ -77,7 +77,7 @@ export const routes = {
       path: '/r/[surveyShortId]/done',
       labelKey: 'run.done',
       getHref: (surveyShortId: string) => `/r/${surveyShortId}/done`
-    },
+    }
   },
 
   answer: {

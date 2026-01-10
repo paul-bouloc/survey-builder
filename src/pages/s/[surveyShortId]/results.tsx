@@ -13,4 +13,3 @@ const SurveyResultsPage: NextPageWithLayout = () => {
 }
 
 export default SurveyResultsPage
-

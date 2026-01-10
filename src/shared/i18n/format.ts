@@ -9,11 +9,10 @@ type Formatter = ReturnType<typeof useFormatter>
  */
 export function formatDate(
   date: Date | string | number,
-  formatter: Formatter,
+  formatter: Formatter
 ): { value: string; isRelative: boolean } {
-  const dateObj = typeof date === 'string' || typeof date === 'number'
-    ? new Date(date)
-    : date
+  const dateObj =
+    typeof date === 'string' || typeof date === 'number' ? new Date(date) : date
 
   const now = new Date()
   const diffInMs = now.getTime() - dateObj.getTime()
@@ -25,9 +24,11 @@ export function formatDate(
     if (diffInDays === 0) {
       const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
       if (diffInHours === 0) {
-        const diffInMinutes = Math.floor(diffInMs / (1000 * 60))
         return {
-          value: formatter.relativeTime(dateObj, { unit: 'minute', style: 'long' }),
+          value: formatter.relativeTime(dateObj, {
+            unit: 'minute',
+            style: 'long'
+          }),
           isRelative: true
         }
       }
@@ -52,4 +53,3 @@ export function formatDate(
     isRelative: false
   }
 }
-

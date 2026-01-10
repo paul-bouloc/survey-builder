@@ -19,4 +19,3 @@ RunSurveyDonePage.getLayout = function getLayout(page: ReactElement) {
 }
 
 export default RunSurveyDonePage
-

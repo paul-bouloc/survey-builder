@@ -9,13 +9,13 @@ export const TriggerRuleSchema = new Schema(
     timing: {
       type: String,
       required: true,
-      enum: Object.values(TriggerTiming),
+      enum: Object.values(TriggerTiming)
     },
 
     // optional: if omitted -> always triggers on that timing
     when: {
       type: ConditionSchema,
-      required: false,
+      required: false
     },
 
     actions: {
@@ -24,16 +24,16 @@ export const TriggerRuleSchema = new Schema(
       default: [],
       validate: {
         validator: (arr: unknown[]) => Array.isArray(arr) && arr.length > 0,
-        message: 'actions must not be empty',
-      },
+        message: 'actions must not be empty'
+      }
     },
 
     dedupeKey: {
       type: String,
       required: false,
       trim: true,
-      maxlength: 200,
-    },
+      maxlength: 200
+    }
   },
   { _id: false }
 )

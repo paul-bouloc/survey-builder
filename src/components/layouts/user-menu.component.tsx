@@ -26,7 +26,7 @@ export function UserMenu() {
   const router = useRouter()
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
-  const t = useTranslations('nav');
+  const t = useTranslations('nav')
 
   React.useEffect(() => {
     setMounted(true)

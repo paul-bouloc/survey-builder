@@ -13,8 +13,9 @@ const PageNodeSchema = new Schema(
           Array.isArray(arr) &&
           arr.length > 0 &&
           arr.every((n: any) => n?.kind !== NodeKind.PAGE),
-        message: 'children must be an array of nodes, not empty, and must not contain PageNode',
-      },
+        message:
+          'children must be an array of nodes, not empty, and must not contain PageNode'
+      }
     },
 
     page: {
@@ -23,13 +24,13 @@ const PageNodeSchema = new Schema(
           skippable: {
             type: Boolean,
             required: true,
-            default: false,
-          },
+            default: false
+          }
         },
         { _id: false }
       ),
-      required: true,
-    },
+      required: true
+    }
   },
   { _id: false }
 )

@@ -22,7 +22,10 @@ interface SurveyCardProps {
   survey: Survey
 }
 
-const statusVariants: Record<SurveyStatus, 'default' | 'secondary' | 'outline'> = {
+const statusVariants: Record<
+  SurveyStatus,
+  'default' | 'secondary' | 'outline'
+> = {
   draft: 'secondary',
   published: 'default',
   archived: 'outline'
@@ -39,7 +42,7 @@ export function SurveyCard({ survey }: SurveyCardProps) {
     try {
       await navigator.clipboard.writeText(survey.shortId)
       toast.success(tCard('toast.copySuccess'))
-    } catch (error) {
+    } catch (_error) {
       toast.error(tCard('toast.copyError'))
     }
   }
@@ -53,11 +56,11 @@ export function SurveyCard({ survey }: SurveyCardProps) {
       className={cn(
         'relative',
         survey.status === SurveyStatus.PUBLISHED &&
-        'bg-radial-[at_90%_10%] from-primary/15 dark:to-neutral-900 to-background border-primary/60 ring-primary/20',
+          'from-primary/15 to-background border-primary/60 ring-primary/20 bg-radial-[at_90%_10%] dark:to-neutral-900',
         survey.status !== SurveyStatus.PUBLISHED && 'ring-muted-foreground/10',
         survey.status === SurveyStatus.ARCHIVED &&
-          'before:absolute before:inset-0 before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(0_0_0/0.01)_8px,rgb(0_0_0/0.01)_16px)] dark:before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(255_255_255/0.01)_8px,rgb(255_255_255/0.01)_16px)] before:pointer-events-none before:rounded-xl',
-        'shadow-none py-5 ring-0 cursor-pointer transition-all border hover:ring-4'
+          'before:pointer-events-none before:absolute before:inset-0 before:rounded-xl before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(0_0_0/0.01)_8px,rgb(0_0_0/0.01)_16px)] dark:before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(255_255_255/0.01)_8px,rgb(255_255_255/0.01)_16px)]',
+        'cursor-pointer border py-5 shadow-none ring-0 transition-all hover:ring-4'
       )}
     >
       <CardHeader className={cn(getArchivedStyle(survey))}>
@@ -70,13 +73,18 @@ export function SurveyCard({ survey }: SurveyCardProps) {
         </CardAction>
       </CardHeader>
 
-      <CardFooter className={cn("flex items-center justify-between text-xs text-muted-foreground", getArchivedStyle(survey))}>
+      <CardFooter
+        className={cn(
+          'text-muted-foreground flex items-center justify-between text-xs',
+          getArchivedStyle(survey)
+        )}
+      >
         {getDateStatusLabel(survey, formatter, tDate)}
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               onClick={handleCopyShortId}
-              className="font-mono tracking-wide cursor-pointer hover:text-foreground transition-colors"
+              className="hover:text-foreground cursor-pointer font-mono tracking-wide transition-colors"
               type="button"
             >
               <span className="opacity-40">#</span>
@@ -98,19 +106,19 @@ function getDateStatusLabel(
   switch (survey.status) {
     case SurveyStatus.PUBLISHED:
       if (!survey.publishedAt) return null
-      const { value: publishedValue, isRelative: publishedIsRelative } = formatDate(
-        survey.publishedAt,
-        formatter
-      )
-      const publishedKey = publishedIsRelative ? 'publishedAtRelative' : 'publishedAt'
+      const { value: publishedValue, isRelative: publishedIsRelative } =
+        formatDate(survey.publishedAt, formatter)
+      const publishedKey = publishedIsRelative
+        ? 'publishedAtRelative'
+        : 'publishedAt'
       return tDate(publishedKey, { date: publishedValue })
     case SurveyStatus.ARCHIVED:
       if (!survey.archivedAt) return null
-      const { value: archivedValue, isRelative: archivedIsRelative } = formatDate(
-        survey.archivedAt,
-        formatter
-      )
-      const archivedKey = archivedIsRelative ? 'archivedAtRelative' : 'archivedAt'
+      const { value: archivedValue, isRelative: archivedIsRelative } =
+        formatDate(survey.archivedAt, formatter)
+      const archivedKey = archivedIsRelative
+        ? 'archivedAtRelative'
+        : 'archivedAt'
       return tDate(archivedKey, { date: archivedValue })
     default:
       if (!survey.updatedAt) return null
@@ -126,4 +134,3 @@ function getDateStatusLabel(
 const getArchivedStyle = (survey: Survey) => {
   return survey.status === SurveyStatus.ARCHIVED ? 'opacity-40' : ''
 }
-

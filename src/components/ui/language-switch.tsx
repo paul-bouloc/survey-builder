@@ -1,28 +1,37 @@
 import { EnIcon } from '@/components/icons/flags/en.icon'
 import { FrIcon } from '@/components/icons/flags/fr.icon'
 import { Button } from '@/components/ui/button'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
 import { useRouter } from 'next/router'
 
 export function LanguageSwitch() {
-  const router = useRouter();
-  const nextLocale = router.locale === 'fr' ? 'en' : 'fr';
-  const t = useTranslations('nav')('switchLanguage');
+  const router = useRouter()
+  const nextLocale = router.locale === 'fr' ? 'en' : 'fr'
+  const t = useTranslations('nav')('switchLanguage')
 
   const toggle = async () => {
     await router.push(
       { pathname: router.pathname, query: router.query },
       router.asPath,
       { locale: nextLocale }
-    );
-  };
+    )
+  }
 
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant="outline" size="icon-sm" onClick={toggle} aria-label="Switch language">
+        <Button
+          variant="outline"
+          size="icon-sm"
+          onClick={toggle}
+          aria-label="Switch language"
+        >
           <div className="relative size-4 overflow-hidden">
             <AnimatePresence>
               {router.locale === 'fr' ? (

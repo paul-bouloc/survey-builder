@@ -193,16 +193,16 @@ const mockResponses: SurveyResponse[] = [
   }
 ]
 
-
-
 export default function HomePage() {
   const t = useTranslations('surveys')
   const tDescriptions = useTranslations('surveys.list.tabs.descriptions')
-  const [activeTab, setActiveTab] = useState<'my-surveys' | 'responded'>('my-surveys')
+  const [activeTab, setActiveTab] = useState<'my-surveys' | 'responded'>(
+    'my-surveys'
+  )
 
   const descriptions = {
     'my-surveys': tDescriptions('createdSurveys'),
-    'responded': tDescriptions('responded')
+    responded: tDescriptions('responded')
   }
 
   const textVariants = {
@@ -224,7 +224,7 @@ export default function HomePage() {
               animate="animate"
               exit="exit"
               transition={{ duration: 0.15, ease: 'easeInOut' }}
-              className="mb-6 text-sm text-muted-foreground"
+              className="text-muted-foreground mb-6 text-sm"
             >
               {descriptions[activeTab]}
             </motion.p>

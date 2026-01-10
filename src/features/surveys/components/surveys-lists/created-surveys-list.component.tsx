@@ -1,6 +1,12 @@
 import { IllustrativeIcon } from '@/components/icons/illustrative-icons/illustrative-icon'
 import { Button } from '@/components/ui/button'
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty'
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle
+} from '@/components/ui/empty'
 import { routes } from '@/config/routes'
 import { Survey } from '@/shared/types/surveys/survey.type'
 import { useTranslations } from 'next-intl'
@@ -16,13 +22,11 @@ export function CreatedSurveysList({ surveys }: CreatedSurveysListProps) {
 
   if (surveys.length === 0) {
     return (
-      <Empty className='bg-neutral-100 dark:bg-neutral-900 border'>
+      <Empty className="border bg-neutral-100 dark:bg-neutral-900">
         <EmptyHeader>
           <IllustrativeIcon name="pottedPlant" />
           <EmptyTitle>{t('title')}</EmptyTitle>
-          <EmptyDescription>
-            {t('description')}
-          </EmptyDescription>
+          <EmptyDescription>{t('description')}</EmptyDescription>
         </EmptyHeader>
         <EmptyContent>
           <div className="flex gap-2">
@@ -43,4 +47,3 @@ export function CreatedSurveysList({ surveys }: CreatedSurveysListProps) {
     </div>
   )
 }
-
