@@ -1,8 +1,8 @@
+import { IllustrativeIcon } from '@/components/icons/illustrative-icons/illustrative-icon'
 import { Button } from '@/components/ui/button'
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty'
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty'
 import { routes } from '@/config/routes'
 import { Survey } from '@/shared/types/surveys/survey.type'
-import { FolderOpen } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 import { SurveyCard } from './survey-card.component'
@@ -16,11 +16,9 @@ export function CreatedSurveysList({ surveys }: CreatedSurveysListProps) {
 
   if (surveys.length === 0) {
     return (
-      <Empty className='bg-neutral-50 dark:bg-neutral-900 border'>
+      <Empty className='bg-neutral-100 dark:bg-neutral-900 border'>
         <EmptyHeader>
-          <EmptyMedia variant="icon" className='bg-neutral-200 dark:bg-neutral-800'>
-            <FolderOpen />
-          </EmptyMedia>
+          <IllustrativeIcon name="pottedPlant" />
           <EmptyTitle>{t('title')}</EmptyTitle>
           <EmptyDescription>
             {t('description')}
