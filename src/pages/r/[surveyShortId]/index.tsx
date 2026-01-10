@@ -1,19 +1,22 @@
-import AuthLayout from '@/components/layouts/survey-layout/survey.layout'
+import SurveyLayout from '@/components/layouts/survey-layout/survey.layout'
+import { NextPageWithLayout } from '@/pages/_app'
 import { useRouter } from 'next/router'
 import type { ReactElement } from 'react'
-import type { NextPageWithLayout } from '../../_app'
 
 const RunSurveyPage: NextPageWithLayout = () => {
   const router = useRouter()
+  const { surveyShortId } = router.query
+
   return (
     <div>
-      <h1>Run Survey {router.query.surveyId}</h1>
+      <h1>Run Survey {surveyShortId}</h1>
     </div>
   )
 }
 
 RunSurveyPage.getLayout = function getLayout(page: ReactElement) {
-  return <AuthLayout>{page}</AuthLayout>
+  return <SurveyLayout>{page}</SurveyLayout>
 }
 
 export default RunSurveyPage
+

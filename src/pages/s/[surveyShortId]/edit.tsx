@@ -1,13 +1,16 @@
+import { NextPageWithLayout } from '@/pages/_app'
 import { useRouter } from 'next/router'
-import type { NextPageWithLayout } from '../../_app'
 
 const EditSurveyPage: NextPageWithLayout = () => {
   const router = useRouter()
+  const { surveyShortId } = router.query
+
   return (
     <div>
-      <h1>Edit Survey {router.query.surveyId}</h1>
+      <h1>Edit Survey {surveyShortId}</h1>
     </div>
   )
 }
 
 export default EditSurveyPage
+
