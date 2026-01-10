@@ -2,5 +2,11 @@
   "create": "Créer",
   "continue": "Suivant",
   "back": "Retour",
-  "loading": "Chargement"
+  "loading": "Chargement",
+  "notFound": {
+    "title": "404 - Page introuvable",
+    "description": "La page que vous recherchez n'existe pas.",
+    "goHomePrefix": "Mais vous pouvez",
+    "goHomeLink": "retourner à l'accueil"
+  }
 }
