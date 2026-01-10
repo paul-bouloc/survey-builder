@@ -49,7 +49,7 @@ export const routes = {
 
     results: {
       path: '/s/[surveyShortId]/results',
-      labelKey: 'survey.results',
+      labelKey: 'survey.results.page',
       getHref: (surveyShortId: string) => `/s/${surveyShortId}/results`
     },
 
@@ -70,7 +70,7 @@ export const routes = {
   run: {
     index: {
       path: '/r/[surveyShortId]',
-      labelKey: 'run',
+      labelKey: 'run.page',
       getHref: (surveyShortId: string) => `/r/${surveyShortId}`
     },
     done: {
