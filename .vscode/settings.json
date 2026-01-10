@@ -17,7 +17,6 @@
 	/* ------------------------------------------------------------------ */
 	"eslint.useFlatConfig": true,
 	"eslint.validate": ["javascript", "typescript", "javascriptreact", "typescriptreact"],
-	"eslint.workingDirectories": [{ "pattern": "apps/*" }, { "pattern": "packages/*" }],
 
 
   /* ------------------------------------------------------------------ */
@@ -57,7 +56,7 @@
   "tailwindCSS.experimental.classRegex": [
     "class(?:Name)?=\"([^\"]*)\"",
     "class(?:Name)?=\\{`([^`]*)`\\}",
-		// "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"
+		"cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"
   ],
 	"tailwindCSS.classFunctions": ["cva", "cx", "cn"],
   "tailwindCSS.includeLanguages": {

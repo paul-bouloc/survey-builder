@@ -33,12 +33,15 @@ const eslintConfig = defineConfig([
       'prefer-object-spread': 'error',
       'prefer-destructuring': 'error',
       'linebreak-style': 'off',
-      '@typescript-eslint/no-unused-vars': {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        caughtErrorsIgnorePattern: '^_',
-        ignoreRestSiblings: true
-      }
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+          ignoreRestSiblings: true
+        }
+      ]
     }
   },
   eslintPluginPrettierRecommended
