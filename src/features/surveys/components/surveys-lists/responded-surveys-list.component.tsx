@@ -1,8 +1,8 @@
+import { IllustrativeIcon } from '@/components/icons/illustrative-icons/illustrative-icon'
 import { Button } from '@/components/ui/button'
-import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty'
+import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from '@/components/ui/empty'
 import { SurveyResponse } from '@/shared/types/surveys/survey-response.type'
 import { Survey } from '@/shared/types/surveys/survey.type'
-import { FolderOpen } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { RespondedSurveyCard } from './responded-survey-card.component'
 
@@ -25,11 +25,9 @@ export function RespondedSurveysList({
 
   if (surveysWithResponses.length === 0) {
     return (
-      <Empty className='bg-neutral-50 dark:bg-neutral-900 border'>
+      <Empty className='bg-neutral-100 dark:bg-neutral-900 border'>
         <EmptyHeader>
-          <EmptyMedia variant="icon" className='bg-neutral-200 dark:bg-neutral-800'>
-            <FolderOpen />
-          </EmptyMedia>
+          <IllustrativeIcon name="search" />
           <EmptyTitle>{t('title')}</EmptyTitle>
           <EmptyDescription>
             {t('description')}
