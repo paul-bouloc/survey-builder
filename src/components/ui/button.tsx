@@ -26,6 +26,18 @@ function Button({
   const Comp = asChild ? Slot.Root : 'button'
   const isDisabled = disabled || isLoading
 
+  // Hooks must be called before any conditional returns
+  const contentRef = React.useRef<HTMLSpanElement>(null)
+  const measureRef = React.useRef<HTMLSpanElement>(null)
+  const [width, setWidth] = React.useState<number | undefined>(undefined)
+
+  React.useLayoutEffect(() => {
+    if (!asChild && measureRef.current) {
+      const newWidth = measureRef.current.offsetWidth
+      setWidth(newWidth)
+    }
+  }, [children, isLoading, asChild])
+
   if (asChild) {
     return (
       <Comp
@@ -54,17 +66,6 @@ function Button({
     onAnimationEnd,
     ...buttonProps
   } = props
-
-  const contentRef = React.useRef<HTMLSpanElement>(null)
-  const measureRef = React.useRef<HTMLSpanElement>(null)
-  const [width, setWidth] = React.useState<number | undefined>(undefined)
-
-  React.useLayoutEffect(() => {
-    if (measureRef.current) {
-      const newWidth = measureRef.current.offsetWidth
-      setWidth(newWidth)
-    }
-  }, [children, isLoading])
 
   return (
     <>
