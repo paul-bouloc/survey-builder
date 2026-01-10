@@ -5,7 +5,7 @@ type Formatter = ReturnType<typeof useFormatter>
 /**
  * Format a date using next-intl formatter
  * Returns relative format if date is less than 1 week old, otherwise medium format
- * @returns Object with formatted date and whether it's relative or absolute
+ * @returns Object with formatted date and whether it's relative or abs
  */
 export function formatDate(
   date: Date | string | number,
