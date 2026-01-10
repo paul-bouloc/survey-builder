@@ -3,6 +3,7 @@ import { SurveyResponse } from '@/shared/types/surveys/survey-response.type'
 import { Survey } from '@/shared/types/surveys/survey.type'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
+import Head from 'next/head'
 import { useState } from 'react'
 
 // Données mockées pour le développement
@@ -195,6 +196,7 @@ const mockResponses: SurveyResponse[] = [
 
 export default function HomePage() {
   const t = useTranslations('surveys')
+  const tRoutes = useTranslations('routes')
   const tDescriptions = useTranslations('surveys.list.tabs.descriptions')
   const [activeTab, setActiveTab] = useState<'my-surveys' | 'responded'>(
     'my-surveys'
@@ -212,7 +214,11 @@ export default function HomePage() {
   }
 
   return (
-    <div className="flex w-full flex-col items-center p-4">
+    <>
+      <Head>
+        <title>{tRoutes('home')}</title>
+      </Head>
+      <div className="flex w-full flex-col items-center p-4">
       <div className="w-full max-w-md">
         <h1 className="mb-2 text-3xl font-semibold">{t('title')}</h1>
         <div className="w-full">
@@ -239,5 +245,6 @@ export default function HomePage() {
         </div>
       </div>
     </div>
+    </>
   )
 }
