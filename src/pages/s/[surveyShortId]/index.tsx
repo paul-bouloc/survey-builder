@@ -1,8 +1,21 @@
+import { IllustrativeIcon } from '@/components/icons/illustrative-icons/illustrative-icon'
+import { Button } from '@/components/ui/button'
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle
+} from '@/components/ui/empty'
+import { routes } from '@/config/routes'
 import { useSurvey } from '@/features/surveys/api/surveys.queries'
+import { extractApiError } from '@/lib/api-error'
 import { NextPageWithLayout } from '@/pages/_app'
+import { AxiosError } from 'axios'
 import { useTranslations } from 'next-intl'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 const SurveyOverviewPage: NextPageWithLayout = () => {
   const router = useRouter()
@@ -13,6 +26,23 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
 
   const shortId = typeof surveyShortId === 'string' ? surveyShortId : ''
   const { data: survey, isLoading, error } = useSurvey(shortId)
+
+  useEffect(() => {
+    if (error) {
+      const is404 =
+        (error as AxiosError)?.response?.status === 404 ||
+        extractApiError(error)?.code === 'not_found'
+
+      if (is404) {
+        router.push('/404')
+      }
+    }
+  }, [error, router])
+
+  const is404 =
+    error &&
+    ((error as AxiosError)?.response?.status === 404 ||
+      extractApiError(error)?.code === 'not_found')
 
   return (
     <>
@@ -27,12 +57,30 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
                 {tCommon('loading')}...
               </p>
             </div>
-          ) : error ? (
+          ) : is404 ? (
             <div className="flex items-center justify-center py-8">
-              <p className="text-destructive text-sm">
-                {tSurveys('overview.error.loadError')}
+              <p className="text-muted-foreground text-sm">
+                {tCommon('loading')}...
               </p>
             </div>
+          ) : error ? (
+            <Empty>
+              <EmptyHeader>
+                <IllustrativeIcon name="edvardMunch" />
+                <EmptyTitle>{tSurveys('overview.error.title')}</EmptyTitle>
+                <EmptyDescription>
+                  {tSurveys('overview.error.description')}
+                </EmptyDescription>
+              </EmptyHeader>
+              <EmptyContent>
+                <Button
+                  variant="outline"
+                  onClick={() => router.push(routes.home.getHref())}
+                >
+                  {tCommon('back')}
+                </Button>
+              </EmptyContent>
+            </Empty>
           ) : survey ? (
             <h1 className="mb-2 text-3xl font-semibold">{survey.title}</h1>
           ) : null}

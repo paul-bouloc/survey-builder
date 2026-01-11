@@ -68,7 +68,8 @@
   },
   "overview": {
     "error": {
-      "loadError": "Error loading survey"
+      "title": "Loading Error",
+      "description": "An error occurred while loading the survey. Please try again later."
     }
   },
   "edit": {},

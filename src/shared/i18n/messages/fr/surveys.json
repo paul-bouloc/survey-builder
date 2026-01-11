@@ -68,7 +68,8 @@
   },
   "overview": {
     "error": {
-      "loadError": "Erreur lors du chargement du questionnaire"
+      "title": "Erreur de chargement",
+      "description": "Une erreur est survenue lors du chargement du questionnaire. Veuillez réessayer plus tard."
     }
   },
   "edit": {},
