@@ -1,22 +1,22 @@
 {
-  "home": "Home | SurveyBuilder",
+  "home": "Home | datum",
   "auth": {
-    "login": "Login | SurveyBuilder"
+    "login": "Login | datum"
   },
   "survey": {
-    "new": "Create a survey | SurveyBuilder",
-    "overview": "Survey overview | SurveyBuilder",
-    "edit": "Edit a survey | SurveyBuilder",
+    "new": "Create a survey | datum",
+    "overview": "Survey overview | datum",
+    "edit": "Edit a survey | datum",
     "results": {
-      "page": "Survey results | SurveyBuilder",
-      "detail": "Response detail | SurveyBuilder"
+      "page": "Survey results | datum",
+      "detail": "Response detail | datum"
     },
-    "analytics": "Survey analytics | SurveyBuilder"
+    "analytics": "Survey analytics | datum"
   },
   "run": {
-    "page": "Run a survey | SurveyBuilder",
-    "done": "Survey completed | SurveyBuilder"
+    "page": "Run a survey | datum",
+    "done": "Survey completed | datum"
   },
-  "answer": "Answer | SurveyBuilder",
-  "notFound": "Page not found | SurveyBuilder"
+  "answer": "Answer | datum",
+  "notFound": "Page not found | datum"
 }

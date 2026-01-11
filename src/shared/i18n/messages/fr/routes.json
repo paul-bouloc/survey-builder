@@ -1,22 +1,22 @@
 {
-  "home": "Accueil | SurveyBuilder",
+  "home": "Accueil | datum",
   "auth": {
-    "login": "Connexion | SurveyBuilder"
+    "login": "Connexion | datum"
   },
   "survey": {
-    "new": "Créer un questionnaire | SurveyBuilder",
-    "overview": "Aperçu du questionnaire | SurveyBuilder",
-    "edit": "Modifier un questionnaire | SurveyBuilder",
+    "new": "Créer un questionnaire | datum",
+    "overview": "Aperçu du questionnaire | datum",
+    "edit": "Modifier un questionnaire | datum",
     "results": {
-      "page": "Résultats du questionnaire | SurveyBuilder",
-      "detail": "Détail de la réponse | SurveyBuilder"
+      "page": "Résultats du questionnaire | datum",
+      "detail": "Détail de la réponse | datum"
     },
-    "analytics": "Analyses du questionnaire | SurveyBuilder"
+    "analytics": "Analyses du questionnaire | datum"
   },
   "run": {
-    "page": "Répondre au questionnaire | SurveyBuilder",
-    "done": "Questionnaire terminé | SurveyBuilder"
+    "page": "Répondre au questionnaire | datum",
+    "done": "Questionnaire terminé | datum"
   },
-  "answer": "Répondre | SurveyBuilder",
-  "notFound": "Page introuvable | SurveyBuilder"
+  "answer": "Répondre | datum",
+  "notFound": "Page introuvable | datum"
 }
