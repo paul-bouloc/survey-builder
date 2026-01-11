@@ -13,6 +13,11 @@ export const surveysClient = {
     return { surveys }
   },
 
+  getSurvey: async (shortId: string) => {
+    const { data } = await http.get<SurveyResponse>(`/surveys/${shortId}`)
+    return surveyMapper.toDomain(data)
+  },
+
   createSurvey: async (payload: CreateSurveyBody) => {
     const { data } = await http.post<SurveyResponse>('/surveys', payload)
     return surveyMapper.toDomain(data)
