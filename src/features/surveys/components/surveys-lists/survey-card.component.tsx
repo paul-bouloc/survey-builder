@@ -12,10 +12,12 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
+import { routes } from '@/config/routes'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/shared/i18n/format'
 import { Survey, SurveyStatus } from '@/shared/types/surveys/survey.type'
 import { useFormatter, useTranslations } from 'next-intl'
+import Link from 'next/link'
 import { toast } from 'sonner'
 
 interface SurveyCardProps {
@@ -52,49 +54,52 @@ export function SurveyCard({ survey }: SurveyCardProps) {
   }
 
   return (
-    <Card
-      className={cn(
-        'relative',
-        survey.status === SurveyStatus.PUBLISHED &&
-          'from-primary/15 to-background border-primary/60 ring-primary/20 bg-radial-[at_90%_10%] dark:to-neutral-900',
-        survey.status !== SurveyStatus.PUBLISHED && 'ring-muted-foreground/10',
-        survey.status === SurveyStatus.ARCHIVED &&
-          'before:pointer-events-none before:absolute before:inset-0 before:rounded-xl before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(0_0_0/0.01)_8px,rgb(0_0_0/0.01)_16px)] dark:before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(255_255_255/0.01)_8px,rgb(255_255_255/0.01)_16px)]',
-        'cursor-pointer border py-5 shadow-none ring-0 transition-all hover:ring-4'
-      )}
-    >
-      <CardHeader className={cn(getArchivedStyle(survey))}>
-        <CardTitle>{survey.title}</CardTitle>
-        <CardDescription>{survey.subtitle}</CardDescription>
-        <CardAction>
-          <Badge variant={statusVariants[survey.status]}>
-            {getStatusLabel()}
-          </Badge>
-        </CardAction>
-      </CardHeader>
-
-      <CardFooter
+    <Link href={routes.survey.overview.getHref(survey.shortId)}>
+      <Card
         className={cn(
-          'text-muted-foreground flex items-center justify-between text-xs',
-          getArchivedStyle(survey)
+          'relative',
+          survey.status === SurveyStatus.PUBLISHED &&
+            'from-primary/15 to-background border-primary/60 ring-primary/20 bg-radial-[at_90%_10%] dark:to-neutral-900',
+          survey.status !== SurveyStatus.PUBLISHED &&
+            'ring-muted-foreground/10',
+          survey.status === SurveyStatus.ARCHIVED &&
+            'before:pointer-events-none before:absolute before:inset-0 before:rounded-xl before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(0_0_0/0.01)_8px,rgb(0_0_0/0.01)_16px)] dark:before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(255_255_255/0.01)_8px,rgb(255_255_255/0.01)_16px)]',
+          'cursor-pointer border py-5 shadow-none ring-0 transition-all hover:ring-4'
         )}
       >
-        {getDateStatusLabel(survey, formatter, tDate)}
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              onClick={handleCopyShortId}
-              className="hover:text-foreground cursor-pointer font-mono tracking-wide transition-colors"
-              type="button"
-            >
-              <span className="opacity-40">#</span>
-              {survey.shortId}
-            </button>
-          </TooltipTrigger>
-          <TooltipContent>{tCard('tooltip.copyShortId')}</TooltipContent>
-        </Tooltip>
-      </CardFooter>
-    </Card>
+        <CardHeader className={cn(getArchivedStyle(survey))}>
+          <CardTitle>{survey.title}</CardTitle>
+          <CardDescription>{survey.subtitle}</CardDescription>
+          <CardAction>
+            <Badge variant={statusVariants[survey.status]}>
+              {getStatusLabel()}
+            </Badge>
+          </CardAction>
+        </CardHeader>
+
+        <CardFooter
+          className={cn(
+            'text-muted-foreground flex items-center justify-between text-xs',
+            getArchivedStyle(survey)
+          )}
+        >
+          {getDateStatusLabel(survey, formatter, tDate)}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={handleCopyShortId}
+                className="hover:text-foreground cursor-pointer font-mono tracking-wide transition-colors"
+                type="button"
+              >
+                <span className="opacity-40">#</span>
+                {survey.shortId}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>{tCard('tooltip.copyShortId')}</TooltipContent>
+          </Tooltip>
+        </CardFooter>
+      </Card>
+    </Link>
   )
 }
 
