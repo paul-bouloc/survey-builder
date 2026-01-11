@@ -1,5 +1,5 @@
+import DatumLogo from '@/components/datum-logo.component'
 import { UserMenu } from '@/components/layouts/user-menu.component'
-import SurveyLogo from '@/components/survey-logo.component'
 import { LanguageSwitch } from '@/components/ui/language-switch'
 import { TooltipLinkButton } from '@/components/ui/tooltip-link-button'
 import { routes } from '@/config/routes'
@@ -11,7 +11,7 @@ export default function SurveyNavbar() {
 
   return (
     <div className="flex w-full items-center justify-between p-4">
-      <SurveyLogo />
+      <DatumLogo />
       <div className="flex items-center gap-2">
         <LanguageSwitch />
 
