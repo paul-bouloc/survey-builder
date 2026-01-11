@@ -8,6 +8,7 @@ import {
   EmptyTitle
 } from '@/components/ui/empty'
 import { routes } from '@/config/routes'
+import { useSession } from '@/features/auth/api/auth.mutations'
 import { useSurvey } from '@/features/surveys/api/surveys.queries'
 import { extractApiError } from '@/lib/api-error'
 import { NextPageWithLayout } from '@/pages/_app'
@@ -15,7 +16,7 @@ import { AxiosError } from 'axios'
 import { useTranslations } from 'next-intl'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 const SurveyOverviewPage: NextPageWithLayout = () => {
   const router = useRouter()
@@ -26,6 +27,12 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
 
   const shortId = typeof surveyShortId === 'string' ? surveyShortId : ''
   const { data: survey, isLoading, error } = useSurvey(shortId)
+  const { data: session } = useSession()
+
+  const isNotCreator = useMemo(() => {
+    if (!survey || !session) return false
+    return survey.createdBy !== session.userId
+  }, [survey, session])
 
   useEffect(() => {
     if (error) {
@@ -43,6 +50,8 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
     error &&
     ((error as AxiosError)?.response?.status === 404 ||
       extractApiError(error)?.code === 'not_found')
+
+  const shouldShowError = error || isNotCreator
 
   return (
     <>
@@ -63,7 +72,7 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
                 {tCommon('loading')}...
               </p>
             </div>
-          ) : error ? (
+          ) : shouldShowError ? (
             <Empty>
               <EmptyHeader>
                 <IllustrativeIcon name="edvardMunch" />
