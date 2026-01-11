@@ -1,7 +1,8 @@
-import { handleApiError } from '@/server/api/errors'
+import { handleApiError, InternalServerException } from '@/server/api/errors'
 import type { AuthenticatedRequest } from '@/server/auth/require-auth'
 import { requireAuth } from '@/server/auth/require-auth'
 import connectDB from '@/server/database/mongoose'
+import type { IUserDocument } from '@/server/models/user/user.document'
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 import type { z, ZodType } from 'zod'
 
@@ -48,6 +49,22 @@ type EndpointConfig<
 type RequestType<TRequireAuth extends boolean | undefined> =
   TRequireAuth extends false ? NextApiRequest : AuthenticatedRequest
 
+// Type conditionnel pour le contexte du handler
+type HandlerContext<
+  TBody extends ZodType | undefined,
+  TQuery extends ZodType | undefined,
+  TRequireAuth extends boolean | undefined
+> = {
+  req: RequestType<TRequireAuth>
+  res: NextApiResponse
+  body: Infer<TBody>
+  query: Infer<TQuery>
+} & (TRequireAuth extends false
+  ? Record<string, never>
+  : {
+      user: IUserDocument
+    })
+
 export function createEndpoint<
   TBody extends ZodType | undefined = undefined,
   TQuery extends ZodType | undefined = undefined,
@@ -55,12 +72,9 @@ export function createEndpoint<
   TRequireAuth extends boolean | undefined = undefined
 >(
   config: EndpointConfig<TBody, TQuery, TRes, TRequireAuth>,
-  handler: (ctx: {
-    req: RequestType<TRequireAuth>
-    res: NextApiResponse
-    body: Infer<TBody>
-    query: Infer<TQuery>
-  }) =>
+  handler: (
+    ctx: HandlerContext<TBody, TQuery, TRequireAuth>
+  ) =>
     | Promise<Infer<TRes> extends undefined ? unknown : Infer<TRes>>
     | (Infer<TRes> extends undefined ? unknown : Infer<TRes>)
 ): NextApiHandler {
@@ -77,11 +91,32 @@ export function createEndpoint<
         await connectDB()
       }
 
+      let user: IUserDocument | undefined = undefined
       if (config.requireAuth !== false) {
         await requireAuth(req as AuthenticatedRequest)
+        const { user: authenticatedUser } = req as AuthenticatedRequest
+        user = authenticatedUser
+        if (!user) {
+          throw new InternalServerException(
+            'User not found after authentication'
+          )
+        }
       }
 
-      const result = await handler({ req, res, body, query })
+      const baseCtx = {
+        req: req as RequestType<TRequireAuth>,
+        res,
+        body,
+        query
+      }
+
+      const ctx = (user ? { ...baseCtx, user } : baseCtx) as HandlerContext<
+        TBody,
+        TQuery,
+        TRequireAuth
+      >
+
+      const result = await handler(ctx)
 
       const payload = config.response ? config.response.parse(result) : result
 

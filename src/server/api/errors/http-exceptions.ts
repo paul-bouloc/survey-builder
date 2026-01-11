@@ -57,3 +57,9 @@ export class ConflictException extends HttpException {
     super({ status: 409, code: 'conflict', message, details })
   }
 }
+
+export class InternalServerException extends HttpException {
+  constructor(message = 'Internal server error', details?: unknown) {
+    super({ status: 500, code: 'internal_error', message, details })
+  }
+}

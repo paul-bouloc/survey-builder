@@ -12,13 +12,7 @@ export const postSurvey = createEndpoint(
     response: SurveySchema,
     status: 201
   },
-  async ({ req, body }) => {
-    if (!req.user) {
-      throw new Error('User not found in request')
-    }
-
-    const { user } = req
-
+  async ({ body, user }) => {
     const survey = await Survey.create({
       createdBy: user._id,
       title: body.title,

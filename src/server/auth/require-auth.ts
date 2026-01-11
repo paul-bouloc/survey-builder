@@ -1,6 +1,6 @@
 import { UnauthorizedException } from '@/server/api/errors'
 import { User } from '@/server/models'
-import type { IUserDocument } from '@/server/models/user.model'
+import type { IUserDocument } from '@/server/models/user/user.document'
 import type { NextApiRequest } from 'next'
 import { getTokenFromRequest, verifyToken } from './jwt'
 

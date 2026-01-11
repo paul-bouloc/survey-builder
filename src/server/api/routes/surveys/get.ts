@@ -7,13 +7,7 @@ export const getSurveys = createEndpoint(
     requireAuth: true,
     response: SurveysListResponseSchema
   },
-  async ({ req }) => {
-    if (!req.user) {
-      throw new Error('User not found in request')
-    }
-
-    const { user } = req
-
+  async ({ user }) => {
     const surveys = await Survey.find({ createdBy: user._id })
       .sort({ updatedAt: -1 })
       .lean()

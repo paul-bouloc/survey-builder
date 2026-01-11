@@ -6,13 +6,7 @@ export const getSession = createEndpoint(
     requireAuth: true,
     response: SessionResponseSchema
   },
-  async ({ req }) => {
-    if (!req.user) {
-      throw new Error('User not found in request')
-    }
-
-    const { user } = req
-
+  async ({ user }) => {
     return {
       userId: user._id.toString(),
       email: user.email,
