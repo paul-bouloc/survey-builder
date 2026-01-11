@@ -66,6 +66,11 @@
       "createError": "Error creating survey"
     }
   },
+  "overview": {
+    "error": {
+      "loadError": "Error loading survey"
+    }
+  },
   "edit": {},
   "questions": {},
   "analytics": {},

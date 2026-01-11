@@ -66,6 +66,11 @@
       "createError": "Erreur lors de la création du questionnaire"
     }
   },
+  "overview": {
+    "error": {
+      "loadError": "Erreur lors du chargement du questionnaire"
+    }
+  },
   "edit": {},
   "questions": {},
   "analytics": {},
