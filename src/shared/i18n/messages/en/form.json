@@ -7,6 +7,18 @@
     "name": {
       "label": "Name",
       "placeholder": "John"
+    },
+    "title": {
+      "label": "Title",
+      "placeholder": "My survey"
+    },
+    "subtitle": {
+      "label": "Subtitle",
+      "placeholder": "Optional subtitle"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Survey description"
     }
   }
 }

@@ -57,7 +57,15 @@
       }
     }
   },
-  "create": {},
+  "create": {
+    "title": "Créer un questionnaire",
+    "description": "Remplissez les informations de base pour créer votre questionnaire. Vous pourrez ajouter des questions après la création.",
+    "submitButton": "Créer",
+    "toasts": {
+      "createSuccess": "Questionnaire créé avec succès",
+      "createError": "Erreur lors de la création du questionnaire"
+    }
+  },
   "edit": {},
   "questions": {},
   "analytics": {},

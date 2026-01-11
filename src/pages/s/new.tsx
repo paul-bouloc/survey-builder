@@ -1,3 +1,4 @@
+import { CreateSurveyForm } from '@/features/surveys/components/create-survey-form.component'
 import { NextPageWithLayout } from '@/pages/_app'
 import { useTranslations } from 'next-intl'
 import Head from 'next/head'
@@ -10,8 +11,8 @@ const NewSurveyPage: NextPageWithLayout = () => {
       <Head>
         <title>{t('new')}</title>
       </Head>
-      <div>
-        <h1>Create Survey</h1>
+      <div className="flex w-full flex-col items-center p-4">
+        <CreateSurveyForm />
       </div>
     </>
   )

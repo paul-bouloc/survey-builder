@@ -57,7 +57,15 @@
       }
     }
   },
-  "create": {},
+  "create": {
+    "title": "Create a survey",
+    "description": "Fill in the basic information to create your survey. You'll be able to add questions after creation.",
+    "submitButton": "Create",
+    "toasts": {
+      "createSuccess": "Survey created successfully",
+      "createError": "Error creating survey"
+    }
+  },
   "edit": {},
   "questions": {},
   "analytics": {},
