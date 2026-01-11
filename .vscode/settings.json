@@ -56,12 +56,16 @@
   "tailwindCSS.experimental.classRegex": [
     "class(?:Name)?=\"([^\"]*)\"",
     "class(?:Name)?=\\{`([^`]*)`\\}",
-		"cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"
   ],
 	"tailwindCSS.classFunctions": ["cva", "cx", "cn"],
   "tailwindCSS.includeLanguages": {
     "plaintext": "html",
     "javascript": "javascriptreact",
     "typescript": "typescriptreact"
-  }
+  },
+  "tailwindCSS.files.exclude": [
+    "**/*.d.ts",
+    "**/node_modules/**",
+    "**/.next/**"
+  ]
 }
