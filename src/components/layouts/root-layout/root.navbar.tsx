@@ -1,5 +1,4 @@
 import DatumLogo from '@/components/datum-logo.component'
-import { LanguageSwitch } from '@/components/ui/language-switch'
 import { TooltipLinkButton } from '@/components/ui/tooltip-link-button'
 import { routes } from '@/config/routes'
 import { Home, Plus } from 'lucide-react'
@@ -13,8 +12,6 @@ export default function RootNavbar() {
     <div className="flex w-full items-center justify-between p-4">
       <DatumLogo />
       <div className="flex items-center gap-2">
-        <LanguageSwitch />
-
         <TooltipLinkButton href={routes.home.getHref()} tooltip={t('home')}>
           <Home className="size-4" />
         </TooltipLinkButton>

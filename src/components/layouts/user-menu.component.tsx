@@ -1,3 +1,5 @@
+import { EnIcon } from '@/components/icons/flags/en.icon'
+import { FrIcon } from '@/components/icons/flags/fr.icon'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -45,6 +47,15 @@ export function UserMenu() {
     }
   }
 
+  const handleLanguageToggle = async () => {
+    const nextLocale = router.locale === 'fr' ? 'en' : 'fr'
+    await router.push(
+      { pathname: router.pathname, query: router.query },
+      router.asPath,
+      { locale: nextLocale }
+    )
+  }
+
   return (
     <DropdownMenu>
       <Tooltip>
@@ -79,6 +90,23 @@ export function UserMenu() {
             <>
               <Moon className="size-4" />
               <span>{t('darkMode')}</span>
+            </>
+          )}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLanguageToggle}>
+          {router.locale === 'fr' ? (
+            <>
+              <div className="flex size-4 items-center justify-center [&_svg]:size-4">
+                <EnIcon />
+              </div>
+              <span>{t('switchLanguage')}</span>
+            </>
+          ) : (
+            <>
+              <div className="flex size-4 items-center justify-center [&_svg]:size-4">
+                <FrIcon />
+              </div>
+              <span>{t('switchLanguage')}</span>
             </>
           )}
         </DropdownMenuItem>
