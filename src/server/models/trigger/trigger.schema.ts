@@ -23,8 +23,8 @@ export const TriggerRuleSchema = new Schema(
       required: true,
       default: [],
       validate: {
-        validator: (arr: unknown[]) => Array.isArray(arr) && arr.length > 0,
-        message: 'actions must not be empty'
+        validator: (arr: unknown[]) => Array.isArray(arr),
+        message: 'actions must be an array'
       }
     },
 

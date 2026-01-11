@@ -29,8 +29,8 @@ const LogicalConditionSchema = new Schema(
       type: [ConditionSchema],
       required: true,
       validate: {
-        validator: (arr: unknown[]) => Array.isArray(arr) && arr.length > 0,
-        message: 'conditions must not be empty'
+        validator: (arr: unknown[]) => Array.isArray(arr),
+        message: 'conditions must be an array'
       }
     }
   },

@@ -10,11 +10,12 @@ const PageNodeSchema = new Schema(
       default: [],
       validate: {
         validator: (arr: unknown[]) =>
-          Array.isArray(arr) &&
-          arr.length > 0 &&
-          arr.every((n: any) => n?.kind !== NodeKind.PAGE),
+          arr
+            ? Array.isArray(arr) &&
+              arr.every((n: any) => n?.kind !== NodeKind.PAGE)
+            : true,
         message:
-          'children must be an array of nodes, not empty, and must not contain PageNode'
+          'children must be an array of nodes and must not contain PageNode'
       }
     },
 

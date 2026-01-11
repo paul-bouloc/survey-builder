@@ -31,7 +31,7 @@ const QuestionNodeSchema = new Schema(
               arr.every((n: any) => n?.kind !== NodeKind.PAGE)
             : true,
         message:
-          'children must be an array of nodes, not empty, and must not contain PageNode'
+          'children must be an array of nodes and must not contain PageNode'
       }
     }
   },
