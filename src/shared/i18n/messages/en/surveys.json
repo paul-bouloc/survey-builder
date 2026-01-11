@@ -39,6 +39,9 @@
         "responded": "View all the surveys you have responded to. Continue incomplete responses or review completed ones."
       }
     },
+    "error": {
+      "loadError": "Error loading surveys"
+    },
     "createdSurveys": {
       "empty": {
         "title": "No surveys created",

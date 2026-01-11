@@ -39,6 +39,9 @@
         "responded": "Consultez tous les questionnaires auxquels vous avez répondu. Continuez les réponses incomplètes ou consultez celles terminées."
       }
     },
+    "error": {
+      "loadError": "Erreur lors du chargement des questionnaires"
+    },
     "createdSurveys": {
       "empty": {
         "title": "Aucun questionnaire créé",
