@@ -1,4 +1,5 @@
 import Image, { ImageProps } from 'next/image'
+import { useRouter } from 'next/router'
 import * as React from 'react'
 
 import logoBlack from '@/assets/brand/datum-logo-black.svg'
@@ -9,6 +10,7 @@ import logoWhite from '@/assets/brand/datum-logo-white.svg'
 import iconLinedBlack from '@/assets/brand/datum-icon-lined-black.svg'
 import iconLinedWhite from '@/assets/brand/datum-icon-lined-white.svg'
 import iconDefault from '@/assets/brand/datum-icon.svg'
+import { useCallback } from 'react'
 
 const datumBrand = {
   base: {
@@ -73,6 +75,11 @@ export interface DatumLogoProps extends Omit<
    */
   wrapperClassName?: string
   style?: React.CSSProperties
+
+  /**
+   * Si fourni, le logo sera cliquable et redirigera vers cette URL au clic
+   */
+  href?: string
 }
 
 export default function DatumLogo({
@@ -84,8 +91,10 @@ export default function DatumLogo({
   className,
   wrapperClassName,
   style,
+  href,
   ...props
 }: DatumLogoProps) {
+  const router = useRouter()
   const { light, dark } = datumBrand[variant]
   const lightSrc = getSvgSrc(light)
   const darkSrc = getSvgSrc(dark)
@@ -102,8 +111,33 @@ export default function DatumLogo({
 
   const imageClass = `object-contain ${className ?? ''}`
 
+  const handleClick = useCallback(() => {
+    if (href) {
+      router.push(href)
+    }
+  }, [href, router])
+
   return (
-    <span className={wrapperClassName} style={wrapperStyle}>
+    <span
+      className={wrapperClassName}
+      style={{
+        ...wrapperStyle,
+        cursor: href ? 'pointer' : undefined
+      }}
+      onClick={href ? handleClick : undefined}
+      role={href ? 'button' : undefined}
+      tabIndex={href ? 0 : undefined}
+      onKeyDown={
+        href
+          ? (e: React.KeyboardEvent) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault()
+                handleClick()
+              }
+            }
+          : undefined
+      }
+    >
       {/* Light */}
       <Image
         {...props}

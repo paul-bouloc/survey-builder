@@ -10,7 +10,7 @@ export default function RootNavbar() {
 
   return (
     <div className="flex w-full items-center justify-between p-4">
-      <DatumLogo />
+      <DatumLogo href={routes.home.getHref()} />
       <div className="flex items-center gap-2">
         <TooltipLinkButton href={routes.home.getHref()} tooltip={t('home')}>
           <Home className="size-4" />
