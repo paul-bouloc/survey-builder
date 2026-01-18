@@ -53,13 +53,15 @@ export function SurveyOverviewWeeklyChart({
         <CardDescription>{tOverview('description')}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
+        <ChartContainer config={chartConfig} className="h-[200px] w-full">
           <AreaChart
             accessibilityLayer
             data={formattedData}
             margin={{
               left: 12,
-              right: 12
+              right: 12,
+              top: 4,
+              bottom: 4
             }}
           >
             <CartesianGrid strokeDasharray="3 3" vertical={false} />

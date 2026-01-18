@@ -89,11 +89,11 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
             <div className="flex flex-col gap-4">
               <SurveyOverviewHeader survey={survey} />
               <SurveyOverviewStats stats={survey.stats} />
-              <div className="grid grid-cols-3 gap-4">
-                <div className="col-span-2 min-w-0">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <div className="col-span-1 min-w-0 md:col-span-2">
                   <SurveyOverviewWeeklyChart weeklyData={survey.weeklyData} />
                 </div>
-                <div className="col-span-1 min-w-0">
+                <div className="col-span-1 min-w-0 md:col-span-1">
                   <Card />
                 </div>
               </div>
