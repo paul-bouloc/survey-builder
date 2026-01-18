@@ -58,7 +58,7 @@ export function SurveyOverviewQuickActions({
   return (
     <Card className="from-primary/15 to-background border-primary/60 ring-primary/20 border bg-radial-[at_90%_10%] p-2 shadow-none ring-4 dark:to-neutral-900">
       <CardContent className="p-0">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2">
           {actions.map(action => {
             const Icon = action.icon
             const content = (
