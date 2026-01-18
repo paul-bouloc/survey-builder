@@ -1,4 +1,3 @@
-import Badge from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { routes } from '@/config/routes'
 import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys.contract'
@@ -8,15 +7,6 @@ import Link from 'next/link'
 
 interface SurveyOverviewHeaderProps {
   survey: SurveyOverviewResponse
-}
-
-const statusVariants: Record<
-  SurveyStatus,
-  'default' | 'secondary' | 'outline'
-> = {
-  draft: 'secondary',
-  published: 'default',
-  archived: 'outline'
 }
 
 export function SurveyOverviewHeader({ survey }: SurveyOverviewHeaderProps) {
@@ -29,14 +19,9 @@ export function SurveyOverviewHeader({ survey }: SurveyOverviewHeaderProps) {
   return (
     <div className="flex flex-col-reverse gap-4 md:flex-row md:items-start md:justify-between">
       <div className="min-w-0 flex-1 space-y-2">
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-3xl font-semibold wrap-break-word">
-            {survey.title}
-          </h1>
-          <Badge variant={statusVariants[survey.status]}>
-            {tStatus(survey.status)}
-          </Badge>
-        </div>
+        <h1 className="text-3xl font-semibold wrap-break-word">
+          {survey.title}
+        </h1>
         {survey.subtitle && (
           <p className="text-muted-foreground text-lg wrap-break-word">
             {survey.subtitle}
@@ -50,6 +35,9 @@ export function SurveyOverviewHeader({ survey }: SurveyOverviewHeaderProps) {
       </div>
 
       <div className="flex flex-wrap items-center justify-end gap-2 md:ml-4 md:shrink-0">
+        <Button variant="ghost" size="sm" disabled>
+          {tStatus(survey.status)}
+        </Button>
         <Button variant="outline" size="sm" asChild>
           <Link href={routes.survey.preview.getHref(survey.shortId)}>
             {tOverview('actions.preview')}
