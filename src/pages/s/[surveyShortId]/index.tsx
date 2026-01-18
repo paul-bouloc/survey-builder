@@ -91,17 +91,19 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
           ) : survey ? (
             <div className="flex flex-col gap-4">
               <SurveyOverviewHeader survey={survey} />
-              <SurveyOverviewStats stats={survey.stats} />
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div className="col-span-1 min-w-0 md:col-span-2">
-                  <SurveyOverviewWeeklyChart weeklyData={survey.weeklyData} />
-                </div>
-                <div className="col-span-1 flex min-w-0 flex-col gap-4 md:col-span-1">
-                  <SurveyOverviewQuickActions survey={survey} />
-                  {survey.status === SurveyStatus.PUBLISHED && (
-                    <SurveyOverviewFormLink survey={survey} />
-                  )}
-                  <SurveyOverviewMetadata survey={survey} />
+              <div className="mt-8 flex flex-col gap-4">
+                <SurveyOverviewStats stats={survey.stats} />
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                  <div className="col-span-1 min-w-0 md:col-span-2">
+                    <SurveyOverviewWeeklyChart weeklyData={survey.weeklyData} />
+                  </div>
+                  <div className="col-span-1 flex min-w-0 flex-col gap-4 md:col-span-1">
+                    <SurveyOverviewQuickActions survey={survey} />
+                    {survey.status === SurveyStatus.PUBLISHED && (
+                      <SurveyOverviewFormLink survey={survey} />
+                    )}
+                    <SurveyOverviewMetadata survey={survey} />
+                  </div>
                 </div>
               </div>
             </div>
