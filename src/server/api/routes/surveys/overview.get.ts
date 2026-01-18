@@ -56,6 +56,12 @@ export const getSurveyOverview = createEndpoint(
       })
     }
 
+    // Compter les pages et questions
+    const pageCount = survey.pages?.length || 0
+
+    // TODO: Compter les questions
+    const questionCount = 99
+
     return {
       _id: survey._id.toString(),
       shortId: survey.shortId,
@@ -75,7 +81,9 @@ export const getSurveyOverview = createEndpoint(
       },
       weeklyData: {
         data: weeklyData
-      }
+      },
+      pageCount,
+      questionCount
     }
   }
 )

@@ -109,6 +109,15 @@
         "description": "CSV, Excel, PDF"
       },
       "comingSoon": "Cette fonctionnalité arrive bientôt"
+    },
+    "metadata": {
+      "title": "Détails du formulaire",
+      "createdAt": "Date de création",
+      "updatedAt": "Dernière modification",
+      "publishedAt": "Date de publication",
+      "archivedAt": "Date d'archivage",
+      "questions": "Questions",
+      "pages": "Pages"
     }
   },
   "edit": {},

@@ -90,7 +90,9 @@ export const SurveyOverviewResponseSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   stats: SurveyOverviewStatsSchema,
-  weeklyData: SurveyOverviewWeeklyResponseSchema
+  weeklyData: SurveyOverviewWeeklyResponseSchema,
+  pageCount: z.number(),
+  questionCount: z.number()
 })
 
 export type SurveyOverviewResponse = z.infer<
