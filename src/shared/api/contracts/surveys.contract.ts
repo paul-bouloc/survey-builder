@@ -65,6 +65,15 @@ export const SurveyOverviewStatsSchema = z.object({
   completionRate: z.number()
 })
 
+export const SurveyOverviewWeeklyDataSchema = z.object({
+  date: z.string(),
+  count: z.number()
+})
+
+export const SurveyOverviewWeeklyResponseSchema = z.object({
+  data: z.array(SurveyOverviewWeeklyDataSchema)
+})
+
 export const SurveyOverviewResponseSchema = z.object({
   _id: z.string(),
   shortId: z.string(),
@@ -80,7 +89,8 @@ export const SurveyOverviewResponseSchema = z.object({
   archivedAt: z.date().nullable(),
   createdAt: z.date(),
   updatedAt: z.date(),
-  stats: SurveyOverviewStatsSchema
+  stats: SurveyOverviewStatsSchema,
+  weeklyData: SurveyOverviewWeeklyResponseSchema
 })
 
 export type SurveyOverviewResponse = z.infer<

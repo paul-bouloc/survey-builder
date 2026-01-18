@@ -84,6 +84,11 @@
       "completedResponses": "Réponses complètes",
       "completed": "terminées",
       "inProgress": "en cours"
+    },
+    "chart": {
+      "title": "Réponses sur la dernière semaine",
+      "description": "Nombre de réponses reçues chaque jour",
+      "label": "Réponses"
     }
   },
   "edit": {},

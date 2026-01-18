@@ -1,5 +1,6 @@
 import { IllustrativeIcon } from '@/components/icons/illustrative-icons/illustrative-icon'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import {
   Empty,
   EmptyContent,
@@ -11,6 +12,7 @@ import { routes } from '@/config/routes'
 import { useSurveyOverview } from '@/features/surveys/api/surveys.queries'
 import { SurveyOverviewHeader } from '@/features/surveys/components/survey-overview-header.component'
 import { SurveyOverviewStats } from '@/features/surveys/components/survey-overview-stats.component'
+import { SurveyOverviewWeeklyChart } from '@/features/surveys/components/survey-overview-weekly-chart.component'
 import { extractApiError } from '@/lib/api-error'
 import { NextPageWithLayout } from '@/pages/_app'
 import { AxiosError } from 'axios'
@@ -84,9 +86,17 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
               </EmptyContent>
             </Empty>
           ) : survey ? (
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
               <SurveyOverviewHeader survey={survey} />
               <SurveyOverviewStats stats={survey.stats} />
+              <div className="grid grid-cols-3 gap-4">
+                <div className="col-span-2 min-w-0">
+                  <SurveyOverviewWeeklyChart weeklyData={survey.weeklyData} />
+                </div>
+                <div className="col-span-1 min-w-0">
+                  <Card />
+                </div>
+              </div>
             </div>
           ) : null}
         </div>

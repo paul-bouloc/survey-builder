@@ -44,6 +44,18 @@ export const getSurveyOverview = createEndpoint(
         ? Math.round((completedCount / totalResponses) * 100)
         : 99 // Mock
 
+    // Générer les données mockées pour les 7 derniers jours
+    const weeklyData = []
+    const today = new Date()
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today)
+      date.setDate(date.getDate() - i)
+      weeklyData.push({
+        date: date.toISOString().split('T')[0], // Format YYYY-MM-DD
+        count: 99 // Mock - À implémenter quand le modèle de réponses sera disponible
+      })
+    }
+
     return {
       _id: survey._id.toString(),
       shortId: survey.shortId,
@@ -60,6 +72,9 @@ export const getSurveyOverview = createEndpoint(
         completedCount,
         inProgressCount,
         completionRate
+      },
+      weeklyData: {
+        data: weeklyData
       }
     }
   }
