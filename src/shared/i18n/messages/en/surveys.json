@@ -89,6 +89,26 @@
       "title": "Responses over the last week",
       "description": "Number of responses received each day",
       "label": "Responses"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "statistics": {
+        "title": "Statistics",
+        "description": "Analyze your results"
+      },
+      "responses": {
+        "title": "Responses",
+        "description": "View responses"
+      },
+      "edit": {
+        "title": "Edit",
+        "description": "Edit the survey"
+      },
+      "export": {
+        "title": "Export",
+        "description": "CSV, Excel, PDF"
+      },
+      "comingSoon": "This feature is coming soon"
     }
   },
   "edit": {},

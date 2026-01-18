@@ -1,6 +1,5 @@
 import { IllustrativeIcon } from '@/components/icons/illustrative-icons/illustrative-icon'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
 import {
   Empty,
   EmptyContent,
@@ -11,6 +10,7 @@ import {
 import { routes } from '@/config/routes'
 import { useSurveyOverview } from '@/features/surveys/api/surveys.queries'
 import { SurveyOverviewHeader } from '@/features/surveys/components/survey-overview/survey-overview-header.component'
+import { SurveyOverviewQuickActions } from '@/features/surveys/components/survey-overview/survey-overview-quick-actions.component'
 import { SurveyOverviewStats } from '@/features/surveys/components/survey-overview/survey-overview-stats.component'
 import { SurveyOverviewWeeklyChart } from '@/features/surveys/components/survey-overview/survey-overview-weekly-chart.component'
 import { extractApiError } from '@/lib/api-error'
@@ -94,7 +94,7 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
                   <SurveyOverviewWeeklyChart weeklyData={survey.weeklyData} />
                 </div>
                 <div className="col-span-1 min-w-0 md:col-span-1">
-                  <Card />
+                  <SurveyOverviewQuickActions survey={survey} />
                 </div>
               </div>
             </div>

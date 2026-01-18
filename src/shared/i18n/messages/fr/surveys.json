@@ -89,6 +89,26 @@
       "title": "Réponses sur la dernière semaine",
       "description": "Nombre de réponses reçues chaque jour",
       "label": "Réponses"
+    },
+    "quickActions": {
+      "title": "Actions rapides",
+      "statistics": {
+        "title": "Statistiques",
+        "description": "Analysez vos résultats"
+      },
+      "responses": {
+        "title": "Réponses",
+        "description": "Consultez les réponses"
+      },
+      "edit": {
+        "title": "Modifier",
+        "description": "Éditez le questionnaire"
+      },
+      "export": {
+        "title": "Exporter",
+        "description": "CSV, Excel, PDF"
+      },
+      "comingSoon": "Cette fonctionnalité arrive bientôt"
     }
   },
   "edit": {},
