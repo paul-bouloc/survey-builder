@@ -47,6 +47,12 @@ export const routes = {
       getHref: (surveyShortId: string) => `/s/${surveyShortId}/edit`
     },
 
+    preview: {
+      path: '/s/[surveyShortId]/preview',
+      labelKey: 'survey.preview',
+      getHref: (surveyShortId: string) => `/s/${surveyShortId}/preview`
+    },
+
     results: {
       path: '/s/[surveyShortId]/results',
       labelKey: 'survey.results.page',

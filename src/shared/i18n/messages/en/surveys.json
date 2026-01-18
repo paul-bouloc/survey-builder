@@ -70,6 +70,20 @@
     "error": {
       "title": "Loading Error",
       "description": "An error occurred while loading the survey. Please try again later."
+    },
+    "actions": {
+      "preview": "Preview",
+      "edit": "Edit",
+      "share": "Share",
+      "publish": "Publish",
+      "republish": "Republish"
+    },
+    "stats": {
+      "totalResponses": "Total responses",
+      "completionRate": "Completion rate",
+      "completedResponses": "Completed responses",
+      "completed": "completed",
+      "inProgress": "in progress"
     }
   },
   "edit": {},

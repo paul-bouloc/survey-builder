@@ -1,5 +1,6 @@
 import type {
   CreateSurveyBody,
+  SurveyOverviewResponse,
   SurveyResponse,
   SurveysListResponse
 } from '@/shared/api/contracts/surveys.contract'
@@ -16,6 +17,13 @@ export const surveysClient = {
   getSurvey: async (shortId: string) => {
     const { data } = await http.get<SurveyResponse>(`/surveys/${shortId}`)
     return surveyMapper.toDomain(data)
+  },
+
+  getSurveyOverview: async (shortId: string) => {
+    const { data } = await http.get<SurveyOverviewResponse>(
+      `/surveys/${shortId}/overview`
+    )
+    return data
   },
 
   createSurvey: async (payload: CreateSurveyBody) => {

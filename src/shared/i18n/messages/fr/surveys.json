@@ -70,6 +70,20 @@
     "error": {
       "title": "Erreur de chargement",
       "description": "Une erreur est survenue lors du chargement du questionnaire. Veuillez réessayer plus tard."
+    },
+    "actions": {
+      "preview": "Aperçu",
+      "edit": "Modifier",
+      "share": "Partager",
+      "publish": "Publier",
+      "republish": "Republier"
+    },
+    "stats": {
+      "totalResponses": "Total de réponses",
+      "completionRate": "Taux de complétion",
+      "completedResponses": "Réponses complètes",
+      "completed": "terminées",
+      "inProgress": "en cours"
     }
   },
   "edit": {},

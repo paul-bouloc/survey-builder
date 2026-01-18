@@ -22,6 +22,16 @@ export function useSurvey(shortId: string) {
   })
 }
 
+export function useSurveyOverview(shortId: string) {
+  return useQuery({
+    queryKey: surveysQueryKeys.overview(shortId),
+    queryFn: () => surveysClient.getSurveyOverview(shortId),
+    staleTime: 30 * 1000,
+    refetchOnWindowFocus: false,
+    enabled: !!shortId
+  })
+}
+
 export function useCreateSurvey() {
   const queryClient = useQueryClient()
 

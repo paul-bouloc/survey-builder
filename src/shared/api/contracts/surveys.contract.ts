@@ -57,3 +57,32 @@ export const CreateSurveyBodySchema = z.object({
 })
 
 export type CreateSurveyBody = z.infer<typeof CreateSurveyBodySchema>
+
+export const SurveyOverviewStatsSchema = z.object({
+  totalResponses: z.number(),
+  completedCount: z.number(),
+  inProgressCount: z.number(),
+  completionRate: z.number()
+})
+
+export const SurveyOverviewResponseSchema = z.object({
+  _id: z.string(),
+  shortId: z.string(),
+  title: z.string(),
+  subtitle: z.string().nullable(),
+  description: z.string().nullable(),
+  status: z.enum([
+    SurveyStatus.DRAFT,
+    SurveyStatus.PUBLISHED,
+    SurveyStatus.ARCHIVED
+  ]),
+  publishedAt: z.date().nullable(),
+  archivedAt: z.date().nullable(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  stats: SurveyOverviewStatsSchema
+})
+
+export type SurveyOverviewResponse = z.infer<
+  typeof SurveyOverviewResponseSchema
+>
