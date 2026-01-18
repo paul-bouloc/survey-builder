@@ -110,6 +110,13 @@
       },
       "comingSoon": "This feature is coming soon"
     },
+    "formLink": {
+      "title": "Form link",
+      "copy": "Copy link",
+      "open": "Open in a new window",
+      "copySuccess": "Link copied to clipboard",
+      "copyError": "Failed to copy link"
+    },
     "metadata": {
       "title": "Form Details",
       "createdAt": "Creation date",

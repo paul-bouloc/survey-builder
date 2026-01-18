@@ -110,6 +110,13 @@
       },
       "comingSoon": "Cette fonctionnalité arrive bientôt"
     },
+    "formLink": {
+      "title": "Lien du formulaire",
+      "copy": "Copier le lien",
+      "open": "Ouvrir dans une nouvelle fenêtre",
+      "copySuccess": "Lien copié dans le presse-papier",
+      "copyError": "Échec de la copie du lien"
+    },
     "metadata": {
       "title": "Détails du formulaire",
       "createdAt": "Date de création",

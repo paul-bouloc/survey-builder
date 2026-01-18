@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/empty'
 import { routes } from '@/config/routes'
 import { useSurveyOverview } from '@/features/surveys/api/surveys.queries'
+import { SurveyOverviewFormLink } from '@/features/surveys/components/survey-overview/survey-overview-form-link.component'
 import { SurveyOverviewHeader } from '@/features/surveys/components/survey-overview/survey-overview-header.component'
 import { SurveyOverviewMetadata } from '@/features/surveys/components/survey-overview/survey-overview-metadata.component'
 import { SurveyOverviewQuickActions } from '@/features/surveys/components/survey-overview/survey-overview-quick-actions.component'
@@ -16,6 +17,7 @@ import { SurveyOverviewStats } from '@/features/surveys/components/survey-overvi
 import { SurveyOverviewWeeklyChart } from '@/features/surveys/components/survey-overview/survey-overview-weekly-chart.component'
 import { extractApiError } from '@/lib/api-error'
 import { NextPageWithLayout } from '@/pages/_app'
+import { SurveyStatus } from '@/shared/types/surveys/survey.type'
 import { AxiosError } from 'axios'
 import { useTranslations } from 'next-intl'
 import Head from 'next/head'
@@ -96,6 +98,9 @@ const SurveyOverviewPage: NextPageWithLayout = () => {
                 </div>
                 <div className="col-span-1 flex min-w-0 flex-col gap-4 md:col-span-1">
                   <SurveyOverviewQuickActions survey={survey} />
+                  {survey.status === SurveyStatus.PUBLISHED && (
+                    <SurveyOverviewFormLink survey={survey} />
+                  )}
                   <SurveyOverviewMetadata survey={survey} />
                 </div>
               </div>
