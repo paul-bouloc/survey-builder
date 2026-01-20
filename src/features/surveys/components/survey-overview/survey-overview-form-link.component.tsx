@@ -10,7 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys.contract'
+import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
 import { Copy, ExternalLink } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'

@@ -1,5 +1,5 @@
 import { createEndpoint } from '@/server/api/create-endpoint'
-import { SessionResponseSchema } from '@/shared/api/contracts/auth.contract'
+import { SessionResponseSchema } from '@/shared/api/contracts/auth/auth.contract'
 
 export const getSession = createEndpoint(
   {

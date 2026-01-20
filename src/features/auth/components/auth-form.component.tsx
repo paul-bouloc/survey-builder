@@ -14,7 +14,7 @@ import { getSafeRedirectFromQuery } from '@/lib/safe-redirect'
 import {
   AuthCheckBodySchema,
   AuthRegisterBodySchema
-} from '@/shared/api/contracts/auth.contract'
+} from '@/shared/api/contracts/auth/auth.contract'
 import { translateFieldErrors } from '@/shared/i18n/zod-error'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { AnimatePresence, motion } from 'framer-motion'

@@ -3,7 +3,7 @@ import type {
   AuthRegisterBody,
   AuthResponse,
   SessionResponse
-} from '@/shared/api/contracts/auth.contract'
+} from '@/shared/api/contracts/auth/auth.contract'
 import { http } from '@/shared/api/http/axios'
 
 export const authClient = {

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys.contract'
+import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
 import { formatDate } from '@/shared/i18n/format'
 import { Calendar, Clock, FileText, Layers } from 'lucide-react'
 import { useFormatter, useTranslations } from 'next-intl'

@@ -3,7 +3,7 @@ import { Survey } from '@/server/models'
 import {
   CreateSurveyBodySchema,
   SurveySchema
-} from '@/shared/api/contracts/surveys.contract'
+} from '@/shared/api/contracts/surveys/surveys.contract'
 
 export const postSurvey = createEndpoint(
   {

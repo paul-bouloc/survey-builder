@@ -1,7 +1,7 @@
 import type {
   AuthCheckBody,
   AuthRegisterBody
-} from '@/shared/api/contracts/auth.contract'
+} from '@/shared/api/contracts/auth/auth.contract'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { authClient } from './auth.client'
 import { authQueryKeys } from './query-keys'

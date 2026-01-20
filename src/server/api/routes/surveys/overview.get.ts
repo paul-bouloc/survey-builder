@@ -1,7 +1,7 @@
 import { createEndpoint } from '@/server/api/create-endpoint'
 import { ForbiddenException, NotFoundException } from '@/server/api/errors'
 import { Survey } from '@/server/models'
-import { SurveyOverviewResponseSchema } from '@/shared/api/contracts/surveys.contract'
+import { SurveyOverviewResponseSchema } from '@/shared/api/contracts/surveys/surveys.overview.schema'
 import { z } from 'zod'
 
 const GetSurveyOverviewQuerySchema = z.object({

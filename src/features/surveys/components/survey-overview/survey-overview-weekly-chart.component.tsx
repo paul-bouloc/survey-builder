@@ -13,7 +13,7 @@ import {
   ChartTooltipContent,
   type ChartConfig
 } from '@/components/ui/chart'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys.contract'
+import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
 import { useFormatter, useTranslations } from 'next-intl'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 

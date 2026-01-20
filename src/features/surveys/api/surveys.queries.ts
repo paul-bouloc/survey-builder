@@ -1,4 +1,4 @@
-import type { CreateSurveyBody } from '@/shared/api/contracts/surveys.contract'
+import type { CreateSurveyBody } from '@/shared/api/contracts/surveys/surveys.contract'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { surveysQueryKeys } from './query-keys'
 import { surveysClient } from './surveys.client'

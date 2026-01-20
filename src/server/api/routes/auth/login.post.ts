@@ -6,7 +6,7 @@ import {
   AuthCheckBodySchema,
   AuthRegisterBodySchema,
   AuthResponseSchema
-} from '@/shared/api/contracts/auth.contract'
+} from '@/shared/api/contracts/auth/auth.contract'
 import { z } from 'zod'
 
 export const postLogin = createEndpoint(

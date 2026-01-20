@@ -4,7 +4,7 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys.contract'
+import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
 import { useTranslations } from 'next-intl'
 
 interface SurveyOverviewStatsProps {

@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { routes } from '@/config/routes'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys.contract'
+import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
 import { SurveyStatus } from '@/shared/types/surveys/survey.type'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'

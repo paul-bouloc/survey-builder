@@ -1,6 +1,6 @@
 import { createEndpoint } from '@/server/api/create-endpoint'
 import { Survey } from '@/server/models'
-import { SurveysListResponseSchema } from '@/shared/api/contracts/surveys.contract'
+import { SurveysListResponseSchema } from '@/shared/api/contracts/surveys/surveys.schema'
 
 export const getSurveys = createEndpoint(
   {

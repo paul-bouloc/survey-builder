@@ -3,8 +3,8 @@ import type {
   SurveyOverviewResponse,
   SurveyResponse,
   SurveysListResponse
-} from '@/shared/api/contracts/surveys.contract'
-import { surveyMapper } from '@/shared/api/contracts/surveys.mapper'
+} from '@/shared/api/contracts/surveys/surveys.contract'
+import { surveyMapper } from '@/shared/api/contracts/surveys/surveys.mapper'
 import { http } from '@/shared/api/http/axios'
 
 export const surveysClient = {

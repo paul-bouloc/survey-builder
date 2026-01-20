@@ -6,7 +6,7 @@ import {
 } from '@/components/ui/tooltip'
 import { routes } from '@/config/routes'
 import { cn } from '@/lib/utils'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys.contract'
+import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
 import { BarChart3, Download, Edit, FileText } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
