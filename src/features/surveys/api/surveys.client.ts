@@ -1,10 +1,10 @@
+import { surveyMapper } from '@/features/surveys/mappers/survey.mapper'
 import type {
   CreateSurveyBody,
   SurveyOverviewResponse,
   SurveyResponse,
   SurveysListResponse
 } from '@/shared/api/contracts/surveys/surveys.contract'
-import { surveyMapper } from '@/shared/api/contracts/surveys/surveys.mapper'
 import { http } from '@/shared/api/http/axios'
 
 export const surveysClient = {
