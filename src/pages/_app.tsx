@@ -80,7 +80,12 @@ export default function App(props: AppPropsWithLayout) {
       enableSystem
       disableTransitionOnChange
     >
-      <NextIntlClientProvider messages={messages} locale={locale}>
+      <NextIntlClientProvider
+        messages={messages}
+        locale={locale}
+        timeZone="Europe/Paris"
+        now={new Date()}
+      >
         <QueryClientProvider client={queryClient}>
           <div
             className={`${inter.variable} ${geistMono.variable} antialiased`}
