@@ -29,7 +29,7 @@ export function SurveyOverviewFormLink({
     const baseUrl =
       process.env.NEXT_PUBLIC_APP_URL ||
       (typeof window !== 'undefined' ? window.location.origin : '')
-    return `${baseUrl}/r/${survey.shortId}`
+    return `${baseUrl}/run/${survey.shortId}`
   }, [survey.shortId])
 
   const handleCopy = async () => {
