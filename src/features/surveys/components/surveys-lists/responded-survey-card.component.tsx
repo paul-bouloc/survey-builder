@@ -43,6 +43,7 @@ export function RespondedSurveyCard({
   const formatter = useFormatter()
 
   const handleCopyShortId = async (e: React.MouseEvent) => {
+    e.preventDefault()
     e.stopPropagation()
     try {
       await navigator.clipboard.writeText(survey.shortId)
