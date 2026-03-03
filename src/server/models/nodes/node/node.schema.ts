@@ -43,8 +43,7 @@ export const NodeSchema = new Schema(
     code: {
       type: String,
       required: false,
-      default: null,
-      index: true
+      default: null
     },
 
     condition: {
