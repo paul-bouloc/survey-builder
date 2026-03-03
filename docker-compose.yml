@@ -10,7 +10,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME:-admin}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:-admin123}
-      MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-classeo}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE:-survey-builder}
     volumes:
       - mongodb_data:/data/db
       - mongodb_config:/data/configdb

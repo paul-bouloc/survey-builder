@@ -8,7 +8,7 @@ if (!process.env.MONGODB_URI) {
 
 const uri: string = process.env.MONGODB_URI
 const databaseName =
-  process.env.MONGO_DATABASE || uri.split('/').pop()?.split('?')[0] || 'classeo'
+  process.env.MONGO_DATABASE || uri.split('/').pop()?.split('?')[0] || ''
 
 interface MongooseCache {
   conn: typeof mongoose | null

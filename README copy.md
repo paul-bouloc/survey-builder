@@ -15,10 +15,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 # MongoDB Configuration
 MONGO_ROOT_USERNAME=admin
 MONGO_ROOT_PASSWORD=admin123
-MONGO_DATABASE=classeo
+MONGO_DATABASE=survey-builder
 
 # MongoDB Connection String
-MONGODB_URI=mongodb://admin:admin123@localhost:27017/classeo?authSource=admin
+MONGODB_URI=mongodb://admin:admin123@localhost:27017/survey-builder?authSource=admin
 
 # Mongo Express (Web UI)
 MONGO_EXPRESS_USERNAME=admin
