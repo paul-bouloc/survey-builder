@@ -30,65 +30,65 @@ export const routes = {
 
   survey: {
     new: {
-      path: '/s/new',
+      path: '/survey/new',
       labelKey: 'survey.new',
-      getHref: () => '/s/new'
+      getHref: () => '/survey/new'
     },
 
     overview: {
-      path: '/s/[surveyShortId]',
+      path: '/survey/[surveyShortId]',
       labelKey: 'survey.overview',
-      getHref: (surveyShortId: string) => `/s/${surveyShortId}`
+      getHref: (surveyShortId: string) => `/survey/${surveyShortId}`
     },
 
     edit: {
-      path: '/s/[surveyShortId]/edit',
+      path: '/survey/[surveyShortId]/edit',
       labelKey: 'survey.edit',
-      getHref: (surveyShortId: string) => `/s/${surveyShortId}/edit`
+      getHref: (surveyShortId: string) => `/survey/${surveyShortId}/edit`
     },
 
     preview: {
-      path: '/s/[surveyShortId]/preview',
+      path: '/survey/[surveyShortId]/preview',
       labelKey: 'survey.preview',
-      getHref: (surveyShortId: string) => `/s/${surveyShortId}/preview`
+      getHref: (surveyShortId: string) => `/survey/${surveyShortId}/preview`
     },
 
     results: {
-      path: '/s/[surveyShortId]/results',
+      path: '/survey/[surveyShortId]/runesults',
       labelKey: 'survey.results.page',
-      getHref: (surveyShortId: string) => `/s/${surveyShortId}/results`
+      getHref: (surveyShortId: string) => `/survey/${surveyShortId}/results`
     },
 
     resultDetail: {
-      path: '/s/[surveyShortId]/results/[responseShortId]',
+      path: '/survey/[surveyShortId]/results/[responseShortId]',
       labelKey: 'survey.results.detail',
       getHref: (surveyShortId: string, responseShortId: string) =>
-        `/s/${surveyShortId}/results/${responseShortId}`
+        `/survey/${surveyShortId}/results/${responseShortId}`
     },
 
     analytics: {
-      path: '/s/[surveyShortId]/analytics',
+      path: '/survey/[surveyShortId]/analytics',
       labelKey: 'survey.analytics',
-      getHref: (surveyShortId: string) => `/s/${surveyShortId}/analytics`
+      getHref: (surveyShortId: string) => `/survey/${surveyShortId}/analytics`
     }
   },
 
   run: {
     index: {
-      path: '/r/[surveyShortId]',
+      path: '/run/[surveyShortId]',
       labelKey: 'run.page',
-      getHref: (surveyShortId: string) => `/r/${surveyShortId}`
+      getHref: (surveyShortId: string) => `/run/${surveyShortId}`
     },
     done: {
-      path: '/r/[surveyShortId]/done',
+      path: '/run/[surveyShortId]/done',
       labelKey: 'run.done',
-      getHref: (surveyShortId: string) => `/r/${surveyShortId}/done`
+      getHref: (surveyShortId: string) => `/run/${surveyShortId}/done`
     }
   },
 
   answer: {
-    path: '/a/[surveyShortId]',
+    path: '/answer/[surveyShortId]',
     labelKey: 'answer',
-    getHref: (surveyShortId: string) => `/a/${surveyShortId}`
+    getHref: (surveyShortId: string) => `/answer/${surveyShortId}`
   }
 } as const satisfies RoutesTree
