@@ -4,6 +4,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { routes } from '@/config/routes'
 import { messagesByLocale, type Locale } from '@/shared/i18n/messages'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { NextPage } from 'next'
 import type { AbstractIntlMessages } from 'next-intl'
 import { NextIntlClientProvider } from 'next-intl'
@@ -93,6 +94,12 @@ export default function App(props: AppPropsWithLayout) {
             <AppContent {...props} />
           </div>
           <Toaster position="bottom-center" />
+          {process.env.NODE_ENV === 'development' && (
+            <ReactQueryDevtools
+              initialIsOpen={false}
+              buttonPosition="bottom-right"
+            />
+          )}
         </QueryClientProvider>
       </NextIntlClientProvider>
     </ThemeProvider>
