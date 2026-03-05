@@ -33,7 +33,7 @@ export function RespondedSurveysList({
 
   if (surveysWithResponses.length === 0) {
     return (
-      <Empty className="border bg-neutral-100 dark:bg-neutral-900">
+      <Empty className="rounded-xl border bg-neutral-100 dark:bg-neutral-900">
         <EmptyHeader>
           <IllustrativeIcon name="search" />
           <EmptyTitle>{t('title')}</EmptyTitle>

@@ -22,7 +22,7 @@ export function CreatedSurveysList({ surveys }: CreatedSurveysListProps) {
 
   if (surveys.length === 0) {
     return (
-      <Empty className="border bg-neutral-100 dark:bg-neutral-900">
+      <Empty className="rounded-xl border bg-neutral-100 dark:bg-neutral-900">
         <EmptyHeader>
           <IllustrativeIcon name="pottedPlant" />
           <EmptyTitle>{t('title')}</EmptyTitle>
