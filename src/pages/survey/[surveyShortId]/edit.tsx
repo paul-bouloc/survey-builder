@@ -1,12 +1,12 @@
 import { useSession } from '@/features/auth/api/auth.mutations'
 import { useSurvey } from '@/features/surveys/common/api/surveys.queries'
-import SurveyEditCanvasComponent from '@/features/surveys/editor/components/survey-edit-canvas.component'
-import SurveyEditHeaderComponent from '@/features/surveys/editor/components/survey-edit-header.component'
-import SurveyEditInspectorComponent from '@/features/surveys/editor/components/survey-edit-inspector.component'
-import SurveyEditSidebarComponent from '@/features/surveys/editor/components/survey-edit-sidebar.component'
-import { SurveyEditorErrorView } from '@/features/surveys/editor/components/survey-editor-error.view'
-import { SurveyEditorForbiddenView } from '@/features/surveys/editor/components/survey-editor-forbidden.view'
-import { SurveyEditorLoadingView } from '@/features/surveys/editor/components/survey-editor-loading.view'
+import SurveyEditorCanvasComponent from '@/features/surveys/editor/components/survey-editor-canvas.component'
+import { SurveyEditorErrorView } from '@/features/surveys/editor/views/survey-editor-error.view'
+import { SurveyEditorForbiddenView } from '@/features/surveys/editor/views/survey-editor-forbidden.view'
+import SurveyEditorHeaderComponent from '@/features/surveys/editor/components/survey-editor-header.component'
+import SurveyEditorInspectorComponent from '@/features/surveys/editor/components/survey-editor-inspector.component'
+import { SurveyEditorLoadingView } from '@/features/surveys/editor/views/survey-editor-loading.view'
+import SurveyEditorSidebarComponent from '@/features/surveys/editor/components/survey-editor-sidebar.component'
 import { canEditSurvey } from '@/features/surveys/editor/lib/can-edit-survey'
 import {
   loadError,
@@ -135,11 +135,11 @@ const EditSurveyPage: NextPageWithLayout = () => {
         <title>{t('edit')}</title>
       </Head>
       <div className="-my-10 flex h-[calc(100vh-64px)] w-full flex-col overflow-hidden">
-        <SurveyEditHeaderComponent />
+        <SurveyEditorHeaderComponent />
         <div className="bg-muted dark:bg-background flex min-h-0 w-full flex-1">
-          <SurveyEditSidebarComponent />
-          <SurveyEditCanvasComponent />
-          <SurveyEditInspectorComponent />
+          <SurveyEditorSidebarComponent />
+          <SurveyEditorCanvasComponent />
+          <SurveyEditorInspectorComponent />
         </div>
       </div>
     </>

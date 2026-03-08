@@ -5,7 +5,7 @@ interface SurveyEditHeaderComponentProps {
   className?: string
 }
 
-export default function SurveyEditHeaderComponent({
+export default function SurveyEditorHeaderComponent({
   className
 }: SurveyEditHeaderComponentProps) {
   return (

@@ -12,7 +12,7 @@ interface SurveyEditCanvasComponentProps {
   className?: string
 }
 
-export default function SurveyEditCanvasComponent({
+export default function SurveyEditorCanvasComponent({
   className
 }: SurveyEditCanvasComponentProps) {
   return (

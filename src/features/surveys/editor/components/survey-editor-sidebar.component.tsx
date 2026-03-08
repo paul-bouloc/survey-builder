@@ -4,7 +4,7 @@ interface SurveyEditSidebarComponentProps {
   className?: string
 }
 
-export default function SurveyEditSidebarComponent({
+export default function SurveyEditorSidebarComponent({
   className
 }: SurveyEditSidebarComponentProps) {
   return (

@@ -10,7 +10,7 @@ interface SurveyEditInspectorComponentProps {
   className?: string
 }
 
-export default function SurveyEditInspectorComponent({
+export default function SurveyEditorInspectorComponent({
   className
 }: SurveyEditInspectorComponentProps) {
   return (
