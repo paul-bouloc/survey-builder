@@ -1,11 +1,8 @@
 import { useSession } from '@/features/auth/api/auth.mutations'
 import { useSurvey } from '@/features/surveys/common/api/surveys.queries'
 import SurveyEditorCanvasComponent from '@/features/surveys/editor/components/survey-editor-canvas.component'
-import { SurveyEditorErrorView } from '@/features/surveys/editor/views/survey-editor-error.view'
-import { SurveyEditorForbiddenView } from '@/features/surveys/editor/views/survey-editor-forbidden.view'
 import SurveyEditorHeaderComponent from '@/features/surveys/editor/components/survey-editor-header.component'
 import SurveyEditorInspectorComponent from '@/features/surveys/editor/components/survey-editor-inspector.component'
-import { SurveyEditorLoadingView } from '@/features/surveys/editor/views/survey-editor-loading.view'
 import SurveyEditorSidebarComponent from '@/features/surveys/editor/components/survey-editor-sidebar.component'
 import { canEditSurvey } from '@/features/surveys/editor/lib/can-edit-survey'
 import {
@@ -16,6 +13,9 @@ import {
   resetEditor,
   selectEditorPhase
 } from '@/features/surveys/editor/state'
+import { SurveyEditorErrorView } from '@/features/surveys/editor/views/survey-editor-error.view'
+import { SurveyEditorForbiddenView } from '@/features/surveys/editor/views/survey-editor-forbidden.view'
+import { SurveyEditorLoadingView } from '@/features/surveys/editor/views/survey-editor-loading.view'
 import { NextPageWithLayout } from '@/pages/_app'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { useTranslations } from 'next-intl'
@@ -100,7 +100,7 @@ const EditSurveyPage: NextPageWithLayout = () => {
         <Head>
           <title>{t('edit')}</title>
         </Head>
-        <div className="-my-10 flex h-[calc(100vh-64px)] w-full flex-col overflow-hidden">
+        <div className="-my-10 flex h-[calc(100vh-64px)] w-full max-w-[100vw] min-w-0 flex-col overflow-hidden">
           <SurveyEditorLoadingView />
         </div>
       </>
@@ -134,9 +134,9 @@ const EditSurveyPage: NextPageWithLayout = () => {
       <Head>
         <title>{t('edit')}</title>
       </Head>
-      <div className="-my-10 flex h-[calc(100vh-64px)] w-full flex-col overflow-hidden">
-        <SurveyEditorHeaderComponent />
-        <div className="bg-muted dark:bg-background flex min-h-0 w-full flex-1">
+      <div className="-my-10 flex h-[calc(100vh-64px)] w-full max-w-[100vw] min-w-0 flex-col overflow-hidden">
+        <SurveyEditorHeaderComponent className="shrink-0" />
+        <div className="bg-muted dark:bg-background flex min-h-0 w-full min-w-0 flex-1 overflow-hidden">
           <SurveyEditorSidebarComponent />
           <SurveyEditorCanvasComponent />
           <SurveyEditorInspectorComponent />

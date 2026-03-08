@@ -22,23 +22,27 @@ export default function SurveyEditorHeaderComponent({
   return (
     <div
       className={cn(
-        'bg-background relative z-20 flex w-full items-center justify-between border-t border-b py-2 pr-4 pl-2',
+        'bg-background relative z-20 flex w-full min-w-0 items-center justify-between gap-2 overflow-hidden border-t border-b py-2 pr-4 pl-2',
         className
       )}
     >
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" asChild>
+      <div className="flex min-w-0 flex-1 items-center gap-2">
+        <Button variant="ghost" size="icon" asChild className="shrink-0">
           <Link href={routes.survey.overview.getHref(survey.shortId)}>
             <ArrowLeftIcon className="size-4" />
           </Link>
         </Button>
-        <Separator orientation="vertical" />
-        <h1 className="ml-2 max-w-72 truncate font-semibold">{survey.title}</h1>
+        <Separator orientation="vertical" className="shrink-0" />
+        <h1 className="ml-2 min-w-0 truncate font-semibold">{survey.title}</h1>
       </div>
 
-      <div className="flex items-center gap-2">
-        {isDirty ? 'Changements non enregistrés' : 'Enregistré'}
-        <Button disabled>Enregistrer</Button>
+      <div className="flex min-w-0 items-center justify-end gap-2">
+        <span className="text-muted-foreground min-w-0 truncate text-sm">
+          {isDirty ? 'Changements non enregistrés' : 'Enregistré'}
+        </span>
+        <Button disabled className="shrink-0">
+          Enregistrer
+        </Button>
       </div>
     </div>
   )
