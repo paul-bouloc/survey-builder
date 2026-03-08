@@ -1,7 +1,7 @@
+import type { SurveyResponse } from '@/shared/api/contracts/surveys/surveys.contract'
 import type { NodeId, ObjectId, ShortId } from '@/shared/types/brands.type'
 import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
 import type { Survey } from '@/shared/types/surveys/survey.type'
-import type { SurveyResponse } from '../../../shared/api/contracts/surveys/surveys.contract'
 
 export const surveyMapper = {
   toDomain(survey: SurveyResponse): Survey {

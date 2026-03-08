@@ -1,4 +1,4 @@
-import { surveyMapper } from '@/features/surveys/mappers/survey.mapper'
+import { surveyMapper } from '@/features/surveys/common/mappers/survey.mapper'
 import type {
   CreateSurveyBody,
   SurveyOverviewResponse,

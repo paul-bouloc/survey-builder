@@ -1,4 +1,4 @@
-import { CreateSurveyForm } from '@/features/surveys/components/create-survey-form.component'
+import { CreateSurveyForm } from '@/features/surveys/creator/components/create-survey-form.component'
 import { NextPageWithLayout } from '@/pages/_app'
 import { useTranslations } from 'next-intl'
 import Head from 'next/head'

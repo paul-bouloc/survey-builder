@@ -1,5 +1,5 @@
-import { useSurveys } from '@/features/surveys/api/surveys.queries'
-import { SurveysTabs } from '@/features/surveys/components/surveys-lists/surveys-tabs.component'
+import { useSurveys } from '@/features/surveys/common/api/surveys.queries'
+import { SurveysTabs } from '@/features/surveys/lists/components/surveys-tabs.component'
 import { SurveyResponse } from '@/shared/types/surveys/survey-response.type'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useTranslations } from 'next-intl'
