@@ -19,8 +19,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
             background: `linear-gradient(to bottom, var(--background), transparent)`
           }}
         />
-        <ScrollArea className="h-full w-full">
-          <div className="py-10">{children}</div>
+        <ScrollArea className="h-full w-full min-w-0">
+          <div className="min-w-0 py-10">{children}</div>
         </ScrollArea>
       </main>
     </div>
