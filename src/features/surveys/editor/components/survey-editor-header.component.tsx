@@ -35,8 +35,11 @@ export default function SurveyEditorHeaderComponent({
         <Separator orientation="vertical" />
         <h1 className="ml-2 max-w-72 truncate font-semibold">{survey.title}</h1>
       </div>
-      {isDirty ? '' : ''}
-      <Button disabled>Enregistrer</Button>
+
+      <div className="flex items-center gap-2">
+        {isDirty ? 'Changements non enregistrés' : 'Enregistré'}
+        <Button disabled>Enregistrer</Button>
+      </div>
     </div>
   )
 }
