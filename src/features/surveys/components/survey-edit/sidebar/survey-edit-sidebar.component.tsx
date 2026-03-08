@@ -1,0 +1,20 @@
+import { cn } from '@/lib/utils'
+
+interface SurveyEditSidebarComponentProps {
+  className?: string
+}
+
+export default function SurveyEditSidebarComponent({
+  className
+}: SurveyEditSidebarComponentProps) {
+  return (
+    <div
+      className={cn(
+        'bg-background relative hidden w-full flex-1 border-r md:max-w-72 lg:flex',
+        className
+      )}
+    >
+      Sidebar
+    </div>
+  )
+}
