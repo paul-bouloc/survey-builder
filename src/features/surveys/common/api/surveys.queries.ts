@@ -13,22 +13,26 @@ export function useSurveys() {
 }
 
 export function useSurvey(shortId: string) {
+  const enabled = Boolean(shortId)
+
   return useQuery({
     queryKey: surveysQueryKeys.detail(shortId),
     queryFn: () => surveysClient.getSurvey(shortId),
     staleTime: 30 * 1000,
     refetchOnWindowFocus: false,
-    enabled: !!shortId
+    enabled
   })
 }
 
 export function useSurveyOverview(shortId: string) {
+  const enabled = Boolean(shortId)
+
   return useQuery({
     queryKey: surveysQueryKeys.overview(shortId),
     queryFn: () => surveysClient.getSurveyOverview(shortId),
     staleTime: 30 * 1000,
     refetchOnWindowFocus: false,
-    enabled: !!shortId
+    enabled
   })
 }
 
