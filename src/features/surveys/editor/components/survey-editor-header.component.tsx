@@ -33,7 +33,9 @@ export default function SurveyEditorHeaderComponent({
           </Link>
         </Button>
         <Separator orientation="vertical" className="shrink-0" />
-        <h1 className="ml-2 min-w-0 truncate font-semibold">{survey.title}</h1>
+        <h1 className="ml-2 hidden min-w-0 truncate font-semibold md:block">
+          {survey.title}
+        </h1>
       </div>
 
       <div className="flex min-w-0 items-center justify-end gap-2">
