@@ -1,7 +1,9 @@
+import Badge from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { routes } from '@/config/routes'
 import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
 import { SurveyStatus } from '@/shared/types/surveys/survey.type'
+import { ArchiveIcon, CheckCircleIcon, WrenchIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
@@ -79,6 +81,12 @@ export function SurveyOverviewHeader({ survey }: SurveyOverviewHeaderProps) {
     })
   }
 
+  const statusBadgeIcon: Record<SurveyStatus, React.ReactNode> = {
+    [SurveyStatus.DRAFT]: <WrenchIcon className="text-muted-foreground" />,
+    [SurveyStatus.PUBLISHED]: <CheckCircleIcon className="text-yellow-500" />,
+    [SurveyStatus.ARCHIVED]: <ArchiveIcon className="text-muted-foreground" />
+  }
+
   return (
     <div className="flex flex-col-reverse gap-4 md:flex-row md:items-start md:justify-between">
       <div className="min-w-0 flex-1 space-y-2">
@@ -100,9 +108,10 @@ export function SurveyOverviewHeader({ survey }: SurveyOverviewHeaderProps) {
       </div>
 
       <div className="flex flex-wrap items-center justify-end gap-2 md:ml-4 md:shrink-0">
-        <Button variant="ghost" size="sm" disabled>
+        <Badge variant="ghost">
+          {statusBadgeIcon[survey.status]}
           {tStatus(survey.status)}
-        </Button>
+        </Badge>
 
         {actions.map(action => {
           if (action.href) {
