@@ -1,6 +1,6 @@
 import type { Survey } from '@/shared/types/surveys/survey.type'
-import { createSlice } from '@reduxjs/toolkit'
-import type { SurveyEditorState } from './survey-editor.types'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import type { SurveyEditorState, SurveyMetaPatch } from './survey-editor.types'
 
 const getInitialState = (): SurveyEditorState => ({
   data: {
@@ -10,7 +10,8 @@ const getInitialState = (): SurveyEditorState => ({
     selectedNodeId: null
   },
   status: {
-    phase: 'idle'
+    phase: 'idle',
+    isDirty: false
   }
 })
 
@@ -25,6 +26,7 @@ const surveyEditorSlice = createSlice({
     loadSuccess(state, action: { payload: Survey }) {
       state.data.survey = action.payload
       state.status.phase = 'success'
+      state.status.isDirty = false
     },
     loadForbidden(state) {
       state.status.phase = 'forbidden'
@@ -36,6 +38,20 @@ const surveyEditorSlice = createSlice({
     },
     resetEditor() {
       return getInitialState()
+    },
+    updateSurveyMeta(state, action: PayloadAction<SurveyMetaPatch>) {
+      if (!state.data.survey) return
+      const patch = action.payload
+      if (patch.title !== undefined) {
+        state.data.survey.title = patch.title
+      }
+      if (patch.subtitle !== undefined) {
+        state.data.survey.subtitle = patch.subtitle
+      }
+      if (patch.description !== undefined) {
+        state.data.survey.description = patch.description
+      }
+      state.status.isDirty = true
     },
     setSelection(
       state,
@@ -58,5 +74,6 @@ export const {
   loadForbidden,
   loadError,
   resetEditor,
+  updateSurveyMeta,
   setSelection
 } = surveyEditorSlice.actions

@@ -130,6 +130,12 @@
   },
   "edit": {
     "loading": "Chargement du questionnaire…",
+    "meta": {
+      "noTitle": "Aucun titre",
+      "noSubtitle": "Aucun sous-titre",
+      "noDescription": "Aucune description",
+      "titleRequired": "Le titre est obligatoire"
+    },
     "error": {
       "title": "Erreur de chargement",
       "description": "Une erreur est survenue lors du chargement du questionnaire. Veuillez réessayer plus tard."

@@ -22,3 +22,16 @@ export const selectIsEditable = (state: RootState) =>
 
 export const selectSelectedNodeId = (state: RootState) =>
   selectSurveyEditorUi(state).selectedNodeId
+
+export const selectSurveyMeta = (state: RootState) => {
+  const survey = selectSurvey(state)
+  if (!survey) return null
+  return {
+    title: survey.title,
+    subtitle: survey.subtitle ?? '',
+    description: survey.description ?? ''
+  }
+}
+
+export const selectIsDirty = (state: RootState) =>
+  selectSurveyEditorStatus(state).isDirty

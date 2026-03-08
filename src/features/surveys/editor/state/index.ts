@@ -1,8 +1,10 @@
 export {
   selectEditorPhase,
+  selectIsDirty,
   selectIsEditable,
   selectSelectedNodeId,
   selectSurvey,
+  selectSurveyMeta,
   selectSurveyEditorData,
   selectSurveyEditorStatus,
   selectSurveyEditorUi
@@ -14,6 +16,7 @@ export {
   loadSuccess,
   resetEditor,
   setSelection,
+  updateSurveyMeta,
   surveyEditorReducer
 } from './survey-editor.slice'
 export type {
@@ -21,6 +24,7 @@ export type {
   SurveyEditorData,
   SurveyEditorState,
   SurveyEditorStatus,
-  SurveyEditorUi
+  SurveyEditorUi,
+  SurveyMetaPatch
 } from './survey-editor.types'
 //

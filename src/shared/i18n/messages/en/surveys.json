@@ -130,6 +130,12 @@
   },
   "edit": {
     "loading": "Loading survey…",
+    "meta": {
+      "noTitle": "No title",
+      "noSubtitle": "No subtitle",
+      "noDescription": "No description",
+      "titleRequired": "Title is required"
+    },
     "error": {
       "title": "Loading error",
       "description": "An error occurred while loading the survey. Please try again later."
