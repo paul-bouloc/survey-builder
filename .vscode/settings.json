@@ -6,10 +6,10 @@
 	"editor.formatOnSave": false,
 
 	// 2) Exécute : fixes ESLint + organise les imports TypeScript.
+	// Ne pas ajouter source.fixAll : il relance d’autres fixeurs après et provoque des conflits (suppressions de code).
 	"editor.codeActionsOnSave": {
 		"source.fixAll.eslint": "explicit",
 		"source.organizeImports": "explicit",
-		"source.fixAll": "explicit",
 	},
 
 	/* ------------------------------------------------------------------ */
