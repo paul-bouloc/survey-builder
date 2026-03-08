@@ -69,7 +69,7 @@ export function SurveyOverviewQuickActions({
             const content = (
               <div
                 className={cn(
-                  'group bg-card relative flex flex-col gap-2 rounded-lg border p-4 transition-all',
+                  'group bg-card relative flex flex-col gap-2 rounded-[7px] border p-4 transition-all',
                   !action.disabled && 'hover:bg-muted/50 cursor-pointer',
                   action.disabled &&
                     'cursor-not-allowed opacity-40 before:pointer-events-none before:absolute before:inset-0 before:rounded-lg before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(0_0_0/0.01)_8px,rgb(0_0_0/0.01)_16px)] dark:before:bg-[repeating-linear-gradient(45deg,transparent,transparent_8px,rgb(255_255_255/0.01)_8px,rgb(255_255_255/0.01)_16px)]'
