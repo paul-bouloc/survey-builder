@@ -2,6 +2,7 @@ import { SessionGuard } from '@/components/auth/session-guard.component'
 import MainLayout from '@/components/layouts/root-layout/root.layout'
 import { ThemeProvider } from '@/components/theme-provider'
 import { routes } from '@/config/routes'
+import { store } from '@/store'
 import { messagesByLocale, type Locale } from '@/shared/i18n/messages'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -13,6 +14,7 @@ import { Geist_Mono, Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
 import type { ReactElement, ReactNode } from 'react'
 import { useState } from 'react'
+import { Provider } from 'react-redux'
 import { Toaster } from 'sonner'
 import '../styles/globals.css'
 
@@ -88,11 +90,13 @@ export default function App(props: AppPropsWithLayout) {
         now={new Date()}
       >
         <QueryClientProvider client={queryClient}>
-          <div
-            className={`${inter.variable} ${geistMono.variable} antialiased`}
-          >
-            <AppContent {...props} />
-          </div>
+          <Provider store={store}>
+            <div
+              className={`${inter.variable} ${geistMono.variable} antialiased`}
+            >
+              <AppContent {...props} />
+            </div>
+          </Provider>
           <Toaster position="bottom-center" />
           {process.env.NODE_ENV === 'development' && (
             <ReactQueryDevtools
