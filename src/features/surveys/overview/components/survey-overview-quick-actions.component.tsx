@@ -7,6 +7,7 @@ import {
 import { routes } from '@/config/routes'
 import { cn } from '@/lib/utils'
 import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
+import { SurveyStatus } from '@/shared/types/surveys/survey.type'
 import { BarChart3, Download, Edit, FileText } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
@@ -21,6 +22,7 @@ interface QuickAction {
   href?: string
   onClick?: () => void
   disabled?: boolean
+  tooltipContent?: string
 }
 
 export function SurveyOverviewQuickActions({
@@ -42,7 +44,9 @@ export function SurveyOverviewQuickActions({
     {
       key: 'edit',
       icon: Edit,
-      href: routes.survey.edit.getHref(survey.shortId)
+      href: routes.survey.edit.getHref(survey.shortId),
+      disabled: survey.status !== SurveyStatus.DRAFT,
+      tooltipContent: tQuickActions('edit.disabledTooltip')
     },
     {
       key: 'export',
@@ -51,7 +55,8 @@ export function SurveyOverviewQuickActions({
         // TODO: Implémenter l'export
         console.log('Export')
       },
-      disabled: true
+      disabled: true,
+      tooltipContent: tQuickActions('comingSoon')
     }
   ]
 
@@ -96,13 +101,13 @@ export function SurveyOverviewQuickActions({
               </div>
             )
 
-            if (action.disabled) {
+            if (action.disabled && action.tooltipContent) {
               return (
                 <Tooltip key={action.key}>
                   <TooltipTrigger asChild>
                     <div>{content}</div>
                   </TooltipTrigger>
-                  <TooltipContent>{tQuickActions('comingSoon')}</TooltipContent>
+                  <TooltipContent>{action.tooltipContent}</TooltipContent>
                 </Tooltip>
               )
             }

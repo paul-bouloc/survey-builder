@@ -102,7 +102,8 @@
       },
       "edit": {
         "title": "Edit",
-        "description": "Edit the survey"
+        "description": "Edit the survey",
+        "disabledTooltip": "You cannot edit a published or archived survey"
       },
       "export": {
         "title": "Export",
