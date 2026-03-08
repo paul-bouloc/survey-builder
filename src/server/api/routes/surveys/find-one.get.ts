@@ -2,16 +2,17 @@ import { createEndpoint } from '@/server/api/create-endpoint'
 import { NotFoundException } from '@/server/api/errors'
 import { Survey } from '@/server/models'
 import { SurveySchema } from '@/shared/api/contracts/surveys/surveys.schema'
+import { shortIdPolicy } from '@/shared/validation/policies/short-id.policy'
 import { z } from 'zod'
 
-const GetSurveyQuerySchema = z.object({
-  shortId: z.string().length(6, 'ShortId must be exactly 6 characters')
+const FindOneSurveyQuerySchema = z.object({
+  shortId: shortIdPolicy
 })
 
 export const findOneSurvey = createEndpoint(
   {
     requireAuth: true,
-    query: GetSurveyQuerySchema,
+    query: FindOneSurveyQuerySchema,
     response: SurveySchema
   },
   async ({ query }) => {

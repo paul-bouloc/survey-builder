@@ -24,11 +24,7 @@ export const SurveySchema = z.object({
   title: z.string(),
   subtitle: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
-  status: z.enum([
-    SurveyStatus.DRAFT,
-    SurveyStatus.PUBLISHED,
-    SurveyStatus.ARCHIVED
-  ]),
+  status: z.enum(SurveyStatus),
   pages: z.array(PageNodeSchema),
   createdAt: z.date(),
   updatedAt: z.date(),
