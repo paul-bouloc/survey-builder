@@ -5,7 +5,7 @@ import {
   SurveySchema
 } from '@/shared/api/contracts/surveys/surveys.contract'
 
-export const postSurvey = createEndpoint(
+export const createSurvey = createEndpoint(
   {
     requireAuth: true,
     body: CreateSurveyBodySchema,

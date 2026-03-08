@@ -1,8 +1,8 @@
 import { createRoute } from '@/server/api/create-route'
-import { getSurveys } from '@/server/api/routes/surveys/get'
-import { postSurvey } from '@/server/api/routes/surveys/post'
+import { createSurvey } from '@/server/api/routes/surveys/create.post'
+import { findAllSurveys } from '@/server/api/routes/surveys/find-all.get'
 
 export default createRoute({
-  GET: getSurveys,
-  POST: postSurvey
+  GET: findAllSurveys,
+  POST: createSurvey
 })

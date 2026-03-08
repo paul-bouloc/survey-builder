@@ -8,7 +8,7 @@ const GetSurveyOverviewQuerySchema = z.object({
   shortId: z.string().length(6, 'ShortId must be exactly 6 characters')
 })
 
-export const getSurveyOverview = createEndpoint(
+export const findOneSurveyOverview = createEndpoint(
   {
     requireAuth: true,
     query: GetSurveyOverviewQuerySchema,

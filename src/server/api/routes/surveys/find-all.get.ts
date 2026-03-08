@@ -1,29 +1,18 @@
 import { createEndpoint } from '@/server/api/create-endpoint'
-import { NotFoundException } from '@/server/api/errors'
 import { Survey } from '@/server/models'
-import { SurveySchema } from '@/shared/api/contracts/surveys/surveys.schema'
-import { z } from 'zod'
+import { SurveysListResponseSchema } from '@/shared/api/contracts/surveys/surveys.schema'
 
-const GetSurveyQuerySchema = z.object({
-  shortId: z.string().length(6, 'ShortId must be exactly 6 characters')
-})
-
-export const getSurvey = createEndpoint(
+export const findAllSurveys = createEndpoint(
   {
     requireAuth: true,
-    query: GetSurveyQuerySchema,
-    response: SurveySchema
+    response: SurveysListResponseSchema
   },
-  async ({ query }) => {
-    const survey = await Survey.findOne({
-      shortId: query.shortId
-    }).lean()
+  async ({ user }) => {
+    const surveys = await Survey.find({ createdBy: user._id })
+      .sort({ updatedAt: -1 })
+      .lean()
 
-    if (!survey) {
-      throw new NotFoundException('Survey not found')
-    }
-
-    return {
+    const surveysResponse = surveys.map(survey => ({
       _id: survey._id.toString(),
       shortId: survey.shortId,
       createdBy: survey.createdBy.toString(),
@@ -37,6 +26,10 @@ export const getSurvey = createEndpoint(
       publishedAt: survey.publishedAt ?? null,
       archivedAt: survey.archivedAt ?? null,
       responseCount: survey.responseCount
+    }))
+
+    return {
+      surveys: surveysResponse
     }
   }
 )

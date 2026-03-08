@@ -1,6 +1,6 @@
 import { createRoute } from '@/server/api/create-route'
-import { getSurveyOverview } from '@/server/api/routes/surveys/overview.get'
+import { findOneSurveyOverview } from '@/server/api/routes/surveys/find-one-overview.get'
 
 export default createRoute({
-  GET: getSurveyOverview
+  GET: findOneSurveyOverview
 })
