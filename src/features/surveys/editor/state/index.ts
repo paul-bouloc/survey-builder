@@ -1,5 +1,6 @@
 export {
-  selectIsEditorInitialized,
+  selectEditorPhase,
+  selectIsEditable,
   selectSelectedNodeId,
   selectSurvey,
   selectSurveyEditorData,
@@ -7,12 +8,16 @@ export {
   selectSurveyEditorUi
 } from './survey-editor.selectors'
 export {
-  initEditor,
+  loadError,
+  loadForbidden,
+  loadStart,
+  loadSuccess,
   resetEditor,
   setSelection,
   surveyEditorReducer
 } from './survey-editor.slice'
 export type {
+  EditorPhase,
   SurveyEditorData,
   SurveyEditorState,
   SurveyEditorStatus,

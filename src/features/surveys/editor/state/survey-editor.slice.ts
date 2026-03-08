@@ -1,3 +1,4 @@
+import type { Survey } from '@/shared/types/surveys/survey.type'
 import { createSlice } from '@reduxjs/toolkit'
 import type { SurveyEditorState } from './survey-editor.types'
 
@@ -9,7 +10,7 @@ const getInitialState = (): SurveyEditorState => ({
     selectedNodeId: null
   },
   status: {
-    isInitialized: false
+    phase: 'idle'
   }
 })
 
@@ -17,8 +18,21 @@ const surveyEditorSlice = createSlice({
   name: 'surveyEditor',
   initialState: getInitialState(),
   reducers: {
-    initEditor(state) {
-      state.status.isInitialized = true
+    loadStart(state) {
+      state.status.phase = 'loading'
+      state.data.survey = null
+    },
+    loadSuccess(state, action: { payload: Survey }) {
+      state.data.survey = action.payload
+      state.status.phase = 'success'
+    },
+    loadForbidden(state) {
+      state.status.phase = 'forbidden'
+      state.data.survey = null
+    },
+    loadError(state) {
+      state.status.phase = 'error'
+      state.data.survey = null
     },
     resetEditor() {
       return getInitialState()
@@ -38,5 +52,11 @@ const surveyEditorSlice = createSlice({
 })
 
 export const surveyEditorReducer = surveyEditorSlice.reducer
-export const { initEditor, resetEditor, setSelection } =
-  surveyEditorSlice.actions
+export const {
+  loadStart,
+  loadSuccess,
+  loadForbidden,
+  loadError,
+  resetEditor,
+  setSelection
+} = surveyEditorSlice.actions

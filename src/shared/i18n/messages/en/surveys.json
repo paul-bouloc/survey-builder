@@ -128,7 +128,17 @@
       "pages": "Pages"
     }
   },
-  "edit": {},
+  "edit": {
+    "loading": "Loading survey…",
+    "error": {
+      "title": "Loading error",
+      "description": "An error occurred while loading the survey. Please try again later."
+    },
+    "forbidden": {
+      "title": "Editing not allowed",
+      "description": "This survey cannot be edited. Only the creator can edit a draft survey."
+    }
+  },
   "questions": {},
   "analytics": {},
   "run": {}

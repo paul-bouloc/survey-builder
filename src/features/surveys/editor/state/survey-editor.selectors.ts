@@ -14,8 +14,11 @@ export const selectSurveyEditorStatus = (state: RootState) =>
 export const selectSurvey = (state: RootState) =>
   selectSurveyEditorData(state).survey
 
+export const selectEditorPhase = (state: RootState) =>
+  selectSurveyEditorStatus(state).phase
+
+export const selectIsEditable = (state: RootState) =>
+  selectEditorPhase(state) === 'success'
+
 export const selectSelectedNodeId = (state: RootState) =>
   selectSurveyEditorUi(state).selectedNodeId
-
-export const selectIsEditorInitialized = (state: RootState) =>
-  selectSurveyEditorStatus(state).isInitialized

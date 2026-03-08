@@ -128,7 +128,17 @@
       "pages": "Pages"
     }
   },
-  "edit": {},
+  "edit": {
+    "loading": "Chargement du questionnaire…",
+    "error": {
+      "title": "Erreur de chargement",
+      "description": "Une erreur est survenue lors du chargement du questionnaire. Veuillez réessayer plus tard."
+    },
+    "forbidden": {
+      "title": "Modification non autorisée",
+      "description": "Ce questionnaire ne peut pas être modifié. Seul le créateur peut éditer un questionnaire en brouillon."
+    }
+  },
   "questions": {},
   "analytics": {},
   "run": {}
