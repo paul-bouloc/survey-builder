@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
 import {
   addPage,
   selectEditorPages,
@@ -39,16 +40,20 @@ export default function SurveyEditorCanvasComponent({
             {pages.map((page, index) => (
               <SurveyEditorPageBlock key={page.id} page={page} index={index} />
             ))}
-            <Button
-              type="button"
-              variant="outline"
-              size="lg"
-              className="dark:hover:bg-muted/20! w-full! border-dashed bg-transparent! shadow-none! hover:bg-neutral-200/30!"
-              onClick={() => dispatch(addPage())}
-            >
-              <Plus />
-              {t('addPage')}
-            </Button>
+
+            <div className="mt-2 flex w-full items-center gap-3">
+              <Separator className="flex-1" />
+              <Button
+                type="button"
+                variant="outline"
+                className="dark:hover:bg-muted/20! h-8.5 w-64! rounded-full border-dashed bg-transparent! shadow-none! hover:bg-neutral-200/30!"
+                onClick={() => dispatch(addPage())}
+              >
+                <Plus />
+                {t('addPage')}
+              </Button>
+              <Separator className="flex-1" />
+            </div>
           </div>
         </div>
       </div>

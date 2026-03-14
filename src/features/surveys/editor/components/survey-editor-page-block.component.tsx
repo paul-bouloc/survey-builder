@@ -64,7 +64,7 @@ export function SurveyEditorPageBlock({
         <Separator className="flex-1" />
         <div
           className={cn(
-            'border-border bg-card flex max-w-[80%] min-w-48 shrink-0 items-center gap-2 rounded-full border py-1 pr-1 pl-4 shadow-sm lg:max-w-[50%]',
+            'border-border bg-card flex w-64 shrink-0 items-center gap-2 rounded-full border py-1 pr-1 pl-4 shadow-sm lg:max-w-[50%]',
             isPageSelected &&
               'border-primary/60 ring-primary/20 dark:ring-primary/20 ring-4'
           )}
