@@ -42,7 +42,7 @@ export function SurveyEditorMetaBlock({
       className={cn('flex flex-col gap-1 py-4', className)}
       data-block="survey-meta"
     >
-      {/* Title — highlighted in red when empty */}
+      {/* Title */}
       <div
         className={cn(
           'rounded transition-all',
