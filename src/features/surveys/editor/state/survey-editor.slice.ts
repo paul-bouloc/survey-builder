@@ -1,9 +1,11 @@
 import type { NodeId } from '@/shared/types/brands.type'
 import type { Survey } from '@/shared/types/surveys/survey.type'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import { surveyMetaConfig } from '../config/survey-meta.config'
-import { surveyNodeConfig } from '../config/survey-node.config'
 import { createPageNode, createQuestionNode } from './survey-editor.factories'
+import {
+  sanitizeSurveyMetaPatch,
+  sanitizeSurveyNodePatch
+} from './survey-editor.sanitizers'
 import type {
   SurveyEditorState,
   SurveyMetaPatch,
@@ -53,25 +55,12 @@ const surveyEditorSlice = createSlice({
     },
     updateSurveyMeta(state, action: PayloadAction<SurveyMetaPatch>) {
       if (!state.data.survey) return
-      const patch = action.payload
-      if (patch.title !== undefined) {
-        state.data.survey.title = patch.title.slice(
-          0,
-          surveyMetaConfig.title.maxLength
-        )
-      }
-      if (patch.subtitle !== undefined) {
-        state.data.survey.subtitle = patch.subtitle.slice(
-          0,
-          surveyMetaConfig.subtitle.maxLength
-        )
-      }
-      if (patch.description !== undefined) {
-        state.data.survey.description = patch.description.slice(
-          0,
-          surveyMetaConfig.description.maxLength
-        )
-      }
+      const patch = sanitizeSurveyMetaPatch(action.payload)
+      if (patch.title !== undefined) state.data.survey.title = patch.title
+      if (patch.subtitle !== undefined)
+        state.data.survey.subtitle = patch.subtitle
+      if (patch.description !== undefined)
+        state.data.survey.description = patch.description
       state.status.isDirty = true
     },
     setSelection(state, action: PayloadAction<NodeId | null>) {
@@ -137,24 +126,11 @@ const surveyEditorSlice = createSlice({
       if (!page) return
       const node = page.children.find(n => n.id === nodeId)
       if (!node) return
-      if (patch.title !== undefined) {
-        node.title =
-          patch.title === null
-            ? null
-            : patch.title.slice(0, surveyNodeConfig.title.maxLength)
-      }
-      if (patch.subtitle !== undefined) {
-        node.subtitle =
-          patch.subtitle === null
-            ? null
-            : patch.subtitle.slice(0, surveyNodeConfig.subtitle.maxLength)
-      }
-      if (patch.description !== undefined) {
-        node.description =
-          patch.description === null
-            ? null
-            : patch.description.slice(0, surveyNodeConfig.description.maxLength)
-      }
+      const sanitized = sanitizeSurveyNodePatch(patch)
+      if (sanitized.title !== undefined) node.title = sanitized.title
+      if (sanitized.subtitle !== undefined) node.subtitle = sanitized.subtitle
+      if (sanitized.description !== undefined)
+        node.description = sanitized.description
       state.status.isDirty = true
     },
 
