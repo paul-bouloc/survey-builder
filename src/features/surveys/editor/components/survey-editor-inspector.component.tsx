@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/drawer'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { surveyNodeConfig } from '@/features/surveys/editor/config/survey-node.config'
 import {
   selectPageContainingSelectedNode,
@@ -105,7 +104,6 @@ export default function SurveyEditorInspectorComponent({
             <Input
               id="inspector-page-title"
               value={selectedPage.title ?? ''}
-              placeholder={tPages('noTitle')}
               maxLength={surveyNodeConfig.title.maxLength}
               spellCheck={false}
               onChange={handlePagePatch('title')}
@@ -120,7 +118,6 @@ export default function SurveyEditorInspectorComponent({
             <Input
               id="inspector-page-subtitle"
               value={selectedPage.subtitle ?? ''}
-              placeholder={tPages('noSubtitle')}
               maxLength={surveyNodeConfig.subtitle.maxLength}
               spellCheck={false}
               onChange={handlePagePatch('subtitle')}
@@ -134,7 +131,6 @@ export default function SurveyEditorInspectorComponent({
             <Input
               id="inspector-page-description"
               value={selectedPage.description ?? ''}
-              placeholder={tPages('noDescription')}
               maxLength={surveyNodeConfig.description.maxLength}
               spellCheck={false}
               onChange={handlePagePatch('description')}
@@ -173,7 +169,6 @@ export default function SurveyEditorInspectorComponent({
             <Input
               id="inspector-node-title"
               value={selectedNode.title ?? ''}
-              placeholder={tForm('title.placeholder')}
               maxLength={surveyNodeConfig.title.maxLength}
               spellCheck={false}
               onChange={handleNodePatch('title')}
@@ -228,7 +223,7 @@ export default function SurveyEditorInspectorComponent({
           <DrawerHeader className="border-b">
             <h2 className="text-lg font-semibold">{t('inspector.title')}</h2>
           </DrawerHeader>
-          <ScrollArea className="min-h-0 flex-1">{content}</ScrollArea>
+          {content}
           <DrawerFooter className="border-t">
             <DrawerClose asChild>
               <Button variant="outline" className="w-full!">
@@ -248,7 +243,7 @@ export default function SurveyEditorInspectorComponent({
         className
       )}
     >
-      <ScrollArea className="min-h-0 flex-1">{content}</ScrollArea>
+      {content}
     </div>
   )
 }
