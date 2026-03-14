@@ -172,6 +172,11 @@
         "scale": "Scale"
       }
     },
+    "inspector": {
+      "title": "Properties",
+      "noSelection": "Select an item to edit its properties.",
+      "close": "Close"
+    },
     "error": {
       "title": "Loading error",
       "description": "An error occurred while loading the survey. Please try again later."

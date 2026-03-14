@@ -1,4 +1,6 @@
 import type { NodeId } from '@/shared/types/brands.type'
+import type { Node } from '@/shared/types/surveys/nodes/node.type'
+import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
 import type { RootState } from '@/store'
 
 const selectSurveyEditorState = (state: RootState) => state.surveyEditor
@@ -46,3 +48,29 @@ export const selectEditorPageById = (pageId: NodeId) => (state: RootState) => {
 
 export const selectIsDirty = (state: RootState) =>
   selectSurveyEditorStatus(state).isDirty
+
+/** Page actuellement sélectionnée (quand on a cliqué sur une page), ou null. */
+export const selectSelectedPage = (state: RootState): PageNode | null => {
+  const pages = selectEditorPages(state)
+  const selectedNodeId = selectSelectedNodeId(state)
+  if (!selectedNodeId) return null
+  return pages.find(p => p.id === selectedNodeId) ?? null
+}
+
+/** Page qui contient le node actuellement sélectionné, ou null. */
+export const selectPageContainingSelectedNode = (
+  state: RootState
+): PageNode | null => {
+  const pages = selectEditorPages(state)
+  const selectedNodeId = selectSelectedNodeId(state)
+  if (!selectedNodeId) return null
+  return pages.find(p => p.children.some(c => c.id === selectedNodeId)) ?? null
+}
+
+/** Node actuellement sélectionné, ou null. */
+export const selectSelectedNode = (state: RootState): Node | null => {
+  const page = selectPageContainingSelectedNode(state)
+  const selectedNodeId = selectSelectedNodeId(state)
+  if (!page || !selectedNodeId) return null
+  return page.children.find(n => n.id === selectedNodeId) ?? null
+}

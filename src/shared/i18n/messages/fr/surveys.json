@@ -172,6 +172,11 @@
         "scale": "Échelle"
       }
     },
+    "inspector": {
+      "title": "Propriétés",
+      "noSelection": "Sélectionnez un élément pour modifier ses propriétés.",
+      "close": "Fermer"
+    },
     "error": {
       "title": "Erreur de chargement",
       "description": "Une erreur est survenue lors du chargement du questionnaire. Veuillez réessayer plus tard."
