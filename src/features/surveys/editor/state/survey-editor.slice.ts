@@ -4,10 +4,11 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type {
   SurveyEditorState,
   SurveyMetaPatch,
+  SurveyNodePatch,
   SurveyPagePatch
 } from './survey-editor.types'
-import { createPageNode } from './survey-editor.factories'
-import { reindexPages } from './survey-editor.utils'
+import { createPageNode, createQuestionNode } from './survey-editor.factories'
+import { reindexPages, reindexNodes } from './survey-editor.utils'
 
 const getInitialState = (): SurveyEditorState => ({
   data: {
@@ -98,6 +99,55 @@ const surveyEditorSlice = createSlice({
       state.data.survey.pages.splice(idx, 1)
       reindexPages(state.data.survey.pages)
       state.status.isDirty = true
+    },
+
+    addNode(state, action: PayloadAction<{ pageId: NodeId }>) {
+      if (!state.data.survey) return
+      const { pageId } = action.payload
+      const page = state.data.survey.pages.find(p => p.id === pageId)
+      if (!page) return
+      const order = page.children.length
+      page.children.push(createQuestionNode(order))
+      reindexNodes(page.children)
+      state.status.isDirty = true
+    },
+
+    updateNode(
+      state,
+      action: PayloadAction<{
+        pageId: NodeId
+        nodeId: NodeId
+        patch: SurveyNodePatch
+      }>
+    ) {
+      if (!state.data.survey) return
+      const { pageId, nodeId, patch } = action.payload
+      const page = state.data.survey.pages.find(p => p.id === pageId)
+      if (!page) return
+      const node = page.children.find(n => n.id === nodeId)
+      if (!node) return
+      if (patch.title !== undefined) node.title = patch.title
+      if (patch.subtitle !== undefined) node.subtitle = patch.subtitle
+      if (patch.description !== undefined) node.description = patch.description
+      state.status.isDirty = true
+    },
+
+    removeNode(
+      state,
+      action: PayloadAction<{ pageId: NodeId; nodeId: NodeId }>
+    ) {
+      if (!state.data.survey) return
+      const { pageId, nodeId } = action.payload
+      const page = state.data.survey.pages.find(p => p.id === pageId)
+      if (!page) return
+      const idx = page.children.findIndex(n => n.id === nodeId)
+      if (idx === -1) return
+      page.children.splice(idx, 1)
+      reindexNodes(page.children)
+      if (state.ui.selectedNodeId === nodeId) {
+        state.ui.selectedNodeId = null
+      }
+      state.status.isDirty = true
     }
   }
 })
@@ -113,5 +163,8 @@ export const {
   setSelection,
   addPage,
   updatePage,
-  removePage
+  removePage,
+  addNode,
+  updateNode,
+  removeNode
 } = surveyEditorSlice.actions

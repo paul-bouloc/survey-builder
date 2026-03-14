@@ -22,6 +22,9 @@ export {
   addPage,
   updatePage,
   removePage,
+  addNode,
+  updateNode,
+  removeNode,
   surveyEditorReducer
 } from './survey-editor.slice'
 export type {
@@ -31,6 +34,7 @@ export type {
   SurveyEditorStatus,
   SurveyEditorUi,
   SurveyMetaPatch,
+  SurveyNodePatch,
   SurveyPagePatch
 } from './survey-editor.types'
 //
