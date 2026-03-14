@@ -118,7 +118,7 @@ function Button({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15, ease: 'easeInOut' }}
-              className="inline-block"
+              className="inline-flex items-center justify-center gap-1.5"
             >
               {children}
             </motion.span>
