@@ -1,29 +1,13 @@
 import type { NodeId } from '@/shared/types/brands.type'
 import type { Survey } from '@/shared/types/surveys/survey.type'
-import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
-import { NodeKind } from '@/shared/types/surveys/nodes/node.type'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type {
   SurveyEditorState,
   SurveyMetaPatch,
   SurveyPagePatch
 } from './survey-editor.types'
-
-function createNewPageNode(order: number): PageNode {
-  return {
-    id: crypto.randomUUID() as NodeId,
-    kind: NodeKind.PAGE,
-    order,
-    title: null,
-    subtitle: null,
-    description: null,
-    code: null,
-    condition: null,
-    triggers: [],
-    children: [],
-    page: { skippable: false }
-  }
-}
+import { createPageNode } from './survey-editor.factories'
+import { reindexPages } from './survey-editor.utils'
 
 const getInitialState = (): SurveyEditorState => ({
   data: {
@@ -85,7 +69,7 @@ const surveyEditorSlice = createSlice({
     addPage(state) {
       if (!state.data.survey) return
       const order = state.data.survey.pages.length
-      state.data.survey.pages.push(createNewPageNode(order))
+      state.data.survey.pages.push(createPageNode(order))
       state.status.isDirty = true
     },
 
@@ -112,9 +96,7 @@ const surveyEditorSlice = createSlice({
       const idx = state.data.survey.pages.findIndex(p => p.id === pageId)
       if (idx === -1) return
       state.data.survey.pages.splice(idx, 1)
-      for (let i = idx; i < state.data.survey.pages.length; i++) {
-        state.data.survey.pages[i].order = i
-      }
+      reindexPages(state.data.survey.pages)
       state.status.isDirty = true
     }
   }
