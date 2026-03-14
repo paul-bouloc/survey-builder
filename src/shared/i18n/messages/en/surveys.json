@@ -144,8 +144,9 @@
       "noSubtitle": "No subtitle",
       "noDescription": "No description",
       "skippable": "Optional page (can be skipped)",
-      "nodesPlaceholder": "Page content (questions, blocks…) — coming next",
-      "addPage": "Add page"
+      "addPage": "Add page",
+      "addNode": "Add question",
+      "deleteNode": "Delete question"
     },
     "error": {
       "title": "Loading error",

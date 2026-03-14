@@ -144,8 +144,9 @@
       "noSubtitle": "Sans sous-titre",
       "noDescription": "Sans description",
       "skippable": "Page optionnelle (peut être ignorée)",
-      "nodesPlaceholder": "Contenu de la page (questions, blocs…) — à venir",
-      "addPage": "Ajouter une page"
+      "addPage": "Ajouter une page",
+      "addNode": "Ajouter une question",
+      "deleteNode": "Supprimer la question"
     },
     "error": {
       "title": "Erreur de chargement",
