@@ -145,9 +145,15 @@
       "noDescription": "Sans description",
       "skippable": "Page optionnelle (peut être ignorée)",
       "addPage": "Ajouter une page",
-      "addNode": "Ajouter une question",
-      "deleteNode": "Supprimer la question"
+      "addNode": "Ajouter un bloc"
     },
+    "common": {
+      "actions": "Actions",
+      "settings": "Paramètres",
+      "duplicate": "Dupliquer",
+      "delete": "Supprimer"
+    },
+    "nodes": {},
     "error": {
       "title": "Erreur de chargement",
       "description": "Une erreur est survenue lors du chargement du questionnaire. Veuillez réessayer plus tard."

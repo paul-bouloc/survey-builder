@@ -145,9 +145,15 @@
       "noDescription": "No description",
       "skippable": "Optional page (can be skipped)",
       "addPage": "Add page",
-      "addNode": "Add question",
-      "deleteNode": "Delete question"
+      "addNode": "Add block"
     },
+    "common": {
+      "actions": "Actions",
+      "settings": "Settings",
+      "duplicate": "Duplicate",
+      "delete": "Delete"
+    },
+    "nodes": {},
     "error": {
       "title": "Loading error",
       "description": "An error occurred while loading the survey. Please try again later."
