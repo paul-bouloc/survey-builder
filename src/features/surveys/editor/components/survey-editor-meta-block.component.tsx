@@ -12,7 +12,6 @@ import { useCallback, type ChangeEvent } from 'react'
 const invisibleInputClass =
   'w-full min-w-0 border-0 bg-transparent p-0 shadow-none outline-none focus:ring-0 focus-visible:ring-0 resize-none overflow-hidden placeholder:text-muted-foreground placeholder:opacity-50 transition-colors rounded'
 
-/** Shared hover/focus-ring style applied to each field wrapper */
 const fieldWrapperClass =
   'dark:hover:bg-muted/50 dark:ring-muted/50 rounded ring-0 ring-neutral-200/50 transition-all hover:bg-neutral-200/50 hover:ring-6'
 
