@@ -1,3 +1,4 @@
+import type { NodeId } from '@/shared/types/brands.type'
 import type { RootState } from '@/store'
 
 const selectSurveyEditorState = (state: RootState) => state.surveyEditor
@@ -28,9 +29,19 @@ export const selectSurveyMeta = (state: RootState) => {
   if (!survey) return null
   return {
     title: survey.title,
-    subtitle: survey.subtitle ?? '',
-    description: survey.description ?? ''
+    subtitle: survey.subtitle,
+    description: survey.description
   }
+}
+
+export const selectEditorPages = (state: RootState) => {
+  const survey = selectSurvey(state)
+  return survey?.pages ?? []
+}
+
+export const selectEditorPageById = (pageId: NodeId) => (state: RootState) => {
+  const survey = selectSurvey(state)
+  return survey?.pages.find(p => p.id === pageId) ?? null
 }
 
 export const selectIsDirty = (state: RootState) =>

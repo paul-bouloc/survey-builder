@@ -1,11 +1,18 @@
 import type { NodeId } from '@/shared/types/brands.type'
 import type { Survey } from '@/shared/types/surveys/survey.type'
+import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
 
 export type EditorPhase = 'idle' | 'loading' | 'success' | 'forbidden' | 'error'
 
 export type SurveyMetaPatch = Partial<
   Pick<Survey, 'title' | 'subtitle' | 'description'>
 >
+
+export type SurveyPagePatch = Partial<
+  Pick<PageNode, 'title' | 'subtitle' | 'description'>
+> & {
+  page?: Partial<Pick<PageNode['page'], 'skippable'>>
+}
 
 export interface SurveyEditorData {
   survey: Survey | null
