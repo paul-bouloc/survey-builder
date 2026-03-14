@@ -136,13 +136,23 @@
       "noDescription": "No description",
       "titleRequired": "Title is required"
     },
+    "pages": {
+      "pageNumber": "Page {number}",
+      "deletePage": "Delete page",
+      "noTitle": "No title",
+      "noSubtitle": "No subtitle",
+      "noDescription": "No description",
+      "skippable": "Optional page (can be skipped)",
+      "nodesPlaceholder": "Page content (questions, blocks…) — coming next",
+      "addPage": "Add page"
+    },
     "error": {
       "title": "Loading error",
       "description": "An error occurred while loading the survey. Please try again later."
     },
     "forbidden": {
       "title": "Editing not allowed",
-      "description": "This survey cannot be edited. Only the creator can edit a draft survey."
+      "description": "This survey cannot be edited. Only the creator can edit a survey, and only if it is a draft."
     }
   },
   "questions": {},

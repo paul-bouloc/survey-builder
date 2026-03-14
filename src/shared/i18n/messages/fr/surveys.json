@@ -136,13 +136,23 @@
       "noDescription": "Aucune description",
       "titleRequired": "Le titre est obligatoire"
     },
+    "pages": {
+      "pageNumber": "Page {number}",
+      "deletePage": "Supprimer la page",
+      "noTitle": "Sans titre",
+      "noSubtitle": "Sans sous-titre",
+      "noDescription": "Sans description",
+      "skippable": "Page optionnelle (peut être ignorée)",
+      "nodesPlaceholder": "Contenu de la page (questions, blocs…) — à venir",
+      "addPage": "Ajouter une page"
+    },
     "error": {
       "title": "Erreur de chargement",
       "description": "Une erreur est survenue lors du chargement du questionnaire. Veuillez réessayer plus tard."
     },
     "forbidden": {
       "title": "Modification non autorisée",
-      "description": "Ce questionnaire ne peut pas être modifié. Seul le créateur peut éditer un questionnaire en brouillon."
+      "description": "Ce questionnaire ne peut pas être modifié. Seul le créateur peut éditer un questionnaire, et uniquement si il est en brouillon."
     }
   },
   "questions": {},
