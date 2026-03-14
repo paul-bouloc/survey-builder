@@ -1,10 +1,5 @@
-import { Button } from '@/components/ui/button'
-import { ButtonGroup } from '@/components/ui/button-group'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from '@/components/ui/tooltip'
+import { SurveyEditorNodeBlockActions } from '@/features/surveys/editor/components/nodes/survey-editor-node-block-actions.component'
+import { SurveyEditorNodeKindBadge } from '@/features/surveys/editor/components/nodes/survey-editor-node-kind-badge.component'
 import {
   removeNode,
   setSelection,
@@ -14,7 +9,6 @@ import { cn } from '@/lib/utils'
 import type { NodeId } from '@/shared/types/brands.type'
 import type { Node } from '@/shared/types/surveys/nodes/node.type'
 import { useAppDispatch } from '@/store/hooks'
-import { Copy, Settings, Trash2, Type } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useCallback, type ChangeEvent } from 'react'
 
@@ -33,7 +27,6 @@ export function SurveyEditorNodeBlock({
 }: SurveyEditorNodeBlockProps) {
   const dispatch = useAppDispatch()
   const t = useTranslations('surveys.edit.pages')
-  const tCommon = useTranslations('surveys.edit.common')
 
   const handleSelect = useCallback(
     () => dispatch(setSelection(node.id)),
@@ -86,14 +79,7 @@ export function SurveyEditorNodeBlock({
       }}
     >
       {/* Node type and title */}
-      <div className="flex w-full items-center gap-2">
-        <div className="bg-primary/15 flex size-5 items-center justify-center rounded-sm">
-          <Type className="text-primary size-3" />
-        </div>
-        <span className="text-muted-foreground text-sm font-medium">
-          Question
-        </span>
-      </div>
+      <SurveyEditorNodeKindBadge node={node} />
 
       {/* Node content */}
       <div className="flex w-full items-center gap-2">
@@ -113,57 +99,11 @@ export function SurveyEditorNodeBlock({
         />
       </div>
 
-      {/* Actions */}
-      <div className="bg-card absolute right-3 rounded-lg transition-all group-hover/node:right-3 group-hover/node:opacity-100 md:-top-3 md:right-0 md:opacity-0">
-        <ButtonGroup aria-label={tCommon('actions')}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon-xs"
-                aria-label={tCommon('settings')}
-                onClick={handleSelect}
-                disabled={isSelected}
-              >
-                <Settings />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{tCommon('settings')}</p>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon-xs"
-                aria-label={tCommon('duplicate')}
-              >
-                <Copy />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{tCommon('duplicate')}</p>
-            </TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon-xs"
-                onClick={handleRemove}
-                aria-label={tCommon('delete')}
-                className="hover:text-destructive"
-              >
-                <Trash2 />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>{tCommon('delete')}</p>
-            </TooltipContent>
-          </Tooltip>
-        </ButtonGroup>
-      </div>
+      <SurveyEditorNodeBlockActions
+        isSelected={isSelected}
+        onSettingsClick={handleSelect}
+        onDeleteClick={handleRemove}
+      />
     </div>
   )
 }

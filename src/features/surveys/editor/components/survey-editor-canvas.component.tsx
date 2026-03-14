@@ -10,8 +10,8 @@ import { cn } from '@/lib/utils'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { Plus } from 'lucide-react'
 import { useTranslations } from 'next-intl'
+import { SurveyEditorPageBlock } from './nodes/survey-editor-page-block.component'
 import { SurveyEditorMetaBlock } from './survey-editor-meta-block.component'
-import { SurveyEditorPageBlock } from './survey-editor-page-block.component'
 
 interface SurveyEditorCanvasComponentProps {
   className?: string
@@ -46,7 +46,7 @@ export default function SurveyEditorCanvasComponent({
               <Button
                 type="button"
                 variant="outline"
-                className="dark:hover:bg-muted/20! h-8.5 w-64! rounded-full border-dashed bg-transparent! shadow-none! hover:bg-neutral-200/30!"
+                className="dark:hover:bg-muted/20! border-border h-[33.45px] w-64! rounded-full bg-transparent! shadow-none! hover:bg-neutral-200/30!"
                 onClick={() => dispatch(addPage())}
               >
                 <Plus />
