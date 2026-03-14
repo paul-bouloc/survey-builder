@@ -1,5 +1,6 @@
 import { SurveyEditorNodeBlockActions } from '@/features/surveys/editor/components/nodes/survey-editor-node-block-actions.component'
 import { SurveyEditorNodeKindBadge } from '@/features/surveys/editor/components/nodes/survey-editor-node-kind-badge.component'
+import { surveyNodeConfig } from '@/features/surveys/editor/config/survey-node.config'
 import {
   removeNode,
   setSelection,
@@ -88,6 +89,7 @@ export function SurveyEditorNodeBlock({
           value={node.title ?? ''}
           placeholder={t('noTitle')}
           aria-label={t('noTitle')}
+          maxLength={surveyNodeConfig.title.maxLength}
           spellCheck={false}
           className={cn(
             'placeholder:text-muted-foreground min-w-0 flex-1 truncate rounded border-0 bg-transparent p-0 text-sm font-medium shadow-none transition-colors outline-none placeholder:opacity-50 focus:ring-0 focus-visible:ring-0'

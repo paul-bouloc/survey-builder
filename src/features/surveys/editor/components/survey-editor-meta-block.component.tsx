@@ -1,3 +1,4 @@
+import { surveyMetaConfig } from '@/features/surveys/editor/config/survey-meta.config'
 import {
   selectSurveyMeta,
   updateSurveyMeta
@@ -56,6 +57,7 @@ export function SurveyEditorMetaBlock({
           placeholder={tEdit('meta.noTitle')}
           aria-label={tForm('inputs.title.label')}
           minHeightPx={32}
+          maxLength={surveyMetaConfig.title.maxLength}
           spellCheck={false}
           onChange={handleMetaChange('title')}
           className="text-2xl font-semibold"
@@ -93,6 +95,7 @@ export function SurveyEditorMetaBlock({
           placeholder={tEdit('meta.noSubtitle')}
           aria-label={tForm('inputs.subtitle.label')}
           minHeightPx={24}
+          maxLength={surveyMetaConfig.subtitle.maxLength}
           spellCheck={false}
           onChange={handleMetaChange('subtitle')}
           className="text-muted-foreground text-base font-medium"
@@ -106,6 +109,7 @@ export function SurveyEditorMetaBlock({
           placeholder={tEdit('meta.noDescription')}
           aria-label={tForm('inputs.description.label')}
           minHeightPx={40}
+          maxLength={surveyMetaConfig.description.maxLength}
           spellCheck={false}
           onChange={handleMetaChange('description')}
           className="text-muted-foreground text-sm leading-relaxed font-normal"
@@ -123,6 +127,7 @@ interface InvisibleTextFieldProps {
   'aria-label': string
   className?: string
   minHeightPx?: number
+  maxLength?: number
   spellCheck?: boolean
   onChange: (value: string) => void
 }
@@ -133,6 +138,7 @@ function InvisibleTextField({
   'aria-label': ariaLabel,
   className,
   minHeightPx = 24,
+  maxLength,
   spellCheck = true,
   onChange
 }: InvisibleTextFieldProps) {
@@ -150,6 +156,7 @@ function InvisibleTextField({
       placeholder={placeholder}
       aria-label={ariaLabel}
       rows={1}
+      maxLength={maxLength}
       spellCheck={spellCheck}
       style={{ height: minHeightPx }}
       className={cn(invisibleInputClass, className)}
