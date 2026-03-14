@@ -153,7 +153,25 @@
       "duplicate": "Dupliquer",
       "delete": "Supprimer"
     },
-    "nodes": {},
+    "nodes": {
+      "kind": {
+        "page": "Page",
+        "group": "Groupe",
+        "question": "Question",
+        "info": "Bloc d'information",
+        "divider": "Séparateur"
+      },
+      "questionType": {
+        "text": "Texte court",
+        "textarea": "Texte long",
+        "number": "Nombre",
+        "date": "Date",
+        "radio": "Choix unique",
+        "checkboxes": "Choix multiples",
+        "select": "Liste déroulante",
+        "scale": "Échelle"
+      }
+    },
     "error": {
       "title": "Erreur de chargement",
       "description": "Une erreur est survenue lors du chargement du questionnaire. Veuillez réessayer plus tard."

@@ -153,7 +153,25 @@
       "duplicate": "Duplicate",
       "delete": "Delete"
     },
-    "nodes": {},
+    "nodes": {
+      "kind": {
+        "page": "Page",
+        "group": "Group",
+        "question": "Question",
+        "info": "Info block",
+        "divider": "Divider"
+      },
+      "questionType": {
+        "text": "Short text",
+        "textarea": "Long text",
+        "number": "Number",
+        "date": "Date",
+        "radio": "Single choice",
+        "checkboxes": "Multiple choice",
+        "select": "Dropdown",
+        "scale": "Scale"
+      }
+    },
     "error": {
       "title": "Loading error",
       "description": "An error occurred while loading the survey. Please try again later."
