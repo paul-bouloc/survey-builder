@@ -1,6 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { addPage, selectEditorPages } from '@/features/surveys/editor/state'
+import {
+  addPage,
+  selectEditorPages,
+  setSelection
+} from '@/features/surveys/editor/state'
 import { cn } from '@/lib/utils'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { Plus } from 'lucide-react'
@@ -23,23 +27,29 @@ export default function SurveyEditorCanvasComponent({
     <ScrollArea
       className={cn('relative flex min-h-0 w-full flex-1 flex-col', className)}
     >
-      <div className="mx-auto flex flex-col gap-4 px-4 py-4 md:max-w-[600px]">
-        <SurveyEditorMetaBlock />
+      <div
+        className="min-h-[calc(100vh-128px)] w-full flex-1"
+        role="presentation"
+        onClick={() => dispatch(setSelection(null))}
+      >
+        <div className="mx-auto flex flex-col gap-4 px-4 py-4 md:max-w-[600px]">
+          <SurveyEditorMetaBlock />
 
-        <div className="flex flex-col gap-4" data-canvas="pages">
-          {pages.map((page, index) => (
-            <SurveyEditorPageBlock key={page.id} page={page} index={index} />
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            size="lg"
-            className="dark:hover:bg-muted/20! w-full! border-dashed bg-transparent! shadow-none! hover:bg-neutral-200/30!"
-            onClick={() => dispatch(addPage())}
-          >
-            <Plus />
-            {t('addPage')}
-          </Button>
+          <div className="flex flex-col gap-4 pb-8" data-canvas="pages">
+            {pages.map((page, index) => (
+              <SurveyEditorPageBlock key={page.id} page={page} index={index} />
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="lg"
+              className="dark:hover:bg-muted/20! w-full! border-dashed bg-transparent! shadow-none! hover:bg-neutral-200/30!"
+              onClick={() => dispatch(addPage())}
+            >
+              <Plus />
+              {t('addPage')}
+            </Button>
+          </div>
         </div>
       </div>
     </ScrollArea>

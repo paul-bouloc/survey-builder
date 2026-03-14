@@ -5,13 +5,19 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
-import { setSelection, updatePage } from '@/features/surveys/editor/state'
+import {
+  addNode,
+  selectSelectedNodeId,
+  setSelection,
+  updatePage
+} from '@/features/surveys/editor/state'
 import { cn } from '@/lib/utils'
 import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
-import { useAppDispatch } from '@/store/hooks'
-import { Settings } from 'lucide-react'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { Plus, Settings } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useCallback, type ChangeEvent } from 'react'
+import { ChangeEvent, useCallback } from 'react'
+import { SurveyEditorNodeBlock } from './survey-editor-node-block.component'
 
 const pageTitleInputClass =
   'min-w-0 flex-1 border-0 bg-transparent p-0 shadow-none outline-none focus:ring-0 focus-visible:ring-0 placeholder:text-muted-foreground placeholder:opacity-50 transition-colors rounded text-sm font-medium'
@@ -28,6 +34,7 @@ export function SurveyEditorPageBlock({
   className
 }: SurveyEditorPageBlockProps) {
   const dispatch = useAppDispatch()
+  const selectedNodeId = useAppSelector(selectSelectedNodeId)
   const t = useTranslations('surveys.edit.pages')
   const tForm = useTranslations('form')
 
@@ -37,34 +44,48 @@ export function SurveyEditorPageBlock({
     [dispatch, page.id]
   )
 
-  const handleOpenSettings = useCallback(
+  const handleSelectPage = useCallback(
     () => dispatch(setSelection(page.id)),
     [dispatch, page.id]
   )
 
   const displayIndex = index + 1
+  const isPageSelected = selectedNodeId === page.id
 
   return (
     <div
       className={cn('flex flex-col gap-0', className)}
       data-block="page"
       data-page-id={page.id}
+      onClick={e => e.stopPropagation()}
     >
       {/* Séparateur avec encart central : Page X, titre, paramètres */}
       <div className="flex w-full items-center gap-3 py-2">
         <Separator className="flex-1" />
-        <div className="border-border bg-card flex max-w-[80%] min-w-48 shrink-0 items-center gap-2 rounded-full border py-1 pr-1 pl-4 shadow-sm lg:max-w-[50%]">
+        <div
+          className={cn(
+            'border-border bg-card flex max-w-[80%] min-w-48 shrink-0 items-center gap-2 rounded-full border py-1 pr-1 pl-4 shadow-sm lg:max-w-[50%]',
+            isPageSelected &&
+              'border-primary/60 ring-primary/20 dark:ring-primary/20 ring-4'
+          )}
+        >
           <span
             className="text-muted-foreground shrink-0 text-xs font-medium"
             aria-hidden
           >
             {t('pageNumber', { number: displayIndex })}
           </span>
-          <PageTitleInput
+
+          <input
+            type="text"
             value={page.title ?? ''}
             placeholder={t('noTitle')}
             aria-label={tForm('inputs.title.label')}
-            onChange={handleTitleChange}
+            spellCheck={false}
+            className={cn(pageTitleInputClass)}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              handleTitleChange(e.target.value)
+            }
           />
           <Tooltip>
             <TooltipTrigger asChild>
@@ -74,7 +95,8 @@ export function SurveyEditorPageBlock({
                 size="icon-xs"
                 className="text-muted-foreground hover:text-foreground shrink-0 rounded-full"
                 aria-label={t('pageSettings')}
-                onClick={handleOpenSettings}
+                onClick={handleSelectPage}
+                disabled={isPageSelected}
               >
                 <Settings className="size-4" />
               </Button>
@@ -88,43 +110,26 @@ export function SurveyEditorPageBlock({
       </div>
 
       {/* Zone des nodes (questions, blocs…) */}
-      <div
-        className="border-border bg-muted/20 min-h-[60px] rounded-md border border-dashed p-3"
-        data-page-nodes-root={page.id}
-      >
-        <p className="text-muted-foreground text-xs">{t('nodesPlaceholder')}</p>
+      <div className="flex flex-col gap-4 py-3" data-page-nodes-root={page.id}>
+        {page.children.map(node => (
+          <SurveyEditorNodeBlock
+            key={node.id}
+            pageId={page.id}
+            node={node}
+            isSelected={selectedNodeId === node.id}
+          />
+        ))}
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          className="w-full! bg-neutral-200/40! hover:bg-neutral-200/60! dark:bg-neutral-800/50! dark:hover:bg-neutral-800/70!"
+          onClick={() => dispatch(addNode({ pageId: page.id }))}
+        >
+          <Plus className="size-4 shrink-0" />
+          {t('addNode')}
+        </Button>
       </div>
     </div>
-  )
-}
-
-interface PageTitleInputProps {
-  value: string
-  placeholder: string
-  'aria-label': string
-  onChange: (value: string) => void
-}
-
-function PageTitleInput({
-  value,
-  placeholder,
-  'aria-label': ariaLabel,
-  onChange
-}: PageTitleInputProps) {
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => onChange(e.target.value),
-    [onChange]
-  )
-
-  return (
-    <input
-      type="text"
-      value={value}
-      placeholder={placeholder}
-      aria-label={ariaLabel}
-      spellCheck={false}
-      className={cn(pageTitleInputClass)}
-      onChange={handleChange}
-    />
   )
 }
