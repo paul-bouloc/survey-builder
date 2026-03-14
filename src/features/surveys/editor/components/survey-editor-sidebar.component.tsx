@@ -10,7 +10,7 @@ export default function SurveyEditorSidebarComponent({
   return (
     <div
       className={cn(
-        'bg-background relative hidden w-full flex-1 border-r md:max-w-72 lg:flex',
+        'bg-background relative hidden w-full flex-1 border-r md:max-w-72 xl:flex',
         className
       )}
     >

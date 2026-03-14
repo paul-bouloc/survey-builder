@@ -89,7 +89,7 @@ export function SurveyEditorMetaBlock({
       {/* Subtitle */}
       <div className={cn(fieldWrapperClass, 'pt-1')}>
         <InvisibleTextField
-          value={meta.subtitle}
+          value={meta.subtitle ?? ''}
           placeholder={tEdit('meta.noSubtitle')}
           aria-label={tForm('inputs.subtitle.label')}
           minHeightPx={24}
@@ -102,7 +102,7 @@ export function SurveyEditorMetaBlock({
       {/* Description */}
       <div className={cn(fieldWrapperClass, 'pt-1')}>
         <InvisibleTextField
-          value={meta.description}
+          value={meta.description ?? ''}
           placeholder={tEdit('meta.noDescription')}
           aria-label={tForm('inputs.description.label')}
           minHeightPx={40}
