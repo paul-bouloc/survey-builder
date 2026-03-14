@@ -138,6 +138,7 @@
     },
     "pages": {
       "pageNumber": "Page {number}",
+      "pageSettings": "Paramètres de la page",
       "deletePage": "Supprimer la page",
       "noTitle": "Sans titre",
       "noSubtitle": "Sans sous-titre",
