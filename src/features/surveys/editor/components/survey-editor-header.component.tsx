@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { routes } from '@/config/routes'
-import { selectIsDirty, selectSurvey } from '@/features/surveys/editor/state'
+import { selectDraft, selectIsDirty } from '@/features/surveys/editor/state'
 import { cn } from '@/lib/utils'
 import { useAppSelector } from '@/store/hooks'
 import { ArrowLeftIcon } from 'lucide-react'
@@ -14,7 +14,7 @@ interface SurveyEditHeaderComponentProps {
 export default function SurveyEditorHeaderComponent({
   className
 }: SurveyEditHeaderComponentProps) {
-  const survey = useAppSelector(selectSurvey)
+  const survey = useAppSelector(selectDraft)
   const isDirty = useAppSelector(selectIsDirty)
 
   if (!survey) return null

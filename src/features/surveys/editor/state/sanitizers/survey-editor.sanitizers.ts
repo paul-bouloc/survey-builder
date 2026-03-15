@@ -1,6 +1,9 @@
-import { surveyMetaConfig } from '../config/survey-meta.config'
-import { surveyNodeConfig } from '../config/survey-node.config'
-import type { SurveyMetaPatch, SurveyNodePatch } from './survey-editor.types'
+import { surveyMetaConfig } from '../../config/survey-meta.config'
+import { surveyNodeConfig } from '../../config/survey-node.config'
+import type {
+  SurveyMetaPatch,
+  SurveyNodePatch
+} from '../model/survey-editor.types'
 
 /**
  * Sanitize un patch meta du survey (titre, sous-titre, description).

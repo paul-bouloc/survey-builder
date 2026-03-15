@@ -7,12 +7,12 @@ export {
   selectSelectedNodeId,
   selectSelectedItem,
   selectSelectedItemPage,
-  selectSurvey,
+  selectDraft,
   selectSurveyMeta,
   selectSurveyEditorData,
   selectSurveyEditorStatus,
   selectSurveyEditorUi
-} from './survey-editor.selectors'
+} from './selectors'
 export {
   loadError,
   loadForbidden,
@@ -26,9 +26,10 @@ export {
   updateNode,
   removeNode,
   surveyEditorReducer
-} from './survey-editor.slice'
+} from './store'
 export type {
   EditorPhase,
+  SurveyDraft,
   SurveyEditorData,
   SurveyEditorState,
   SurveyEditorStatus,
@@ -37,4 +38,4 @@ export type {
   SurveyMetaPatch,
   SurveyNodePatch,
   SurveyPagePatch
-} from './survey-editor.types'
+} from './model'

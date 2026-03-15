@@ -1,29 +1,21 @@
 import type { NodeId } from '@/shared/types/brands.type'
-import type { Survey } from '@/shared/types/surveys/survey.type'
 import { NodeKind } from '@/shared/types/surveys/nodes/node.type'
 import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
+import type { Survey } from '@/shared/types/surveys/survey.type'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import { createPageNode, createQuestionNode } from './survey-editor.factories'
-import {
-  sanitizeSurveyMetaPatch,
-  sanitizeSurveyNodePatch
-} from './survey-editor.sanitizers'
+import { createPageNode, createQuestionNode } from '../factories'
+import { surveyToDraft } from '../mappers'
 import type {
   SurveyEditorState,
-  SurveyMetaPatch,
-  SurveyItemPatch
-} from './survey-editor.types'
-import {
-  findNodeInSurvey,
-  findNodeParentInTree,
-  getPageContainingNode,
-  reindexNodes,
-  reindexPages
-} from './survey-editor.utils'
+  SurveyItemPatch,
+  SurveyMetaPatch
+} from '../model/survey-editor.types'
+import { sanitizeSurveyMetaPatch, sanitizeSurveyNodePatch } from '../sanitizers'
+import { findNodeInSurvey, reindexNodes, removeNodeFromPages } from '../tree'
 
 const getInitialState = (): SurveyEditorState => ({
   data: {
-    survey: null
+    draft: null
   },
   ui: {
     selectedNodeId: null
@@ -40,35 +32,35 @@ const surveyEditorSlice = createSlice({
   reducers: {
     loadStart(state) {
       state.status.phase = 'loading'
-      state.data.survey = null
+      state.data.draft = null
       state.ui.selectedNodeId = null
       state.status.isDirty = false
     },
     loadSuccess(state, action: { payload: Survey }) {
-      state.data.survey = action.payload
+      state.data.draft = surveyToDraft(action.payload)
       state.status.phase = 'success'
       state.status.isDirty = false
     },
     loadForbidden(state) {
       state.status.phase = 'forbidden'
-      state.data.survey = null
+      state.data.draft = null
     },
     loadError(state) {
       state.status.phase = 'error'
-      state.data.survey = null
+      state.data.draft = null
     },
     resetEditor() {
       return getInitialState()
     },
 
     updateSurveyMeta(state, action: PayloadAction<SurveyMetaPatch>) {
-      if (!state.data.survey) return
+      if (!state.data.draft) return
       const patch = sanitizeSurveyMetaPatch(action.payload)
-      if (patch.title !== undefined) state.data.survey.title = patch.title
+      if (patch.title !== undefined) state.data.draft.title = patch.title
       if (patch.subtitle !== undefined)
-        state.data.survey.subtitle = patch.subtitle
+        state.data.draft.subtitle = patch.subtitle
       if (patch.description !== undefined)
-        state.data.survey.description = patch.description
+        state.data.draft.description = patch.description
       state.status.isDirty = true
     },
 
@@ -77,16 +69,16 @@ const surveyEditorSlice = createSlice({
     },
 
     addPage(state) {
-      if (!state.data.survey) return
-      const order = state.data.survey.pages.length
-      state.data.survey.pages.push(createPageNode(order))
+      if (!state.data.draft) return
+      const order = state.data.draft.pages.length
+      state.data.draft.pages.push(createPageNode(order))
       state.status.isDirty = true
     },
 
     addNode(state, action: PayloadAction<{ pageId: NodeId }>) {
-      if (!state.data.survey) return
+      if (!state.data.draft) return
       const { pageId } = action.payload
-      const page = state.data.survey.pages.find(p => p.id === pageId)
+      const page = state.data.draft.pages.find(p => p.id === pageId)
       if (!page) return
       const order = page.children.length
       page.children.push(createQuestionNode(order))
@@ -98,9 +90,9 @@ const surveyEditorSlice = createSlice({
       state,
       action: PayloadAction<{ nodeId: NodeId; patch: SurveyItemPatch }>
     ) {
-      if (!state.data.survey) return
+      if (!state.data.draft) return
       const { nodeId, patch } = action.payload
-      const { pages } = state.data.survey
+      const { pages } = state.data.draft
       const node = findNodeInSurvey(pages, nodeId)
       if (!node) return
       const sanitized = sanitizeSurveyNodePatch(patch)
@@ -115,26 +107,13 @@ const surveyEditorSlice = createSlice({
     },
 
     removeNode(state, action: PayloadAction<NodeId>) {
-      if (!state.data.survey) return
+      if (!state.data.draft) return
       const nodeId = action.payload
-      const { pages } = state.data.survey
-      const pageIndex = pages.findIndex(p => p.id === nodeId)
-      if (pageIndex !== -1) {
-        pages.splice(pageIndex, 1)
-        reindexPages(pages)
-      } else {
-        const page = getPageContainingNode(pages, nodeId)
-        if (!page) return
-        const found = findNodeParentInTree(page.children, nodeId)
-        if (!found) return
-        const { parent, index } = found
-        parent.splice(index, 1)
-        reindexNodes(parent)
-      }
-      if (state.ui.selectedNodeId === nodeId) {
+      const removed = removeNodeFromPages(state.data.draft.pages, nodeId)
+      if (removed && state.ui.selectedNodeId === nodeId) {
         state.ui.selectedNodeId = null
       }
-      state.status.isDirty = true
+      if (removed) state.status.isDirty = true
     }
   }
 })

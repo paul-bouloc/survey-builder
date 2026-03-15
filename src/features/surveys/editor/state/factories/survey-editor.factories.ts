@@ -20,7 +20,7 @@ export function createPageNode(order: number): PageNode {
   }
 }
 
-/** Crée un node question simple (type texte) pour l’éditeur. */
+/** Crée un node question simple (type texte) pour l'éditeur. */
 export function createQuestionNode(order: number): QuestionNode {
   return {
     id: crypto.randomUUID() as NodeId,
