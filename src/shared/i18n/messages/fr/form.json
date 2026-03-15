@@ -19,6 +19,9 @@
     "description": {
       "label": "Description",
       "placeholder": "Description du questionnaire"
+    },
+    "placeholder": {
+      "label": "Texte indicatif"
     }
   }
 }

@@ -9,12 +9,10 @@ import {
   DrawerHeader,
   DrawerTitle
 } from '@/components/ui/drawer'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { surveyNodeConfig } from '@/features/surveys/editor/config/survey-node.config'
+import type { SurveyItemPatch } from '@/features/surveys/editor/state'
 import {
   selectSelectedItem,
   setSelection,
@@ -22,12 +20,13 @@ import {
 } from '@/features/surveys/editor/state'
 import { useIsMobile } from '@/hooks'
 import { cn } from '@/lib/utils'
-import { NodeKind } from '@/shared/types/surveys/nodes/node.type'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { GitBranch, Settings } from 'lucide-react'
 import { useTranslations } from 'next-intl'
-import { useCallback, type ChangeEvent } from 'react'
+import { useCallback } from 'react'
 import { SurveyEditorNodeKindBadge } from '../nodes/survey-editor-node-kind-badge.component'
+import { NodeLogicPanel } from './node-logic-panel.component'
+import { NodeSettingsRouter } from './node-settings-router.component'
 
 interface SurveyEditInspectorComponentProps {
   className?: string
@@ -39,36 +38,12 @@ export default function SurveyEditorInspectorComponent({
   const selectedNode = useAppSelector(selectSelectedItem)
   const dispatch = useAppDispatch()
   const t = useTranslations('surveys.edit')
-  const tForm = useTranslations('form.inputs')
-  const tPages = useTranslations('surveys.edit.pages')
 
-  const handleNodePatch = useCallback(
-    (field: 'title' | 'subtitle' | 'description') =>
-      (e: ChangeEvent<HTMLInputElement>) => {
-        if (!selectedNode) return
-        const { value } = e.target
-        dispatch(
-          updateNode({
-            nodeId: selectedNode.id,
-            patch: { [field]: value || null }
-          })
-        )
-      },
-    [dispatch, selectedNode]
-  )
-
-  const handlePagePatch = useCallback(
-    (field: 'title' | 'subtitle' | 'description') =>
-      (e: ChangeEvent<HTMLInputElement>) => {
-        if (!selectedNode) return
-        const { value } = e.target
-        dispatch(
-          updateNode({
-            nodeId: selectedNode.id,
-            patch: { [field]: value || null }
-          })
-        )
-      },
+  const handlePatch = useCallback(
+    (patch: SurveyItemPatch) => {
+      if (!selectedNode) return
+      dispatch(updateNode({ nodeId: selectedNode.id, patch }))
+    },
     [dispatch, selectedNode]
   )
 
@@ -79,85 +54,43 @@ export default function SurveyEditorInspectorComponent({
     dispatch(setSelection(null))
   }, [dispatch])
 
-  const content = (() => {
-    if (!selectedNode) {
-      return (
-        <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
-          <IllustrativeIcon name="tools" />
-          <p className="text-muted-foreground px-4 py-6 text-center text-sm">
-            {t('inspector.noSelection')}
-          </p>
+  const content = !selectedNode ? (
+    <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
+      <IllustrativeIcon name="tools" />
+      <p className="text-muted-foreground px-4 py-6 text-center text-sm">
+        {t('inspector.noSelection')}
+      </p>
+    </div>
+  ) : (
+    <div className="flex min-h-0 flex-1 flex-col gap-4">
+      <SurveyEditorNodeKindBadge node={selectedNode} className="px-4 pt-4" />
+
+      <Tabs
+        defaultValue="settings"
+        className="flex min-h-0 flex-1 flex-col gap-0"
+      >
+        <TabsList className="dark:bg-muted/25 mx-4 w-[calc(100%-32px)]">
+          <TabsTrigger value="settings">
+            <Settings strokeWidth={1.5} /> Paramètres
+          </TabsTrigger>
+          <TabsTrigger value="logic">
+            <GitBranch strokeWidth={1.5} /> Logique
+          </TabsTrigger>
+        </TabsList>
+        <Separator className="mt-2" />
+        <div className="h-0 min-h-0 flex-1 overflow-hidden">
+          <ScrollArea className="h-full">
+            <TabsContent value="settings" className="p-4">
+              <NodeSettingsRouter node={selectedNode} onPatch={handlePatch} />
+            </TabsContent>
+            <TabsContent value="logic" className="p-4">
+              <NodeLogicPanel node={selectedNode} />
+            </TabsContent>
+          </ScrollArea>
         </div>
-      )
-    }
-
-    const isPage = selectedNode.kind === NodeKind.PAGE
-
-    if (isPage) {
-      return (
-        <div className="flex flex-col gap-4 p-4">
-          <span className="text-muted-foreground text-xs font-medium">
-            {tPages('pageSettings')}
-          </span>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="inspector-page-title">{tForm('title.label')}</Label>
-            <Input
-              id="inspector-page-title"
-              value={selectedNode.title ?? ''}
-              maxLength={surveyNodeConfig.title.maxLength}
-              spellCheck={false}
-              onChange={handlePagePatch('title')}
-              autoComplete="off"
-            />
-          </div>
-        </div>
-      )
-    }
-
-    return (
-      <div className="flex min-h-0 flex-1 flex-col gap-4">
-        <SurveyEditorNodeKindBadge node={selectedNode} className="px-4 pt-4" />
-
-        <Tabs
-          defaultValue="settings"
-          className="flex min-h-0 flex-1 flex-col gap-0"
-        >
-          <TabsList className="dark:bg-muted/25 mx-4 w-[calc(100%-32px)]">
-            <TabsTrigger value="settings">
-              <Settings strokeWidth={1.5} /> Paramètres
-            </TabsTrigger>
-            <TabsTrigger value="logic">
-              <GitBranch strokeWidth={1.5} /> Logique
-            </TabsTrigger>
-          </TabsList>
-          <Separator className="mt-2" />
-          <div className="h-0 min-h-0 flex-1 overflow-hidden">
-            <ScrollArea className="h-full">
-              <TabsContent value="settings" className="p-4">
-                <div className="flex flex-col gap-2">
-                  <Label htmlFor="inspector-node-title">
-                    {tForm('title.label')}
-                  </Label>
-                  <Input
-                    id="inspector-node-title"
-                    value={selectedNode.title ?? ''}
-                    maxLength={surveyNodeConfig.title.maxLength}
-                    spellCheck={false}
-                    onChange={handleNodePatch('title')}
-                    autoComplete="off"
-                  />
-                </div>
-              </TabsContent>
-              <TabsContent value="logic" className="p-4">
-                Analytics
-              </TabsContent>
-            </ScrollArea>
-          </div>
-        </Tabs>
-      </div>
-    )
-  })()
+      </Tabs>
+    </div>
+  )
 
   if (isMobile) {
     return (

@@ -27,7 +27,7 @@ export function SurveyEditorPageHeader({
   onSelectPage
 }: SurveyEditorPageHeaderProps) {
   const t = useTranslations('surveys.edit.pages')
-  const tForm = useTranslations('form')
+  const tNodeActions = useTranslations('surveys.edit.common')
   const displayIndex = index + 1
 
   return (
@@ -51,7 +51,7 @@ export function SurveyEditorPageHeader({
           type="text"
           value={page.title ?? ''}
           placeholder={t('noTitle')}
-          aria-label={tForm('inputs.title.label')}
+          aria-label={tNodeActions('settings')}
           spellCheck={false}
           className="placeholder:text-muted-foreground min-w-0 flex-1 truncate rounded border-0 bg-transparent p-0 text-sm font-medium shadow-none transition-colors outline-none placeholder:opacity-50 focus:ring-0 focus-visible:ring-0"
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -65,7 +65,7 @@ export function SurveyEditorPageHeader({
               variant="ghost"
               size="icon-xs"
               className="text-muted-foreground hover:text-foreground shrink-0 rounded-full"
-              aria-label={t('pageSettings')}
+              aria-label={tNodeActions('settings')}
               onClick={onSelectPage}
               disabled={isSelected}
             >
@@ -73,7 +73,7 @@ export function SurveyEditorPageHeader({
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>{t('pageSettings')}</p>
+            <p>{tNodeActions('settings')}</p>
           </TooltipContent>
         </Tooltip>
       </div>

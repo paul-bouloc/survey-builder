@@ -19,6 +19,9 @@
     "description": {
       "label": "Description",
       "placeholder": "Survey description"
+    },
+    "placeholder": {
+      "label": "Placeholder"
     }
   }
 }

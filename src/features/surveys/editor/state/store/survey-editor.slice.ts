@@ -1,6 +1,7 @@
 import type { NodeId } from '@/shared/types/brands.type'
 import { NodeKind } from '@/shared/types/surveys/nodes/node.type'
 import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
+import type { QuestionNode } from '@/shared/types/surveys/nodes/question.node.type'
 import type { Survey } from '@/shared/types/surveys/survey.type'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { createPageNode, createQuestionNode } from '../factories'
@@ -102,6 +103,14 @@ const surveyEditorSlice = createSlice({
         node.description = sanitized.description
       if (node.kind === NodeKind.PAGE && patch.page?.skippable !== undefined) {
         ;(node as PageNode).page.skippable = patch.page.skippable
+      }
+      if (
+        node.kind === NodeKind.QUESTION &&
+        patch.config !== undefined &&
+        Object.keys(patch.config).length > 0
+      ) {
+        const qNode = node as QuestionNode
+        qNode.config = { ...qNode.config, ...patch.config }
       }
       state.status.isDirty = true
     },

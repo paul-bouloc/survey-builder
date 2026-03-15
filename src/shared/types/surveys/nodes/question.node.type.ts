@@ -17,23 +17,6 @@ export const QuestionType = {
 
 export type QuestionType = (typeof QuestionType)[keyof typeof QuestionType]
 
-export interface QuestionNode extends BaseNode {
-  kind: typeof NodeKind.QUESTION
-  type: QuestionType
-  required?: boolean
-
-  /**
-   * Config depends on question type
-   */
-  config: QuestionConfig
-
-  /**
-   * Optional children nodes for nested conditional questions.
-   * Ex: "if YES, ask sub-question"
-   */
-  children?: Node[]
-}
-
 export type QuestionConfig =
   | TextConfig
   | TextareaConfig
@@ -44,14 +27,14 @@ export type QuestionConfig =
   | SelectConfig
   | ScaleConfig
 
-/* ---- basic ---- */
+/* ---- configs ---- */
 
 export interface TextConfig {
   type: 'text'
   placeholder?: string
   maxLength?: number
   minLength?: number
-  pattern?: string // regex string (engine decides how to apply)
+  pattern?: string
   commit?: 'change' | 'blur' | 'next'
 }
 
@@ -70,18 +53,16 @@ export interface NumberConfig {
   max?: number
   step?: number
   integer?: boolean
-  unit?: string // "kg", "€", etc
+  unit?: string
   commit?: 'change' | 'blur' | 'next'
 }
 
 export interface DateConfig {
   type: 'date'
-  min?: string // ISO date
-  max?: string // ISO date
+  min?: string
+  max?: string
   commit?: 'change' | 'blur' | 'next'
 }
-
-/* ---- choices ---- */
 
 export interface ChoiceOption {
   value: string
@@ -94,7 +75,7 @@ export interface RadioConfig {
   type: 'radio'
   options: ChoiceOption[]
   layout?: 'stack' | 'grid'
-  commit?: 'change' | 'next' // radio often commits on change
+  commit?: 'change' | 'next'
 }
 
 export interface CheckboxesConfig {
@@ -114,16 +95,73 @@ export interface SelectConfig {
   commit?: 'change' | 'next'
 }
 
-/* ---- scales ---- */
-
 export interface ScaleConfig {
   type: 'scale'
   min: number
   max: number
   step?: number
-  /**
-   * Optional mapping for labels at specific ticks (e.g. 0="Low",10="High")
-   */
   labels?: Record<number, string>
   commit?: 'change' | 'next'
 }
+
+/* ---- base question node (common fields) ---- */
+
+export interface BaseQuestionNode extends BaseNode {
+  kind: typeof NodeKind.QUESTION
+  required?: boolean
+  children?: Node[]
+}
+
+/* ---- discriminated question node variants ---- */
+
+export interface TextQuestionNode extends BaseQuestionNode {
+  type: typeof QuestionType.TEXT
+  config: TextConfig
+}
+
+export interface TextareaQuestionNode extends BaseQuestionNode {
+  type: typeof QuestionType.TEXTAREA
+  config: TextareaConfig
+}
+
+export interface NumberQuestionNode extends BaseQuestionNode {
+  type: typeof QuestionType.NUMBER
+  config: NumberConfig
+}
+
+export interface DateQuestionNode extends BaseQuestionNode {
+  type: typeof QuestionType.DATE
+  config: DateConfig
+}
+
+export interface RadioQuestionNode extends BaseQuestionNode {
+  type: typeof QuestionType.RADIO
+  config: RadioConfig
+}
+
+export interface CheckboxesQuestionNode extends BaseQuestionNode {
+  type: typeof QuestionType.CHECKBOXES
+  config: CheckboxesConfig
+}
+
+export interface SelectQuestionNode extends BaseQuestionNode {
+  type: typeof QuestionType.SELECT
+  config: SelectConfig
+}
+
+export interface ScaleQuestionNode extends BaseQuestionNode {
+  type: typeof QuestionType.SCALE
+  config: ScaleConfig
+}
+
+/* ---- union ---- */
+
+export type QuestionNode =
+  | TextQuestionNode
+  | TextareaQuestionNode
+  | NumberQuestionNode
+  | DateQuestionNode
+  | RadioQuestionNode
+  | CheckboxesQuestionNode
+  | SelectQuestionNode
+  | ScaleQuestionNode
