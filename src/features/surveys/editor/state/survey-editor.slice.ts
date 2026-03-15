@@ -58,6 +58,7 @@ const surveyEditorSlice = createSlice({
     resetEditor() {
       return getInitialState()
     },
+
     updateSurveyMeta(state, action: PayloadAction<SurveyMetaPatch>) {
       if (!state.data.survey) return
       const patch = sanitizeSurveyMetaPatch(action.payload)
@@ -68,6 +69,7 @@ const surveyEditorSlice = createSlice({
         state.data.survey.description = patch.description
       state.status.isDirty = true
     },
+
     setSelection(state, action: PayloadAction<NodeId | null>) {
       state.ui.selectedNodeId = action.payload
     },
