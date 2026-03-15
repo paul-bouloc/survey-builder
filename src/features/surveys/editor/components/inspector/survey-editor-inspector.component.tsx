@@ -119,7 +119,7 @@ export default function SurveyEditorInspectorComponent({
             defaultValue="settings"
             className="flex min-h-0 flex-1 flex-col gap-0"
           >
-            <TabsList className="mx-4 w-[calc(100%-32px)]">
+            <TabsList className="dark:bg-muted/25 mx-4 w-[calc(100%-32px)]">
               <TabsTrigger value="settings">
                 <Settings strokeWidth={1.5} /> Paramètres
               </TabsTrigger>
