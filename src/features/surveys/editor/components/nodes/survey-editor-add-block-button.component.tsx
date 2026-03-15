@@ -93,7 +93,7 @@ export function SurveyEditorAddBlockButton({
                 >
                   <SurveyEditorNodeKindIcon
                     kind={kind}
-                    className="text-primary size-4"
+                    className="text-muted-foreground size-4"
                   />
                   <span>{tNodes(`kind.${kind}`)}</span>
                 </CommandItem>
@@ -106,12 +106,12 @@ export function SurveyEditorAddBlockButton({
                   key={questionType}
                   value={`${questionType}-${tNodes(`questionType.${questionType}`)}`}
                   onSelect={() => handleAddQuestion(questionType)}
-                  className="flex items-center gap-2"
+                  className="data-selected:*:[svg]:text-primary flex items-center gap-2"
                 >
                   <SurveyEditorNodeKindIcon
                     kind={NodeKind.QUESTION}
                     questionType={questionType}
-                    className="text-primary size-4"
+                    className="text-primary/50 size-4"
                   />
                   <span>{tNodes(`questionType.${questionType}`)}</span>
                 </CommandItem>
