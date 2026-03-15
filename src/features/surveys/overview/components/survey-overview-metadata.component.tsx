@@ -9,7 +9,7 @@ interface SurveyOverviewMetadataProps {
 }
 
 interface MetadataItem {
-  icon: React.ComponentType<{ className?: string }>
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>
   label: string
   value: string
 }
@@ -81,7 +81,7 @@ export function SurveyOverviewMetadata({
             return (
               <div key={index} className="flex items-center gap-3">
                 <div className="bg-muted text-muted-foreground flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-4 w-4" strokeWidth={1.5} />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="text-muted-foreground text-xs">

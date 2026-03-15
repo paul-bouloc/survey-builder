@@ -67,7 +67,7 @@ export function UserMenu() {
               className="rounded-full"
               aria-label="User menu"
             >
-              <User className="size-4" />
+              <User className="size-4" strokeWidth={1.5} />
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
@@ -83,12 +83,12 @@ export function UserMenu() {
         >
           {theme === 'dark' ? (
             <>
-              <Sun className="size-4" />
+              <Sun className="size-4" strokeWidth={1.5} />
               <span>{t('lightMode')}</span>
             </>
           ) : (
             <>
-              <Moon className="size-4" />
+              <Moon className="size-4" strokeWidth={1.5} />
               <span>{t('darkMode')}</span>
             </>
           )}
@@ -115,7 +115,7 @@ export function UserMenu() {
           variant="destructive"
           disabled={logout.isPending}
         >
-          <LogOut className="size-4" />
+          <LogOut className="size-4" strokeWidth={1.5} />
           <span>{logout.isPending ? t('loggingOut') : t('logout')}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

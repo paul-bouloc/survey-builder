@@ -121,10 +121,10 @@ export default function SurveyEditorInspectorComponent({
           >
             <TabsList className="mx-4 w-[calc(100%-32px)]">
               <TabsTrigger value="settings">
-                <Settings /> Paramètres
+                <Settings strokeWidth={1.5} /> Paramètres
               </TabsTrigger>
               <TabsTrigger value="logic">
-                <GitBranch /> Logique
+                <GitBranch strokeWidth={1.5} /> Logique
               </TabsTrigger>
             </TabsList>
             <Separator className="mt-2" />

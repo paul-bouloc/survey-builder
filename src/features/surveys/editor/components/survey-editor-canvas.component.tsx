@@ -49,7 +49,7 @@ export default function SurveyEditorCanvasComponent({
                 className="dark:hover:bg-muted/20! border-border h-[33.45px] w-64! rounded-full bg-transparent! shadow-none! hover:bg-neutral-200/30!"
                 onClick={() => dispatch(addPage())}
               >
-                <Plus />
+                <Plus strokeWidth={1.5} />
                 {t('addPage')}
               </Button>
               <Separator className="flex-1" />

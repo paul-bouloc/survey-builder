@@ -74,7 +74,7 @@ export function SurveyEditorPageBlock({
           className="w-full! bg-neutral-200/40! hover:bg-neutral-200/60! dark:bg-neutral-800/50! dark:hover:bg-neutral-800/70!"
           onClick={() => dispatch(addNode({ pageId: page.id }))}
         >
-          <Plus className="size-4 shrink-0" />
+          <Plus className="size-4 shrink-0" strokeWidth={1.5} />
           {t('addNode')}
         </Button>
       </div>

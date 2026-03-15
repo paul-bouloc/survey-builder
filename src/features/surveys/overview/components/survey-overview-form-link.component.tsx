@@ -69,7 +69,7 @@ export function SurveyOverviewFormLink({
                   aria-label={tFormLink('copy')}
                   className="w-6! min-w-6!"
                 >
-                  <Copy />
+                  <Copy strokeWidth={1.5} />
                 </InputGroupButton>
               </TooltipTrigger>
               <TooltipContent>{tFormLink('copy')}</TooltipContent>
@@ -84,7 +84,7 @@ export function SurveyOverviewFormLink({
                   aria-label={tFormLink('open')}
                   className="w-6! min-w-6!"
                 >
-                  <ExternalLink />
+                  <ExternalLink strokeWidth={1.5} />
                 </InputGroupButton>
               </TooltipTrigger>
               <TooltipContent>{tFormLink('open')}</TooltipContent>

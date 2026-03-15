@@ -80,7 +80,7 @@ function Button({
       >
         <span className="inline-flex items-center justify-center gap-1.5">
           {children}
-          {isLoading && <Loader2 className="size-4" />}
+          {isLoading && <Loader2 className="size-4" strokeWidth={1.5} />}
         </span>
       </span>
       <motion.button

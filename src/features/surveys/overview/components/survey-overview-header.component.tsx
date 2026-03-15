@@ -82,9 +82,15 @@ export function SurveyOverviewHeader({ survey }: SurveyOverviewHeaderProps) {
   }
 
   const statusBadgeIcon: Record<SurveyStatus, React.ReactNode> = {
-    [SurveyStatus.DRAFT]: <WrenchIcon className="text-muted-foreground" />,
-    [SurveyStatus.PUBLISHED]: <CheckCircleIcon className="text-yellow-500" />,
-    [SurveyStatus.ARCHIVED]: <ArchiveIcon className="text-muted-foreground" />
+    [SurveyStatus.DRAFT]: (
+      <WrenchIcon className="text-muted-foreground" strokeWidth={1.5} />
+    ),
+    [SurveyStatus.PUBLISHED]: (
+      <CheckCircleIcon className="text-yellow-500" strokeWidth={1.5} />
+    ),
+    [SurveyStatus.ARCHIVED]: (
+      <ArchiveIcon className="text-muted-foreground" strokeWidth={1.5} />
+    )
   }
 
   return (

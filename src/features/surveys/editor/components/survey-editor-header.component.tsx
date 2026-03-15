@@ -29,7 +29,7 @@ export default function SurveyEditorHeaderComponent({
       <div className="flex min-w-0 flex-1 items-center gap-2">
         <Button variant="ghost" size="icon" asChild className="shrink-0">
           <Link href={routes.survey.overview.getHref(survey.shortId)}>
-            <ArrowLeftIcon className="size-4" />
+            <ArrowLeftIcon className="size-4" strokeWidth={1.5} />
           </Link>
         </Button>
         <Separator orientation="vertical" className="shrink-0" />

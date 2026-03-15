@@ -18,7 +18,7 @@ interface SurveyOverviewQuickActionsProps {
 
 interface QuickAction {
   key: string
-  icon: React.ComponentType<{ className?: string }>
+  icon: React.ComponentType<{ className?: string; strokeWidth?: number }>
   href?: string
   onClick?: () => void
   disabled?: boolean
@@ -77,7 +77,7 @@ export function SurveyOverviewQuickActions({
                 onClick={action.onClick}
               >
                 <div className="bg-primary/10 text-primary flex h-10 w-10 items-center justify-center rounded-lg">
-                  <Icon className="h-5 w-5" />
+                  <Icon className="h-5 w-5" strokeWidth={1} />
                 </div>
                 <div className="space-y-0.5">
                   <div className="text-sm font-medium">

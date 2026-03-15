@@ -69,7 +69,7 @@ export function SurveyEditorPageHeader({
               onClick={onSelectPage}
               disabled={isSelected}
             >
-              <Settings className="size-4" />
+              <Settings className="size-4" strokeWidth={1.5} />
             </Button>
           </TooltipTrigger>
           <TooltipContent>

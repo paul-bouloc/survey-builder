@@ -13,14 +13,14 @@ export default function RootNavbar() {
       <DatumLogo href={routes.home.getHref()} />
       <div className="flex items-center gap-2">
         <TooltipLinkButton href={routes.home.getHref()} tooltip={t('home')}>
-          <Home className="size-4" />
+          <Home className="size-4" strokeWidth={1.5} />
         </TooltipLinkButton>
 
         <TooltipLinkButton
           href={routes.survey.new.getHref()}
           tooltip={t('create')}
         >
-          <Plus className="size-4" />
+          <Plus className="size-4" strokeWidth={1.5} />
         </TooltipLinkButton>
 
         <UserMenu />

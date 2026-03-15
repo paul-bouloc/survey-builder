@@ -66,5 +66,5 @@ export function SurveyEditorNodeKindIcon(props: SurveyEditorNodeKindIconProps) {
       : props.questionType
 
   const Icon = getIconForNode(kind, questionType)
-  return React.createElement(Icon, { className })
+  return React.createElement(Icon, { className, strokeWidth: 1.5 })
 }
