@@ -136,7 +136,7 @@ const EditSurveyPage: NextPageWithLayout = () => {
       </Head>
       <div className="-my-10 flex h-[calc(100vh-64px)] w-full max-w-[100vw] min-w-0 flex-col overflow-hidden">
         <SurveyEditorHeaderComponent className="shrink-0" />
-        <div className="bg-muted dark:bg-background flex min-h-0 w-full min-w-0 flex-1 overflow-hidden">
+        <div className="bg-muted dark:bg-muted/10 flex min-h-0 w-full min-w-0 flex-1 overflow-hidden">
           <SurveyEditorSidebarComponent />
           <SurveyEditorCanvasComponent />
           <SurveyEditorInspectorComponent />
