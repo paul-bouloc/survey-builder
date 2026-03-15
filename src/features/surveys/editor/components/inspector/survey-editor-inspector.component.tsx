@@ -1,14 +1,18 @@
 import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
-  DrawerHeader
+  DrawerHeader,
+  DrawerTitle
 } from '@/components/ui/drawer'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Separator } from '@/components/ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { surveyNodeConfig } from '@/features/surveys/editor/config/survey-node.config'
 import {
   selectPageContainingSelectedNode,
@@ -21,9 +25,10 @@ import {
 import { useIsMobile } from '@/hooks'
 import { cn } from '@/lib/utils'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
+import { GitBranch, Settings } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useCallback, type ChangeEvent } from 'react'
-import { SurveyEditorNodeKindBadge } from './nodes/survey-editor-node-kind-badge.component'
+import { SurveyEditorNodeKindBadge } from '../nodes/survey-editor-node-kind-badge.component'
 
 interface SurveyEditInspectorComponentProps {
   className?: string
@@ -71,19 +76,6 @@ export default function SurveyEditorInspectorComponent({
     [dispatch, selectedPage]
   )
 
-  const handleSkippableChange = useCallback(
-    (checked: boolean | 'indeterminate') => {
-      if (!selectedPage) return
-      dispatch(
-        updatePage({
-          pageId: selectedPage.id,
-          patch: { page: { skippable: checked === true } }
-        })
-      )
-    },
-    [dispatch, selectedPage]
-  )
-
   const hasSelection = !!selectedPage || !!selectedNode
   const isMobile = useIsMobile()
 
@@ -110,97 +102,54 @@ export default function SurveyEditorInspectorComponent({
               autoComplete="off"
             />
           </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="inspector-page-subtitle">
-              {tForm('subtitle.label')}
-            </Label>
-            <Input
-              id="inspector-page-subtitle"
-              value={selectedPage.subtitle ?? ''}
-              maxLength={surveyNodeConfig.subtitle.maxLength}
-              spellCheck={false}
-              onChange={handlePagePatch('subtitle')}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="inspector-page-description">
-              {tForm('description.label')}
-            </Label>
-            <Input
-              id="inspector-page-description"
-              value={selectedPage.description ?? ''}
-              maxLength={surveyNodeConfig.description.maxLength}
-              spellCheck={false}
-              onChange={handlePagePatch('description')}
-            />
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="inspector-page-skippable"
-              checked={selectedPage.page.skippable}
-              onCheckedChange={handleSkippableChange}
-            />
-            <Label
-              htmlFor="inspector-page-skippable"
-              className="cursor-pointer text-sm font-normal"
-            >
-              {tPages('skippable')}
-            </Label>
-          </div>
         </div>
       )
     }
 
     if (selectedNode && pageContainingNode) {
       return (
-        <div className="flex flex-col gap-4 p-4">
-          <div className="flex flex-col gap-2">
-            <span className="text-muted-foreground text-xs font-medium">
-              Type
-            </span>
-            <SurveyEditorNodeKindBadge node={selectedNode} />
-          </div>
+        <div className="flex min-h-0 flex-1 flex-col gap-4">
+          <SurveyEditorNodeKindBadge
+            node={selectedNode}
+            className="px-4 pt-4"
+          />
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="inspector-node-title">{tForm('title.label')}</Label>
-            <Input
-              id="inspector-node-title"
-              value={selectedNode.title ?? ''}
-              maxLength={surveyNodeConfig.title.maxLength}
-              spellCheck={false}
-              onChange={handleNodePatch('title')}
-              autoComplete="off"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="inspector-node-subtitle">
-              {tForm('subtitle.label')}
-            </Label>
-            <Input
-              id="inspector-node-subtitle"
-              value={selectedNode.subtitle ?? ''}
-              maxLength={surveyNodeConfig.subtitle.maxLength}
-              spellCheck={false}
-              onChange={handleNodePatch('subtitle')}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="inspector-node-description">
-              {tForm('description.label')}
-            </Label>
-            <Input
-              id="inspector-node-description"
-              value={selectedNode.description ?? ''}
-              maxLength={surveyNodeConfig.description.maxLength}
-              spellCheck={false}
-              onChange={handleNodePatch('description')}
-            />
-          </div>
+          <Tabs
+            defaultValue="settings"
+            className="flex min-h-0 flex-1 flex-col gap-0"
+          >
+            <TabsList className="mx-4 w-[calc(100%-32px)]">
+              <TabsTrigger value="settings">
+                <Settings /> Paramètres
+              </TabsTrigger>
+              <TabsTrigger value="logic">
+                <GitBranch /> Logique
+              </TabsTrigger>
+            </TabsList>
+            <Separator className="mt-2" />
+            <div className="h-0 min-h-0 flex-1 overflow-hidden">
+              <ScrollArea className="h-full">
+                <TabsContent value="settings" className="p-4">
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="inspector-node-title">
+                      {tForm('title.label')}
+                    </Label>
+                    <Input
+                      id="inspector-node-title"
+                      value={selectedNode.title ?? ''}
+                      maxLength={surveyNodeConfig.title.maxLength}
+                      spellCheck={false}
+                      onChange={handleNodePatch('title')}
+                      autoComplete="off"
+                    />
+                  </div>
+                </TabsContent>
+                <TabsContent value="logic" className="p-4">
+                  Analytics
+                </TabsContent>
+              </ScrollArea>
+            </div>
+          </Tabs>
         </div>
       )
     }
@@ -219,12 +168,17 @@ export default function SurveyEditorInspectorComponent({
         onOpenChange={open => !open && handleCloseInspector()}
         direction="bottom"
       >
-        <DrawerContent className="h-full max-h-[90vh]">
-          <DrawerHeader className="border-b">
-            <h2 className="text-lg font-semibold">{t('inspector.title')}</h2>
+        <DrawerContent className="flex h-full max-h-[90vh] flex-col overflow-hidden">
+          <DrawerHeader className="shrink-0 border-b">
+            <DrawerTitle>{t('inspector.title')}</DrawerTitle>
+            <DrawerDescription className="sr-only">
+              {t('inspector.description')}
+            </DrawerDescription>
           </DrawerHeader>
-          {content}
-          <DrawerFooter className="border-t">
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
+            {content}
+          </div>
+          <DrawerFooter className="shrink-0 border-t">
             <DrawerClose asChild>
               <Button variant="outline" className="w-full!">
                 {t('inspector.close')}

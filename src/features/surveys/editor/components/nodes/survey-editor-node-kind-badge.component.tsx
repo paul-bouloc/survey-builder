@@ -1,4 +1,5 @@
 import { SurveyEditorNodeKindIcon } from '@/features/surveys/editor/components/nodes/survey-editor-node-kind-icon.component'
+import { cn } from '@/lib/utils'
 import type { Node } from '@/shared/types/surveys/nodes/node.type'
 import { NodeKind } from '@/shared/types/surveys/nodes/node.type'
 import type { QuestionNode } from '@/shared/types/surveys/nodes/question.node.type'
@@ -6,10 +7,12 @@ import { useTranslations } from 'next-intl'
 
 interface SurveyEditorNodeKindBadgeProps {
   node: Node
+  className?: string
 }
 
 export function SurveyEditorNodeKindBadge({
-  node
+  node,
+  className
 }: SurveyEditorNodeKindBadgeProps) {
   const t = useTranslations('surveys.edit.nodes')
 
@@ -22,7 +25,7 @@ export function SurveyEditorNodeKindBadge({
       : t(`kind.${node.kind}`)
 
   return (
-    <div className="flex w-full items-center gap-2">
+    <div className={cn('flex w-full items-center gap-2', className)}>
       <div className="bg-primary/15 flex size-5 items-center justify-center rounded-sm">
         <SurveyEditorNodeKindIcon
           node={node}

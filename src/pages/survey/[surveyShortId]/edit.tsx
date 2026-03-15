@@ -1,8 +1,8 @@
 import { useSession } from '@/features/auth/api/auth.mutations'
 import { useSurvey } from '@/features/surveys/common/api/surveys.queries'
+import SurveyEditorInspectorComponent from '@/features/surveys/editor/components/inspector/survey-editor-inspector.component'
 import SurveyEditorCanvasComponent from '@/features/surveys/editor/components/survey-editor-canvas.component'
 import SurveyEditorHeaderComponent from '@/features/surveys/editor/components/survey-editor-header.component'
-import SurveyEditorInspectorComponent from '@/features/surveys/editor/components/survey-editor-inspector.component'
 import SurveyEditorSidebarComponent from '@/features/surveys/editor/components/survey-editor-sidebar.component'
 import { canEditSurvey } from '@/features/surveys/editor/lib/can-edit-survey'
 import {
