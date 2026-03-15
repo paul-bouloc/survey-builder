@@ -154,6 +154,8 @@
       "delete": "Supprimer"
     },
     "nodes": {
+      "addBlockGroupBlocs": "Blocs",
+      "addBlockGroupQuestions": "Questions",
       "kind": {
         "page": "Page",
         "group": "Groupe",

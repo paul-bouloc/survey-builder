@@ -4,7 +4,15 @@ import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
 import type { QuestionNode } from '@/shared/types/surveys/nodes/question.node.type'
 import type { Survey } from '@/shared/types/surveys/survey.type'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import { createPageNode, createQuestionNode } from '../factories'
+import {
+  createDividerNode,
+  createGroupNode,
+  createInfoNode,
+  createPageNode,
+  createQuestionNode,
+  createQuestionNodeByType
+} from '../factories'
+import { QuestionType } from '@/shared/types/surveys/nodes/question.node.type'
 import { surveyToDraft } from '../mappers'
 import type {
   SurveyEditorState,
@@ -76,13 +84,42 @@ const surveyEditorSlice = createSlice({
       state.status.isDirty = true
     },
 
-    addNode(state, action: PayloadAction<{ pageId: NodeId }>) {
+    addNode(
+      state,
+      action: PayloadAction<
+        | { pageId: NodeId }
+        | { pageId: NodeId; kind: 'group' }
+        | { pageId: NodeId; kind: 'info' }
+        | { pageId: NodeId; kind: 'divider' }
+        | { pageId: NodeId; questionType: QuestionType }
+      >
+    ) {
       if (!state.data.draft) return
       const { pageId } = action.payload
       const page = state.data.draft.pages.find(p => p.id === pageId)
       if (!page) return
       const order = page.children.length
-      page.children.push(createQuestionNode(order))
+      if ('questionType' in action.payload) {
+        page.children.push(
+          createQuestionNodeByType(order, action.payload.questionType)
+        )
+      } else if ('kind' in action.payload) {
+        switch (action.payload.kind) {
+          case NodeKind.GROUP:
+            page.children.push(createGroupNode(order))
+            break
+          case NodeKind.INFO:
+            page.children.push(createInfoNode(order))
+            break
+          case NodeKind.DIVIDER:
+            page.children.push(createDividerNode(order))
+            break
+          default:
+            page.children.push(createQuestionNode(order))
+        }
+      } else {
+        page.children.push(createQuestionNode(order))
+      }
       reindexNodes(page.children)
       state.status.isDirty = true
     },

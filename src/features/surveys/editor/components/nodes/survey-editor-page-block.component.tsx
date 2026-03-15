@@ -1,6 +1,5 @@
-import { Button } from '@/components/ui/button'
+import { SurveyEditorAddBlockButton } from '@/features/surveys/editor/components/nodes/survey-editor-add-block-button.component'
 import {
-  addNode,
   selectSelectedNodeId,
   setSelection,
   updateNode
@@ -8,8 +7,6 @@ import {
 import { cn } from '@/lib/utils'
 import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { Plus } from 'lucide-react'
-import { useTranslations } from 'next-intl'
 import { useCallback } from 'react'
 import { SurveyEditorNodeBlock } from './survey-editor-node-block.component'
 import { SurveyEditorPageHeader } from './survey-editor-page-header.component'
@@ -27,7 +24,6 @@ export function SurveyEditorPageBlock({
 }: SurveyEditorPageBlockProps) {
   const dispatch = useAppDispatch()
   const selectedNodeId = useAppSelector(selectSelectedNodeId)
-  const t = useTranslations('surveys.edit.pages')
 
   const handleTitleChange = useCallback(
     (value: string) =>
@@ -66,16 +62,7 @@ export function SurveyEditorPageBlock({
           />
         ))}
 
-        <Button
-          type="button"
-          variant="secondary"
-          size="sm"
-          className="w-full! bg-neutral-200/40! hover:bg-neutral-200/60! dark:bg-neutral-800/50! dark:hover:bg-neutral-800/70!"
-          onClick={() => dispatch(addNode({ pageId: page.id }))}
-        >
-          <Plus className="size-4 shrink-0" strokeWidth={1.5} />
-          {t('addNode')}
-        </Button>
+        <SurveyEditorAddBlockButton page={page} />
       </div>
     </div>
   )

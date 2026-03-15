@@ -1,1 +1,8 @@
-export { createPageNode, createQuestionNode } from './survey-editor.factories'
+export {
+  createDividerNode,
+  createGroupNode,
+  createInfoNode,
+  createPageNode,
+  createQuestionNode,
+  createQuestionNodeByType
+} from './survey-editor.factories'
