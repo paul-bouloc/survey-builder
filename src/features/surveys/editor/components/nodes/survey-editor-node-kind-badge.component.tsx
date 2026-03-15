@@ -26,11 +26,15 @@ export function SurveyEditorNodeKindBadge({
 
   return (
     <div className={cn('flex w-full items-center gap-2', className)}>
-      <div className="bg-primary/15 flex size-5 items-center justify-center rounded-sm">
-        <SurveyEditorNodeKindIcon
-          node={node}
-          className="text-primary size-3.5"
-        />
+      <div
+        className={cn(
+          'flex size-5 items-center justify-center rounded-sm',
+          questionType
+            ? 'bg-primary/15 text-primary'
+            : 'bg-muted-foreground/15 text-muted-foreground'
+        )}
+      >
+        <SurveyEditorNodeKindIcon node={node} className="size-3.5" />
       </div>
       <span className="text-muted-foreground text-sm font-medium">{label}</span>
     </div>
