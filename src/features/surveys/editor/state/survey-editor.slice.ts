@@ -12,7 +12,12 @@ import type {
   SurveyNodePatch,
   SurveyPagePatch
 } from './survey-editor.types'
-import { reindexNodes, reindexPages } from './survey-editor.utils'
+import {
+  findNodeInTree,
+  findNodeParentInTree,
+  reindexNodes,
+  reindexPages
+} from './survey-editor.utils'
 
 const getInitialState = (): SurveyEditorState => ({
   data: {
@@ -124,7 +129,7 @@ const surveyEditorSlice = createSlice({
       const { pageId, nodeId, patch } = action.payload
       const page = state.data.survey.pages.find(p => p.id === pageId)
       if (!page) return
-      const node = page.children.find(n => n.id === nodeId)
+      const node = findNodeInTree(page.children, nodeId)
       if (!node) return
       const sanitized = sanitizeSurveyNodePatch(patch)
       if (sanitized.title !== undefined) node.title = sanitized.title
@@ -142,10 +147,11 @@ const surveyEditorSlice = createSlice({
       const { pageId, nodeId } = action.payload
       const page = state.data.survey.pages.find(p => p.id === pageId)
       if (!page) return
-      const idx = page.children.findIndex(n => n.id === nodeId)
-      if (idx === -1) return
-      page.children.splice(idx, 1)
-      reindexNodes(page.children)
+      const found = findNodeParentInTree(page.children, nodeId)
+      if (!found) return
+      const { parent, index } = found
+      parent.splice(index, 1)
+      reindexNodes(parent)
       if (state.ui.selectedNodeId === nodeId) {
         state.ui.selectedNodeId = null
       }

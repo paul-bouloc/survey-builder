@@ -5,9 +5,8 @@ export {
   selectEditorPages,
   selectEditorPageById,
   selectSelectedNodeId,
-  selectSelectedNode,
-  selectSelectedPage,
-  selectPageContainingSelectedNode,
+  selectSelectedItem,
+  selectSelectedItemPage,
   selectSurvey,
   selectSurveyMeta,
   selectSurveyEditorData,
@@ -40,4 +39,3 @@ export type {
   SurveyNodePatch,
   SurveyPagePatch
 } from './survey-editor.types'
-//
