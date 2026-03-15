@@ -17,7 +17,7 @@ export function SurveyEditorForbiddenView() {
   return (
     <Empty>
       <EmptyHeader>
-        <IllustrativeIcon name="safe" />
+        <IllustrativeIcon name="lock" />
         <EmptyTitle>{t('title')}</EmptyTitle>
         <EmptyDescription>{t('description')}</EmptyDescription>
       </EmptyHeader>

@@ -1,9 +1,12 @@
+import DesignIcon from '@/assets/illustrative-icons/design.svg'
 import EdvardMunchIcon from '@/assets/illustrative-icons/edvard-munch.svg'
+import LockIcon from '@/assets/illustrative-icons/lock.svg'
 import PlushIcon from '@/assets/illustrative-icons/plush.svg'
 import PottedPlantIcon from '@/assets/illustrative-icons/potted-plant.svg'
 import RadioTowerIcon from '@/assets/illustrative-icons/radio-tower.svg'
 import SafeIcon from '@/assets/illustrative-icons/safe.svg'
 import SearchIcon from '@/assets/illustrative-icons/search.svg'
+import ToolsIcon from '@/assets/illustrative-icons/tools.svg'
 
 export const illustrativeIcons = {
   plush: PlushIcon,
@@ -11,7 +14,10 @@ export const illustrativeIcons = {
   search: SearchIcon,
   edvardMunch: EdvardMunchIcon,
   radioTower: RadioTowerIcon,
-  safe: SafeIcon
+  safe: SafeIcon,
+  lock: LockIcon,
+  design: DesignIcon,
+  tools: ToolsIcon
 } as const
 
 export type IllustrativeIconName = keyof typeof illustrativeIcons

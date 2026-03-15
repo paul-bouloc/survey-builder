@@ -1,3 +1,4 @@
+import { IllustrativeIcon } from '@/components/icons/illustrative-icons/illustrative-icon'
 import { Button } from '@/components/ui/button'
 import {
   Drawer,
@@ -155,9 +156,12 @@ export default function SurveyEditorInspectorComponent({
     }
 
     return (
-      <p className="text-muted-foreground px-4 py-6 text-sm">
-        {t('inspector.noSelection')}
-      </p>
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
+        <IllustrativeIcon name="tools" />
+        <p className="text-muted-foreground px-4 py-6 text-center text-sm">
+          {t('inspector.noSelection')}
+        </p>
+      </div>
     )
   })()
 
