@@ -7,21 +7,18 @@ import {
   updateNode
 } from '@/features/surveys/editor/state'
 import { cn } from '@/lib/utils'
-import type { NodeId } from '@/shared/types/brands.type'
 import type { Node } from '@/shared/types/surveys/nodes/node.type'
 import { useAppDispatch } from '@/store/hooks'
 import { useTranslations } from 'next-intl'
 import { useCallback, type ChangeEvent } from 'react'
 
 interface SurveyEditorNodeBlockProps {
-  pageId: NodeId
   node: Node
   isSelected: boolean
   className?: string
 }
 
 export function SurveyEditorNodeBlock({
-  pageId,
   node,
   isSelected,
   className
@@ -36,18 +33,16 @@ export function SurveyEditorNodeBlock({
 
   const handleTitleChange = useCallback(
     (value: string) =>
-      dispatch(
-        updateNode({ pageId, nodeId: node.id, patch: { title: value } })
-      ),
-    [dispatch, pageId, node.id]
+      dispatch(updateNode({ nodeId: node.id, patch: { title: value } })),
+    [dispatch, node.id]
   )
 
   const handleRemove = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation()
-      dispatch(removeNode({ pageId, nodeId: node.id }))
+      dispatch(removeNode(node.id))
     },
-    [dispatch, pageId, node.id]
+    [dispatch, node.id]
   )
 
   return (

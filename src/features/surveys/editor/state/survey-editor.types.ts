@@ -20,6 +20,11 @@ export type SurveyNodePatch = Partial<
   Pick<BaseNode, 'title' | 'subtitle' | 'description'>
 >
 
+/** Patch unifié pour un item (page ou node) : champs communs + page.skippable si page. */
+export type SurveyItemPatch = SurveyNodePatch & {
+  page?: Partial<Pick<PageNode['page'], 'skippable'>>
+}
+
 export interface SurveyEditorData {
   survey: Survey | null
 }

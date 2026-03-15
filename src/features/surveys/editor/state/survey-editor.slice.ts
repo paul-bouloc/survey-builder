@@ -1,5 +1,7 @@
 import type { NodeId } from '@/shared/types/brands.type'
 import type { Survey } from '@/shared/types/surveys/survey.type'
+import { NodeKind } from '@/shared/types/surveys/nodes/node.type'
+import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { createPageNode, createQuestionNode } from './survey-editor.factories'
 import {
@@ -9,12 +11,12 @@ import {
 import type {
   SurveyEditorState,
   SurveyMetaPatch,
-  SurveyNodePatch,
-  SurveyPagePatch
+  SurveyItemPatch
 } from './survey-editor.types'
 import {
-  findNodeInTree,
+  findNodeInSurvey,
   findNodeParentInTree,
+  getPageContainingNode,
   reindexNodes,
   reindexPages
 } from './survey-editor.utils'
@@ -81,33 +83,6 @@ const surveyEditorSlice = createSlice({
       state.status.isDirty = true
     },
 
-    updatePage(
-      state,
-      action: PayloadAction<{ pageId: NodeId; patch: SurveyPagePatch }>
-    ) {
-      if (!state.data.survey) return
-      const { pageId, patch } = action.payload
-      const page = state.data.survey.pages.find(p => p.id === pageId)
-      if (!page) return
-      if (patch.title !== undefined) page.title = patch.title
-      if (patch.subtitle !== undefined) page.subtitle = patch.subtitle
-      if (patch.description !== undefined) page.description = patch.description
-      if (patch.page?.skippable !== undefined) {
-        page.page.skippable = patch.page.skippable
-      }
-      state.status.isDirty = true
-    },
-
-    removePage(state, action: PayloadAction<NodeId>) {
-      if (!state.data.survey) return
-      const pageId = action.payload
-      const idx = state.data.survey.pages.findIndex(p => p.id === pageId)
-      if (idx === -1) return
-      state.data.survey.pages.splice(idx, 1)
-      reindexPages(state.data.survey.pages)
-      state.status.isDirty = true
-    },
-
     addNode(state, action: PayloadAction<{ pageId: NodeId }>) {
       if (!state.data.survey) return
       const { pageId } = action.payload
@@ -121,39 +96,41 @@ const surveyEditorSlice = createSlice({
 
     updateNode(
       state,
-      action: PayloadAction<{
-        pageId: NodeId
-        nodeId: NodeId
-        patch: SurveyNodePatch
-      }>
+      action: PayloadAction<{ nodeId: NodeId; patch: SurveyItemPatch }>
     ) {
       if (!state.data.survey) return
-      const { pageId, nodeId, patch } = action.payload
-      const page = state.data.survey.pages.find(p => p.id === pageId)
-      if (!page) return
-      const node = findNodeInTree(page.children, nodeId)
+      const { nodeId, patch } = action.payload
+      const { pages } = state.data.survey
+      const node = findNodeInSurvey(pages, nodeId)
       if (!node) return
       const sanitized = sanitizeSurveyNodePatch(patch)
       if (sanitized.title !== undefined) node.title = sanitized.title
       if (sanitized.subtitle !== undefined) node.subtitle = sanitized.subtitle
       if (sanitized.description !== undefined)
         node.description = sanitized.description
+      if (node.kind === NodeKind.PAGE && patch.page?.skippable !== undefined) {
+        ;(node as PageNode).page.skippable = patch.page.skippable
+      }
       state.status.isDirty = true
     },
 
-    removeNode(
-      state,
-      action: PayloadAction<{ pageId: NodeId; nodeId: NodeId }>
-    ) {
+    removeNode(state, action: PayloadAction<NodeId>) {
       if (!state.data.survey) return
-      const { pageId, nodeId } = action.payload
-      const page = state.data.survey.pages.find(p => p.id === pageId)
-      if (!page) return
-      const found = findNodeParentInTree(page.children, nodeId)
-      if (!found) return
-      const { parent, index } = found
-      parent.splice(index, 1)
-      reindexNodes(parent)
+      const nodeId = action.payload
+      const { pages } = state.data.survey
+      const pageIndex = pages.findIndex(p => p.id === nodeId)
+      if (pageIndex !== -1) {
+        pages.splice(pageIndex, 1)
+        reindexPages(pages)
+      } else {
+        const page = getPageContainingNode(pages, nodeId)
+        if (!page) return
+        const found = findNodeParentInTree(page.children, nodeId)
+        if (!found) return
+        const { parent, index } = found
+        parent.splice(index, 1)
+        reindexNodes(parent)
+      }
       if (state.ui.selectedNodeId === nodeId) {
         state.ui.selectedNodeId = null
       }
@@ -172,8 +149,6 @@ export const {
   updateSurveyMeta,
   setSelection,
   addPage,
-  updatePage,
-  removePage,
   addNode,
   updateNode,
   removeNode

@@ -3,7 +3,7 @@ import {
   addNode,
   selectSelectedNodeId,
   setSelection,
-  updatePage
+  updateNode
 } from '@/features/surveys/editor/state'
 import { cn } from '@/lib/utils'
 import type { PageNode } from '@/shared/types/surveys/nodes/page.node.type'
@@ -31,7 +31,7 @@ export function SurveyEditorPageBlock({
 
   const handleTitleChange = useCallback(
     (value: string) =>
-      dispatch(updatePage({ pageId: page.id, patch: { title: value } })),
+      dispatch(updateNode({ nodeId: page.id, patch: { title: value } })),
     [dispatch, page.id]
   )
 
@@ -61,7 +61,6 @@ export function SurveyEditorPageBlock({
         {page.children.map(node => (
           <SurveyEditorNodeBlock
             key={node.id}
-            pageId={page.id}
             node={node}
             isSelected={selectedNodeId === node.id}
           />

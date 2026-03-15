@@ -17,10 +17,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { surveyNodeConfig } from '@/features/surveys/editor/config/survey-node.config'
 import {
   selectSelectedItem,
-  selectSelectedItemPage,
   setSelection,
-  updateNode,
-  updatePage
+  updateNode
 } from '@/features/surveys/editor/state'
 import { useIsMobile } from '@/hooks'
 import { cn } from '@/lib/utils'
@@ -39,7 +37,6 @@ export default function SurveyEditorInspectorComponent({
   className
 }: SurveyEditInspectorComponentProps) {
   const selectedNode = useAppSelector(selectSelectedItem)
-  const selectedPage = useAppSelector(selectSelectedItemPage)
   const dispatch = useAppDispatch()
   const t = useTranslations('surveys.edit')
   const tForm = useTranslations('form.inputs')
@@ -48,32 +45,31 @@ export default function SurveyEditorInspectorComponent({
   const handleNodePatch = useCallback(
     (field: 'title' | 'subtitle' | 'description') =>
       (e: ChangeEvent<HTMLInputElement>) => {
-        if (!selectedNode || !selectedPage) return
+        if (!selectedNode) return
         const { value } = e.target
         dispatch(
           updateNode({
-            pageId: selectedPage.id,
             nodeId: selectedNode.id,
             patch: { [field]: value || null }
           })
         )
       },
-    [dispatch, selectedNode, selectedPage]
+    [dispatch, selectedNode]
   )
 
   const handlePagePatch = useCallback(
     (field: 'title' | 'subtitle' | 'description') =>
       (e: ChangeEvent<HTMLInputElement>) => {
-        if (!selectedPage) return
+        if (!selectedNode) return
         const { value } = e.target
         dispatch(
-          updatePage({
-            pageId: selectedPage.id,
+          updateNode({
+            nodeId: selectedNode.id,
             patch: { [field]: value || null }
           })
         )
       },
-    [dispatch, selectedPage]
+    [dispatch, selectedNode]
   )
 
   const hasSelection = !!selectedNode

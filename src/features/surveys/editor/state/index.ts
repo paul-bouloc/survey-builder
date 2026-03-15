@@ -22,8 +22,6 @@ export {
   setSelection,
   updateSurveyMeta,
   addPage,
-  updatePage,
-  removePage,
   addNode,
   updateNode,
   removeNode,
@@ -35,6 +33,7 @@ export type {
   SurveyEditorState,
   SurveyEditorStatus,
   SurveyEditorUi,
+  SurveyItemPatch,
   SurveyMetaPatch,
   SurveyNodePatch,
   SurveyPagePatch
