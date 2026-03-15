@@ -56,7 +56,7 @@ export default function SurveyEditorInspectorComponent({
 
   const content = !selectedNode ? (
     <div className="flex min-h-0 flex-1 flex-col items-center justify-center">
-      <IllustrativeIcon name="tools" />
+      <IllustrativeIcon name="tools" colorClassName="bg-muted-foreground/30" />
       <p className="text-muted-foreground px-4 py-6 text-center text-sm">
         {t('inspector.noSelection')}
       </p>
