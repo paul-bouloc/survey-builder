@@ -1,4 +1,5 @@
 {
+  "charactersCount": "{current} / {max} characters",
   "create": "Create",
   "continue": "Continue",
   "back": "Back",
