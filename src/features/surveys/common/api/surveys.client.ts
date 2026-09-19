@@ -4,7 +4,8 @@ import type {
   CreateSurveyBody,
   SurveyOverviewResponse,
   SurveyResponse,
-  SurveysListResponse
+  SurveysListResponse,
+  UpdateSurveyBody
 } from '@/shared/api/contracts/surveys/surveys.contract'
 import { http } from '@/shared/api/http/axios'
 
@@ -29,6 +30,14 @@ export const surveysClient = {
 
   createSurvey: async (payload: CreateSurveyBody) => {
     const { data } = await http.post<SurveyResponse>('/surveys', payload)
+    return surveyMapper.toDomain(data)
+  },
+
+  updateSurvey: async (shortId: string, payload: UpdateSurveyBody) => {
+    const { data } = await http.put<SurveyResponse>(
+      `/surveys/${shortId}`,
+      payload
+    )
     return surveyMapper.toDomain(data)
   }
 }

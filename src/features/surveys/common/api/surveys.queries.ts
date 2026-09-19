@@ -1,4 +1,7 @@
-import type { CreateSurveyBody } from '@/shared/api/contracts/surveys/surveys.contract'
+import type {
+  CreateSurveyBody,
+  UpdateSurveyBody
+} from '@/shared/api/contracts/surveys/surveys.contract'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { surveysQueryKeys } from './query-keys'
 import { surveysClient } from './surveys.client'
@@ -45,6 +48,20 @@ export function useCreateSurvey() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: surveysQueryKeys.list()
+      })
+    }
+  })
+}
+
+export function useUpdateSurvey(shortId: string) {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload: UpdateSurveyBody) =>
+      surveysClient.updateSurvey(shortId, payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: surveysQueryKeys.detail(shortId)
       })
     }
   })
