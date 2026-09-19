@@ -3,7 +3,6 @@ import type { ObjectId, ShortId } from '@/shared/types/brands.type'
 import type { SurveyOverview } from '@/shared/types/surveys/survey-overview.type'
 
 export const surveyOverviewMapper = {
-  /** Le contrat déclare des `Date` ; le JSON transmet des chaînes ISO. */
   toDomain(overview: SurveyOverviewResponse): SurveyOverview {
     return {
       _id: overview._id as ObjectId,

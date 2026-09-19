@@ -16,8 +16,6 @@ export function useAuth() {
       authClient.auth(payload),
     onSuccess: async data => {
       if (data.userId && !data.needsRegistration) {
-        // `AuthResponse` ne porte pas les dates du compte : on amorce le cache avec
-        // l'instant de connexion, le prochain refetch de la session les corrigera.
         const session: Session = {
           userId: data.userId as ObjectId,
           email: data.email as Email,

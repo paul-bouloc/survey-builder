@@ -3,7 +3,6 @@ import type { Session } from '@/shared/types/auth/session.type'
 import type { Email, ObjectId } from '@/shared/types/brands.type'
 
 export const sessionMapper = {
-  /** Le contrat déclare des `Date` ; le JSON transmet des chaînes ISO. */
   toDomain(session: SessionResponse): Session {
     return {
       userId: session.userId as ObjectId,
