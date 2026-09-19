@@ -225,14 +225,20 @@ modèle :
 
 ## Traiter un ticket de la roadmap
 
-Quand on te demande de « traiter le prochain point de la roadmap » (ou un ticket
-précis), suis ce déroulé. Il vaut pour tout ticket de [ROADMAP.md](ROADMAP.md).
+Quand on te demande de « traiter le prochain point de la roadmap » ou un ticket précis
+(« traite `P1-2` »), suis ce déroulé. Il vaut pour tout ticket de
+[ROADMAP.md](ROADMAP.md).
 
 ### 1. Choisir le ticket
 
+Chaque ticket porte un identifiant `P<phase>-<n>`. **Cite-le** dans ta réponse d'ouverture
+et dans le message de commit, pour qu'on sache sans ambiguïté de quoi on parle.
+
 Le « prochain point » est le **premier `[ ]` non coché dans l'ordre du fichier**, en
 partant de la phase la plus basse. Les phases sont ordonnées par dépendance : la phase 0
-corrige ce qui ferait échouer le reste, la phase 1 débloque l'éditeur, etc.
+corrige ce qui ferait échouer le reste, la phase 1 débloque l'éditeur, etc. Attention,
+l'ordre de lecture prime sur le numéro : un ticket ajouté après coup peut porter un
+numéro élevé tout en étant placé haut dans sa phase.
 
 Avant de démarrer, vérifie deux choses :
 
@@ -291,6 +297,10 @@ que tu as laissé de côté et pourquoi.
 - sinon, ajoute une ligne dans la phase appropriée de la ROADMAP et signale-le. Ne
   l'embarque pas dans le ticket en cours.
 
+Un ticket ajouté prend **le numéro suivant de sa phase** (le plus haut déjà attribué + 1),
+même s'il est inséré au milieu : les identifiants ne sont jamais réutilisés ni
+renumérotés, sinon les références dans les commits passés deviennent fausses.
+
 ### 6. Vérifier
 
 Avant d'annoncer que c'est terminé, lance :
@@ -317,6 +327,12 @@ Coche la case `[x]` dans ROADMAP.md et commite-la **avec** le code, pour que le 
 reflète toujours l'état réel du repo. Une case ne se coche que si la fonctionnalité est
 utilisable de bout en bout, pas si le code compile. Si le ticket n'est que partiellement
 traité, utilise `[~]` et précise ce qu'il reste.
+
+Mentionne l'identifiant du ticket dans le message de commit, en tête du sujet :
+
+```
+feat: P1-1 add PUT endpoint to persist a survey draft
+```
 
 Rappel : on travaille directement sur `main`, sans branche par ticket. Voir la section
 « Commits » ci-dessous pour le découpage — et ne commite pas de ta propre initiative.

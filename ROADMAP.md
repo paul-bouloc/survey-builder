@@ -8,6 +8,12 @@ Conventions : `[ ]` à faire, `[x]` terminé, `[~]` en cours ou partiel.
 Une case ne se coche que lorsque la fonctionnalité est utilisable de bout en bout, pas
 quand le code compile.
 
+Chaque ticket porte un identifiant `P<phase>-<n>` (`P0-1`, `P3-7`…) à citer dans les
+discussions et les messages de commit. **Les identifiants sont figés** : un numéro reste
+attaché à son ticket à vie, n'est jamais réutilisé, et un ticket ajouté plus tard prend
+le numéro suivant de sa phase même s'il est inséré au milieu. Ne renumérote donc jamais
+une phase — une référence dans un vieux commit doit rester valide.
+
 **Le déroulé à suivre pour traiter un ticket est décrit dans
 [CLAUDE.md](CLAUDE.md#traiter-un-ticket-de-la-roadmap)** : choix du ticket, analyse de
 l'existant, questions, validation du plan, implémentation, vérification. Lis-le avant de
@@ -43,19 +49,19 @@ points seul : il pose la question.
 
 Des défauts qui feront échouer les phases suivantes s'ils ne sont pas traités d'abord.
 
-- [ ] **Corriger `SessionResponseSchema`** — déclare `createdAt`/`updatedAt` en
+- [ ] `P0-1` **Corriger `SessionResponseSchema`** — déclare `createdAt`/`updatedAt` en
       `z.date()`, validé côté serveur sur de vrais `Date`, mais le client reçoit des
       strings ISO typées `Date`. Toute utilisation comme date échoue.
       → `src/shared/api/contracts/auth/auth.schema.ts`
-- [ ] **Corriger la validation `children` du `GroupNode`** — le schéma Mongoose impose
+- [ ] `P0-2` **Corriger la validation `children` du `GroupNode`** — le schéma Mongoose impose
       `arr.length > 0` alors que la factory crée le groupe avec `children: []`. Dès que
       la sauvegarde existera, tout questionnaire contenant un groupe vide sera rejeté.
       → `src/server/models/nodes/group/group.node.schema.ts`
-- [ ] **Uniformiser les mappers** — `getSurveyOverview` ne passe par aucun mapper,
+- [ ] `P0-3` **Uniformiser les mappers** — `getSurveyOverview` ne passe par aucun mapper,
       contrairement à `getSurvey` : les dates restent des strings et `formatDate` les
       reparse. Fonctionne par chance.
       → `src/features/surveys/common/api/surveys.client.ts`
-- [ ] **Supprimer le fallback `JWT_SECRET`** — vaut
+- [ ] `P0-4` **Supprimer le fallback `JWT_SECRET`** — vaut
       `'your-secret-key-change-in-production'` si la variable est absente. Doit throw au
       démarrage comme `MONGODB_URI`.
       → `src/server/auth/jwt.ts`
@@ -65,135 +71,135 @@ Des défauts qui feront échouer les phases suivantes s'ils ne sont pas traités
 L'éditeur perd tout au rechargement. C'est le blocage le plus grave : en l'état, c'est
 une démo.
 
-- [ ] **Endpoint `PUT /api/surveys/[shortId]`** — créateur + statut `draft` uniquement.
+- [ ] `P1-1` **Endpoint `PUT /api/surveys/[shortId]`** — créateur + statut `draft` uniquement.
       Nécessite un schéma Zod récursif des nodes, qui remplacera les `z.any()` du
       contrat actuel.
-- [ ] **Autosave debounced** — PUT du draft complet (meta + pages), branché sur
+- [ ] `P1-2` **Autosave debounced** — PUT du draft complet (meta + pages), branché sur
       `isDirty`, avec invalidation de `surveysQueryKeys.detail(shortId)`.
-- [ ] **Statut de sauvegarde réel** — le header affiche du texte français en dur et le
+- [ ] `P1-3` **Statut de sauvegarde réel** — le header affiche du texte français en dur et le
       bouton « Enregistrer » est `disabled`.
       → `survey-editor-header.component.tsx`
-- [ ] **Garde anti-perte** — confirmation avant de quitter avec des changements non
+- [ ] `P1-4` **Garde anti-perte** — confirmation avant de quitter avec des changements non
       sauvegardés.
-- [ ] **Gestion des échecs de sauvegarde** — comportement si le PUT échoue, et si deux
+- [ ] `P1-5` **Gestion des échecs de sauvegarde** — comportement si le PUT échoue, et si deux
       onglets éditent le même questionnaire.
 
 ## Phase 2 — Éditeur : manipulation des blocs
 
-- [ ] **Réordonner les nodes** — drag & drop, reducer `moveNode`. `reindexNodes` existe
+- [ ] `P2-1` **Réordonner les nodes** — drag & drop, reducer `moveNode`. `reindexNodes` existe
       déjà mais n'est appelé qu'à l'ajout/suppression.
-- [ ] **Réordonner les pages** — reducer `movePage`.
-- [ ] **Supprimer une page** — aucune UI n'existe : le header de page n'a qu'un bouton
+- [ ] `P2-2` **Réordonner les pages** — reducer `movePage`.
+- [ ] `P2-3` **Supprimer une page** — aucune UI n'existe : le header de page n'a qu'un bouton
       « Paramètres ». La clé i18n `pages.deletePage` est déjà écrite et inutilisée.
-- [ ] **Dupliquer un node** — le bouton existe mais `onDuplicateClick` n'est jamais
+- [ ] `P2-4` **Dupliquer un node** — le bouton existe mais `onDuplicateClick` n'est jamais
       passé : cliquer ne fait rien. Prévoir la regénération récursive des `NodeId`.
-- [ ] **Dupliquer une page**
-- [ ] **Rendu récursif des enfants** — `page.children.map()` est plat : un `group`
+- [ ] `P2-5` **Dupliquer une page**
+- [ ] `P2-6` **Rendu récursif des enfants** — `page.children.map()` est plat : un `group`
       s'affiche mais ses enfants sont invisibles et inaccessibles.
       → `survey-editor-page-block.component.tsx`
-- [ ] **Ajouter un node dans un group** — le bouton d'ajout n'existe qu'au niveau page.
-- [ ] **Déplacer un node entre pages ou dans un group**
+- [ ] `P2-7` **Ajouter un node dans un group** — le bouton d'ajout n'existe qu'au niveau page.
+- [ ] `P2-8` **Déplacer un node entre pages ou dans un group**
 
 ## Phase 3 — Éditeur : édition des propriétés
 
 Le modèle définit une vingtaine de propriétés éditables ; **sept le sont réellement**.
 C'est la phase la plus volumineuse de l'éditeur.
 
-- [ ] **Options des questions à choix** — `radio`, `select` et `checkboxes` retournent
+- [ ] `P3-1` **Options des questions à choix** — `radio`, `select` et `checkboxes` retournent
       `null`. Composant partagé d'édition d'options (label, value, description,
       disabled, réordonnancement). Ce sont les types les plus utilisés en pratique.
-- [ ] **Branches manquantes du routeur** — `CHECKBOXES` et `DATE` n'ont aucun panneau.
+- [ ] `P3-2` **Branches manquantes du routeur** — `CHECKBOXES` et `DATE` n'ont aucun panneau.
       → `question-settings-router.component.tsx`
-- [ ] **Champ `required`** — propriété de base d'une question, modélisée, jamais
+- [ ] `P3-3` **Champ `required`** — propriété de base d'une question, modélisée, jamais
       éditable.
-- [ ] **`page.skippable`** — modélisé, clé i18n écrite, aucune UI.
-- [ ] **Sous-titre et description sur tous les panneaux** — seuls `text` et `textarea`
+- [ ] `P3-4` **`page.skippable`** — modélisé, clé i18n écrite, aucune UI.
+- [ ] `P3-5` **Sous-titre et description sur tous les panneaux** — seuls `text` et `textarea`
       les exposent.
-- [ ] **Panneau `group`** — `group.title` et `group.description` (distincts du titre du
+- [ ] `P3-6` **Panneau `group`** — `group.title` et `group.description` (distincts du titre du
       node) ne sont pas éditables.
-- [ ] **Panneau `info`** — type d'alerte (info/warning/error/success/neutral), titre et
+- [ ] `P3-7` **Panneau `info`** — type d'alerte (info/warning/error/success/neutral), titre et
       description : rien n'est éditable.
-- [ ] **Configs avancées par type** — `text` (maxLength, minLength, pattern),
+- [ ] `P3-8` **Configs avancées par type** — `text` (maxLength, minLength, pattern),
       `textarea` (rows), `number` (integer, unit), `date` (min, max), `checkboxes`
       (minChecked, maxChecked, layout), `scale` (labels), `radio`/`select` (layout,
       searchable), et `commit` sur tous les types.
-- [ ] **Champ `code`** — identifiant stable destiné au reporting, modélisé et non
+- [ ] `P3-9` **Champ `code`** — identifiant stable destiné au reporting, modélisé et non
       exposé.
-- [ ] **Onglet « Logique »** — `NodeLogicPanel` retourne `<div>Logic</div>`. Éditeur de
+- [ ] `P3-10` **Onglet « Logique »** — `NodeLogicPanel` retourne `<div>Logic</div>`. Éditeur de
       conditions et de triggers : c'est la partie la plus riche du modèle et elle est à
       0 % côté UI. Gros morceau, probablement à découper.
 
 ## Phase 4 — Éditeur : confort
 
-- [ ] **Sidebar** — c'est littéralement `<div>Sidebar</div>`. Plan du questionnaire,
+- [ ] `P4-1` **Sidebar** — c'est littéralement `<div>Sidebar</div>`. Plan du questionnaire,
       navigation, réordonnancement des pages.
-- [ ] **Undo / redo** — absent, alors que Redux le rend accessible.
-- [ ] **Raccourcis clavier** — aucun listener dans tout l'éditeur.
-- [ ] **Confirmation de suppression** — un node se supprime sans avertissement ni
+- [ ] `P4-2` **Undo / redo** — absent, alors que Redux le rend accessible.
+- [ ] `P4-3` **Raccourcis clavier** — aucun listener dans tout l'éditeur.
+- [ ] `P4-4` **Confirmation de suppression** — un node se supprime sans avertissement ni
       annulation possible.
-- [ ] **Navigation clavier entre blocs** — sélection au clavier seulement partielle.
-- [ ] **Validation en direct** — signaler les blocs incomplets (choix sans options,
+- [ ] `P4-5` **Navigation clavier entre blocs** — sélection au clavier seulement partielle.
+- [ ] `P4-6` **Validation en direct** — signaler les blocs incomplets (choix sans options,
       titre vide) avant d'arriver à la publication.
-- [ ] **États vides** — un questionnaire sans page n'offre aucun guidage.
+- [ ] `P4-7` **États vides** — un questionnaire sans page n'offre aucun guidage.
 
 ## Phase 5 — Aperçu et publication
 
-- [ ] **Moteur de rendu des questions** — un composant par type (8 types), partagé
+- [ ] `P5-1` **Moteur de rendu des questions** — un composant par type (8 types), partagé
       entre l'aperçu et le parcours réel. Brique centrale du produit, rien n'existe.
-- [ ] **Page `/preview`** — placeholder. Aperçu fidèle sans persistance, accessible
+- [ ] `P5-2` **Page `/preview`** — placeholder. Aperçu fidèle sans persistance, accessible
       depuis l'éditeur.
-- [ ] **Bascule aperçu desktop / mobile** — un questionnaire se remplit surtout au
+- [ ] `P5-3` **Bascule aperçu desktop / mobile** — un questionnaire se remplit surtout au
       téléphone.
-- [ ] **Validation avant publication** — titre requis, au moins une page non vide,
+- [ ] `P5-4` **Validation avant publication** — titre requis, au moins une page non vide,
       options non vides sur les questions à choix.
-- [ ] **Endpoints publish / archive / republish** — trois TODO dans l'overview, boutons
+- [ ] `P5-5` **Endpoints publish / archive / republish** — trois TODO dans l'overview, boutons
       `disabled`. ⚠️ Dépend de la question ouverte sur le cycle de vie.
       → `survey-overview-header.component.tsx`
 
 ## Phase 6 — Répondre
 
-- [ ] **Modèle `SurveyResponse`** — schéma Mongoose (le type existe déjà), index unique
+- [ ] `P6-1` **Modèle `SurveyResponse`** — schéma Mongoose (le type existe déjà), index unique
       `(surveyId, respondentUserId)`.
-- [ ] **Moteur d'évaluation** — conditions, triggers, actions. Dans `src/shared/`, sans
+- [ ] `P6-2` **Moteur d'évaluation** — conditions, triggers, actions. Dans `src/shared/`, sans
       dépendance au DOM ni à Mongoose : exécuté côté client pour l'UX puis rejoué côté
       serveur à chaque commit. À couvrir de tests.
-- [ ] **Parcours `/run/[surveyShortId]`** — rendu des pages, navigation, validation,
+- [ ] `P6-3` **Parcours `/run/[surveyShortId]`** — rendu des pages, navigation, validation,
       reprise via `currentPageId`.
-- [ ] **API de réponse** — création/reprise, commit d'étape (écrase `answers`),
+- [ ] `P6-4` **API de réponse** — création/reprise, commit d'étape (écrase `answers`),
       soumission (`completed` + `completedAt`), revalidation serveur, incrément de
       `responseCount`.
-- [ ] **Page de fin `/run/[surveyShortId]/done`**
-- [ ] **Restreindre `find-one`** — la route est volontairement ouverte à tout
+- [ ] `P6-5` **Page de fin `/run/[surveyShortId]/done`**
+- [ ] `P6-6` **Restreindre `find-one`** — la route est volontairement ouverte à tout
       utilisateur connecté (c'est la route de consultation pour répondre), mais elle
       expose aussi les questionnaires en `draft` à qui devine le `shortId`.
-- [ ] **Questionnaire archivé ou dépublié** — comportement côté répondant.
+- [ ] `P6-7` **Questionnaire archivé ou dépublié** — comportement côté répondant.
 
 ## Phase 7 — Exploiter les réponses
 
-- [ ] **Dé-mocker l'overview** — `completedCount`, `inProgressCount`, `completionRate`,
+- [ ] `P7-1` **Dé-mocker l'overview** — `completedCount`, `inProgressCount`, `completionRate`,
       `weeklyData` et `questionCount` sont codés à `99`.
       → `src/server/api/routes/surveys/find-one-overview.get.ts`
-- [ ] **Onglet « Répondus »** — `mockResponses` en dur et `respondedSurveys` toujours
+- [ ] `P7-2` **Onglet « Répondus »** — `mockResponses` en dur et `respondedSurveys` toujours
       vide ; l'endpoint correspondant n'existe pas.
       → `src/pages/index.tsx`
-- [ ] **Liste `/results`** — tableau, filtres par statut, pagination.
-- [ ] **Détail `/results/[responseShortId]`**
-- [ ] **Analytics `/analytics`** — agrégats par question selon le type (répartition pour
+- [ ] `P7-3` **Liste `/results`** — tableau, filtres par statut, pagination.
+- [ ] `P7-4` **Détail `/results/[responseShortId]`**
+- [ ] `P7-5` **Analytics `/analytics`** — agrégats par question selon le type (répartition pour
       les choix, distribution pour les échelles). recharts est déjà installé.
-- [ ] **Export CSV** — bouton présent et `disabled`.
+- [ ] `P7-6` **Export CSV** — bouton présent et `disabled`.
 
 ## Phase 8 — Reste
 
-- [ ] **Suppression d'un questionnaire** — aucun endpoint `DELETE`.
-- [ ] **Partage** — bouton `share` de l'overview en TODO.
-- [ ] **Tests Vitest** — aucun runner installé. Cibles prioritaires :
+- [ ] `P8-1` **Suppression d'un questionnaire** — aucun endpoint `DELETE`.
+- [ ] `P8-2` **Partage** — bouton `share` de l'overview en TODO.
+- [ ] `P8-3` **Tests Vitest** — aucun runner installé. Cibles prioritaires :
       `editor/state/tree/`, les sanitizers, les mappers, puis le moteur d'évaluation.
-- [ ] **i18n** — namespaces `surveys.questions`, `surveys.analytics` et `surveys.run`
+- [ ] `P8-4` **i18n** — namespaces `surveys.questions`, `surveys.analytics` et `surveys.run`
       vides ; textes en dur dans le header de l'éditeur et les onglets de l'inspector.
-- [ ] **Lint** — 120 erreurs Prettier préexistantes dans 6 primitives `components/ui/`
+- [ ] `P8-5` **Lint** — 120 erreurs Prettier préexistantes dans 6 primitives `components/ui/`
       (guillemets doubles, classes Tailwind non triées), telles qu'installées par la CLI
       shadcn.
-- [ ] **README** — encore le boilerplate `create-next-app` ; `README copy.md` à
+- [ ] `P8-6` **README** — encore le boilerplate `create-next-app` ; `README copy.md` à
       supprimer.
 
 ---
