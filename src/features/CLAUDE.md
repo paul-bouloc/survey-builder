@@ -97,6 +97,7 @@ editor/
     inspector/    panneau de propriétés
       fields/     champs atomiques réutilisables
       panels/     un panneau par kind / type de question
+  hooks/          hooks propres à l'éditeur (autosave)
   config/         contraintes (maxLength)
   lib/            règles métier pures
   views/          états de page (loading, error, forbidden)
@@ -111,7 +112,13 @@ editor/
 {
   data: { draft: SurveyDraft | null },
   ui: { selectedNodeId: NodeId | null },
-  status: { phase: EditorPhase, isDirty: boolean }
+  status: {
+    phase: EditorPhase,
+    isDirty: boolean,
+    saveStatus: SaveStatus,
+    lastSavedAt: string | null,
+    revision: number
+  }
 }
 ```
 
@@ -170,25 +177,53 @@ Certains fichiers sont des coquilles assumées (`NodeLogicPanel`,
 `SettingsPanelDividerComponent` retournent `null` ou un placeholder) : ce sont les
 points d'accroche de la logique conditionnelle à venir.
 
-### Persistance — l'endpoint existe, le branchement reste à faire
+### Persistance — autosave
 
-L'éditeur ne sauvegarde toujours rien : `isDirty` ne déclenche aucune requête. C'est
-l'objet de `P1-2`.
+L'éditeur sauvegarde le **draft complet** en PUT, 2 s après la dernière modification.
 
-Le transport, lui, est en place (`P1-1`) :
+Le transport (`P1-1`) :
 
 - `PUT /api/surveys/[shortId]` — créateur et statut `draft` uniquement, corps validé
   par `UpdateSurveyBodySchema` (voir `shared/CLAUDE.md`) ;
 - `surveysClient.updateSurvey(shortId, payload)` et le hook `useUpdateSurvey(shortId)`,
-  qui invalide déjà `surveysQueryKeys.detail(shortId)` au succès.
+  qui invalide `surveysQueryKeys.detail(shortId)` au succès.
 
-Le corps attendu est le **draft complet**, pas un patch : `title`, `subtitle`,
+Le corps attendu est le draft complet, pas un patch : `title`, `subtitle`,
 `description` et `pages` sont tous requis. Un `SurveyDraft` s'y envoie tel quel, aux
 optionnels près (`subtitle`/`description` sont `?: string` côté draft et `nullable`
 côté contrat — passe `?? null`).
 
-Reste donc à écrire : le debounce sur `isDirty`, l'indicateur de statut (`P1-3`), la
-garde anti-perte (`P1-4`) et le traitement des échecs (`P1-5`).
+Le branchement (`P1-2`/`P1-3`) est `useSurveyEditorAutosave(shortId)`
+(`editor/hooks/`), appelé par la page d'édition. Il n'y a **pas de sauvegarde
+manuelle** : l'autosave est le seul chemin d'écriture, et le header se contente
+d'afficher `status.saveStatus` (daté par `formatSavedAt`, voir `shared/CLAUDE.md`).
+Trois points de conception à ne pas défaire :
+
+- **Le draft n'est chargé qu'une fois par `shortId`.** `edit.tsx` garde une ref
+  `loadedShortId` et ne dispatche `loadSuccess` qu'au premier chargement. Sans elle, le
+  refetch provoqué par l'invalidation réécraserait le draft et ferait perdre les
+  caractères tapés pendant la requête. Conséquence assumée : une modification faite
+  ailleurs n'apparaît qu'au rechargement de la page.
+- **`status.revision`** est incrémentée par toute mutation du draft (helper `markDirty`
+  du slice). La sauvegarde mémorise la révision qu'elle envoie ; `saveSuccess` ne lève
+  `isDirty` que si elle n'a pas bougé, sinon les frappes faites pendant le vol seraient
+  considérées comme sauvegardées.
+- **Un titre vide suspend l'envoi.** Le PUT exige `title` non vide : plutôt que
+  d'encaisser un 400 à chaque frappe, le cycle se met en pause et repart dès qu'un
+  titre est saisi. Rien n'est perdu, le draft reste `isDirty` et le header affiche
+  « non enregistré » — c'est le meta-block qui signale le titre manquant, le statut
+  de sauvegarde n'a pas à le redire.
+
+Un échec passe `saveStatus` à `error` et ne replanifie rien — la modification suivante
+relance la sauvegarde. La reprise après échec et le conflit multi-onglets sont `P1-5`,
+la garde anti-perte au départ de la page est `P1-4`.
+
+Côté affichage, le header dérive un `SavePhase`
+(`unsaved | saving | saved | error`) **distinct de `SaveStatus`**, qui sert de `key`
+à l'`AnimatePresence`. La date n'entre pas dans cette clé : passer de « il y a
+1 minute » à « il y a 2 minutes » change le texte sans rejouer la transition, alors
+qu'un changement de phase la déclenche. La phase traverse `useMinDurationValue`
+(1 s) pour qu'un PUT rapide ne fasse pas clignoter « Enregistrement… ».
 
 Note `canEditSurvey` (`editor/lib/`) : l'édition exige `status === 'draft'`
 **et** `createdBy === session.userId`. Cette règle est vérifiée côté client pour l'UI ;
@@ -291,6 +326,7 @@ Reste sobre : l'animation sert la lisibilité du changement, elle n'est pas déc
 
 ### Responsive
 
-Hooks disponibles : `useIsMobile`, `useMediaQuery`, `useAutoResize` (`src/hooks/`).
+Hooks disponibles : `useIsMobile`, `useMediaQuery`, `useAutoResize`,
+`useMinDurationValue` (`src/hooks/`).
 L'inspector de l'éditeur bascule en `Drawer` (vaul) sur mobile et en panneau latéral sur
 desktop — reprends ce pattern plutôt que de masquer du contenu.

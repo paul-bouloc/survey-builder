@@ -198,4 +198,12 @@ Pour les dates, utilise `formatDate` (`shared/i18n/format.ts`) qui retourne
 `{ value, isRelative }` : relatif en deçà d'une semaine, format moyen au-delà.
 Le fuseau est fixé à `Europe/Paris` dans `_app.tsx`.
 
+`formatSavedAt` (même fichier) sert les horodatages d'enregistrement, où le relatif
+cesse d'être utile passé l'heure. Il retourne `{ value, kind }` avec
+`kind: 'now' | 'relative' | 'time' | 'date'` — à l'appelant de choisir la clé i18n
+correspondante, la phrase complète différant selon le palier (« à l'instant »,
+« il y a 3 minutes », « à 14:02 », « le 18 sept. »). Le palier `date` porte l'année
+dès qu'on change d'**année civile**, et non passé 12 mois : une date de décembre lue
+en janvier doit être datée sans ambiguïté.
+
 Les titres de page (`<Head>`) viennent du namespace `routes`, suffixés `| datum`.

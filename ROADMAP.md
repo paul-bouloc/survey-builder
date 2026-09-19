@@ -79,10 +79,15 @@ une démo.
       Il est volontairement permissif sur la complétude métier (options vides,
       titres vides) : c'est un brouillon. Les `z.any()` de `SurveySchema` (schéma
       de **réponse**) sont laissés en place, voir `P8-7`.
-- [ ] `P1-2` **Autosave debounced** — PUT du draft complet (meta + pages), branché sur
-      `isDirty`, avec invalidation de `surveysQueryKeys.detail(shortId)`.
-- [ ] `P1-3` **Statut de sauvegarde réel** — le header affiche du texte français en dur et le
-      bouton « Enregistrer » est `disabled`.
+- [x] `P1-2` **Autosave debounced** — PUT du draft complet (meta + pages) 2 s après la
+      dernière modification, via `useSurveyEditorAutosave`. Le draft n'est chargé
+      qu'une fois par `shortId` : sans cela, le refetch déclenché par l'invalidation
+      de `surveysQueryKeys.detail(shortId)` réécraserait les frappes en cours.
+      Un titre vide suspend l'envoi (le PUT le refuse) sans perdre les changements.
+- [x] `P1-3` **Statut de sauvegarde réel** — `status.saveStatus` dans le slice, affiché
+      dans le header : non enregistré / en cours (avec spinner) / enregistré, ce
+      dernier daté par `formatSavedAt`. Le bouton « Enregistrer » a été supprimé —
+      l'autosave est le seul chemin d'écriture.
       → `survey-editor-header.component.tsx`
 - [ ] `P1-4` **Garde anti-perte** — confirmation avant de quitter avec des changements non
       sauvegardés.

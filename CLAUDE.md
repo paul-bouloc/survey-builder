@@ -193,10 +193,10 @@ avant de commencer une tâche, et coche les cases que tu termines dans le même 
 le code. Il porte aussi une section « Questions ouvertes » : ces points ne se tranchent
 pas seul, demande.
 
-Résumé : l'authentification, la création/consultation de questionnaires et l'UI de
-l'éditeur fonctionnent. L'éditeur **ne sauvegarde rien** (tout est perdu au
-rechargement), et le parcours de réponse, la publication, les résultats et les analytics
-sont des placeholders.
+Résumé : l'authentification, la création/consultation de questionnaires et l'éditeur
+fonctionnent — ce dernier sauvegarde désormais son brouillon par autosave (`P1-2`).
+Le parcours de réponse, la publication, les résultats et les analytics sont encore des
+placeholders.
 
 ### Décisions d'architecture prises
 
