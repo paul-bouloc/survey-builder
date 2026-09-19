@@ -6,14 +6,14 @@ import {
 } from '@/components/ui/tooltip'
 import { routes } from '@/config/routes'
 import { cn } from '@/lib/utils'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
+import type { SurveyOverview } from '@/shared/types/surveys/survey-overview.type'
 import { SurveyStatus } from '@/shared/types/surveys/survey.type'
 import { BarChart3, Download, Edit, FileText } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 interface SurveyOverviewQuickActionsProps {
-  survey: SurveyOverviewResponse
+  survey: SurveyOverview
 }
 
 interface QuickAction {

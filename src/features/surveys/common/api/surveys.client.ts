@@ -1,3 +1,4 @@
+import { surveyOverviewMapper } from '@/features/surveys/common/mappers/survey-overview.mapper'
 import { surveyMapper } from '@/features/surveys/common/mappers/survey.mapper'
 import type {
   CreateSurveyBody,
@@ -23,7 +24,7 @@ export const surveysClient = {
     const { data } = await http.get<SurveyOverviewResponse>(
       `/surveys/${shortId}/overview`
     )
-    return data
+    return surveyOverviewMapper.toDomain(data)
   },
 
   createSurvey: async (payload: CreateSurveyBody) => {

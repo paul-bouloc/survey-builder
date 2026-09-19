@@ -10,14 +10,14 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
+import type { SurveyOverview } from '@/shared/types/surveys/survey-overview.type'
 import { Copy, ExternalLink } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import { useMemo } from 'react'
 import { toast } from 'sonner'
 
 interface SurveyOverviewFormLinkProps {
-  survey: SurveyOverviewResponse
+  survey: SurveyOverview
 }
 
 export function SurveyOverviewFormLink({

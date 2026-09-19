@@ -4,11 +4,11 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
+import type { SurveyOverview } from '@/shared/types/surveys/survey-overview.type'
 import { useTranslations } from 'next-intl'
 
 interface SurveyOverviewStatsProps {
-  stats: SurveyOverviewResponse['stats']
+  stats: SurveyOverview['stats']
 }
 
 export function SurveyOverviewStats({ stats }: SurveyOverviewStatsProps) {

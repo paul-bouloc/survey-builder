@@ -13,12 +13,12 @@ import {
   ChartTooltipContent,
   type ChartConfig
 } from '@/components/ui/chart'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
+import type { SurveyOverview } from '@/shared/types/surveys/survey-overview.type'
 import { useFormatter, useTranslations } from 'next-intl'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 
 interface SurveyOverviewWeeklyChartProps {
-  weeklyData: SurveyOverviewResponse['weeklyData']
+  weeklyData: SurveyOverview['weeklyData']
 }
 
 export function SurveyOverviewWeeklyChart({

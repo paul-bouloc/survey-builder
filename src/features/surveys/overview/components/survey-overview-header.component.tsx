@@ -1,14 +1,14 @@
 import Badge from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { routes } from '@/config/routes'
-import type { SurveyOverviewResponse } from '@/shared/api/contracts/surveys/surveys.overview.schema'
+import type { SurveyOverview } from '@/shared/types/surveys/survey-overview.type'
 import { SurveyStatus } from '@/shared/types/surveys/survey.type'
 import { ArchiveIcon, CheckCircleIcon, WrenchIcon } from 'lucide-react'
 import { useTranslations } from 'next-intl'
 import Link from 'next/link'
 
 interface SurveyOverviewHeaderProps {
-  survey: SurveyOverviewResponse
+  survey: SurveyOverview
 }
 
 type HeaderAction = {

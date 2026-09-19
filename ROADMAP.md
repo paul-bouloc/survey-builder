@@ -57,7 +57,7 @@ Des défauts qui feront échouer les phases suivantes s'ils ne sont pas traités
       `arr.length > 0` alors que la factory crée le groupe avec `children: []`. Dès que
       la sauvegarde existera, tout questionnaire contenant un groupe vide sera rejeté.
       → `src/server/models/nodes/group/group.node.schema.ts`
-- [ ] `P0-3` **Uniformiser les mappers** — `getSurveyOverview` ne passe par aucun mapper,
+- [x] `P0-3` **Uniformiser les mappers** — `getSurveyOverview` ne passe par aucun mapper,
       contrairement à `getSurvey` : les dates restent des strings et `formatDate` les
       reparse. Fonctionne par chance.
       → `src/features/surveys/common/api/surveys.client.ts`
