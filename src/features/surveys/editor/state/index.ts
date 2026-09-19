@@ -1,6 +1,9 @@
 export {
   selectEditorPhase,
   selectIsDirty,
+  selectSaveStatus,
+  selectLastSavedAt,
+  selectDraftRevision,
   selectIsEditable,
   selectEditorPages,
   selectEditorPageById,
@@ -19,6 +22,9 @@ export {
   loadStart,
   loadSuccess,
   resetEditor,
+  saveStart,
+  saveSuccess,
+  saveFailure,
   setSelection,
   updateSurveyMeta,
   addPage,
@@ -27,6 +33,7 @@ export {
   removeNode,
   surveyEditorReducer
 } from './store'
+export { SaveStatus } from './model'
 export type {
   EditorPhase,
   SurveyDraft,

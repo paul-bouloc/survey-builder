@@ -1,6 +1,9 @@
 export {
   selectEditorPhase,
   selectIsDirty,
+  selectSaveStatus,
+  selectLastSavedAt,
+  selectDraftRevision,
   selectIsEditable,
   selectEditorPages,
   selectEditorPageById,

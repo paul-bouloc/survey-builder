@@ -14,10 +14,11 @@ import {
 } from '../factories'
 import { QuestionType } from '@/shared/types/surveys/nodes/question.node.type'
 import { surveyToDraft } from '../mappers'
-import type {
-  SurveyEditorState,
-  SurveyItemPatch,
-  SurveyMetaPatch
+import {
+  SaveStatus,
+  type SurveyEditorState,
+  type SurveyItemPatch,
+  type SurveyMetaPatch
 } from '../model/survey-editor.types'
 import { sanitizeSurveyMetaPatch, sanitizeSurveyNodePatch } from '../sanitizers'
 import { findNodeInSurvey, reindexNodes, removeNodeFromPages } from '../tree'
@@ -31,9 +32,18 @@ const getInitialState = (): SurveyEditorState => ({
   },
   status: {
     phase: 'idle',
-    isDirty: false
+    isDirty: false,
+    saveStatus: SaveStatus.IDLE,
+    lastSavedAt: null,
+    revision: 0
   }
 })
+
+/** Toute mutation du draft passe par ici : `isDirty` et `revision` restent solidaires. */
+function markDirty(state: SurveyEditorState) {
+  state.status.isDirty = true
+  state.status.revision += 1
+}
 
 const surveyEditorSlice = createSlice({
   name: 'surveyEditor',
@@ -44,11 +54,21 @@ const surveyEditorSlice = createSlice({
       state.data.draft = null
       state.ui.selectedNodeId = null
       state.status.isDirty = false
+      state.status.saveStatus = SaveStatus.IDLE
+      state.status.lastSavedAt = null
+      state.status.revision = 0
     },
     loadSuccess(state, action: { payload: Survey }) {
       state.data.draft = surveyToDraft(action.payload)
       state.status.phase = 'success'
       state.status.isDirty = false
+      state.status.saveStatus = SaveStatus.IDLE
+      // `updatedAt` est la dernière écriture connue : le header peut dater le
+      // brouillon dès l'ouverture, avant toute sauvegarde de la session.
+      state.status.lastSavedAt = new Date(
+        action.payload.updatedAt
+      ).toISOString()
+      state.status.revision = 0
     },
     loadForbidden(state) {
       state.status.phase = 'forbidden'
@@ -62,6 +82,32 @@ const surveyEditorSlice = createSlice({
       return getInitialState()
     },
 
+    saveStart(state) {
+      state.status.saveStatus = SaveStatus.SAVING
+    },
+
+    /**
+     * `revision` est celle envoyée au serveur : si elle a bougé pendant la
+     * requête, le draft contient des changements plus récents et reste dirty.
+     */
+    saveSuccess(
+      state,
+      action: PayloadAction<{ revision: number; savedAt: string }>
+    ) {
+      const { revision, savedAt } = action.payload
+      state.status.lastSavedAt = savedAt
+      if (state.status.revision === revision) {
+        state.status.isDirty = false
+        state.status.saveStatus = SaveStatus.SAVED
+      } else {
+        state.status.saveStatus = SaveStatus.IDLE
+      }
+    },
+
+    saveFailure(state) {
+      state.status.saveStatus = SaveStatus.ERROR
+    },
+
     updateSurveyMeta(state, action: PayloadAction<SurveyMetaPatch>) {
       if (!state.data.draft) return
       const patch = sanitizeSurveyMetaPatch(action.payload)
@@ -70,7 +116,7 @@ const surveyEditorSlice = createSlice({
         state.data.draft.subtitle = patch.subtitle
       if (patch.description !== undefined)
         state.data.draft.description = patch.description
-      state.status.isDirty = true
+      markDirty(state)
     },
 
     setSelection(state, action: PayloadAction<NodeId | null>) {
@@ -81,7 +127,7 @@ const surveyEditorSlice = createSlice({
       if (!state.data.draft) return
       const order = state.data.draft.pages.length
       state.data.draft.pages.push(createPageNode(order))
-      state.status.isDirty = true
+      markDirty(state)
     },
 
     addNode(
@@ -121,7 +167,7 @@ const surveyEditorSlice = createSlice({
         page.children.push(createQuestionNode(order))
       }
       reindexNodes(page.children)
-      state.status.isDirty = true
+      markDirty(state)
     },
 
     updateNode(
@@ -149,7 +195,7 @@ const surveyEditorSlice = createSlice({
         const qNode = node as QuestionNode
         qNode.config = { ...qNode.config, ...patch.config }
       }
-      state.status.isDirty = true
+      markDirty(state)
     },
 
     removeNode(state, action: PayloadAction<NodeId>) {
@@ -159,7 +205,7 @@ const surveyEditorSlice = createSlice({
       if (removed && state.ui.selectedNodeId === nodeId) {
         state.ui.selectedNodeId = null
       }
-      if (removed) state.status.isDirty = true
+      if (removed) markDirty(state)
     }
   }
 })
@@ -171,6 +217,9 @@ export const {
   loadForbidden,
   loadError,
   resetEditor,
+  saveStart,
+  saveSuccess,
+  saveFailure,
   updateSurveyMeta,
   setSelection,
   addPage,

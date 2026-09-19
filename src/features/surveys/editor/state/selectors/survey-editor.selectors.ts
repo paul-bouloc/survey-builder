@@ -50,6 +50,15 @@ export const selectEditorPageById = (pageId: NodeId) => (state: RootState) => {
 export const selectIsDirty = (state: RootState) =>
   selectSurveyEditorStatus(state).isDirty
 
+export const selectSaveStatus = (state: RootState) =>
+  selectSurveyEditorStatus(state).saveStatus
+
+export const selectLastSavedAt = (state: RootState) =>
+  selectSurveyEditorStatus(state).lastSavedAt
+
+export const selectDraftRevision = (state: RootState) =>
+  selectSurveyEditorStatus(state).revision
+
 export const selectSelectedItem = (state: RootState): Node | null => {
   const pages = selectEditorPages(state)
   const nodeId = selectSelectedNodeId(state)

@@ -6,6 +6,15 @@ import type { SurveyDraft } from './survey-draft.type'
 
 export type EditorPhase = 'idle' | 'loading' | 'success' | 'forbidden' | 'error'
 
+export const SaveStatus = {
+  IDLE: 'idle',
+  SAVING: 'saving',
+  SAVED: 'saved',
+  ERROR: 'error'
+} as const
+
+export type SaveStatus = (typeof SaveStatus)[keyof typeof SaveStatus]
+
 export type SurveyMetaPatch = Partial<
   Pick<Survey, 'title' | 'subtitle' | 'description'>
 >
@@ -39,6 +48,15 @@ export interface SurveyEditorUi {
 export interface SurveyEditorStatus {
   phase: EditorPhase
   isDirty: boolean
+  saveStatus: SaveStatus
+  lastSavedAt: string | null
+  /**
+   * Incrémentée par toute mutation du draft. Une sauvegarde mémorise la révision
+   * qu'elle envoie : au retour, `isDirty` n'est levé que si la révision n'a pas
+   * bougé entre-temps, sinon les frappes faites pendant la requête seraient
+   * considérées comme déjà sauvegardées.
+   */
+  revision: number
 }
 
 export interface SurveyEditorState {
