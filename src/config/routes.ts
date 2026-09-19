@@ -54,7 +54,7 @@ export const routes = {
     },
 
     results: {
-      path: '/survey/[surveyShortId]/runesults',
+      path: '/survey/[surveyShortId]/results',
       labelKey: 'survey.results.page',
       getHref: (surveyShortId: string) => `/survey/${surveyShortId}/results`
     },
