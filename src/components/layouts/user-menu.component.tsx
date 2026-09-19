@@ -10,6 +10,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import {
+  SegmentedControl,
+  SegmentedControlItem,
+  SegmentedControlList
+} from '@/components/ui/segmented-control'
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
@@ -22,11 +27,17 @@ import { useTheme } from 'next-themes'
 import { useRouter } from 'next/router'
 import * as React from 'react'
 
+const stopHorizontalArrows = (event: React.KeyboardEvent) => {
+  if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+    event.stopPropagation()
+  }
+}
+
 export function UserMenu() {
   const { data: session } = useSession()
   const logout = useLogout()
   const router = useRouter()
-  const { theme, setTheme } = useTheme()
+  const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)
   const t = useTranslations('nav')
 
@@ -47,12 +58,15 @@ export function UserMenu() {
     }
   }
 
-  const handleLanguageToggle = async () => {
-    const nextLocale = router.locale === 'fr' ? 'en' : 'fr'
+  const handleLocaleChange = async (locale: string) => {
+    if (locale === router.locale) {
+      return
+    }
+
     await router.push(
       { pathname: router.pathname, query: router.query },
       router.asPath,
-      { locale: nextLocale }
+      { locale }
     )
   }
 
@@ -78,38 +92,43 @@ export function UserMenu() {
       <DropdownMenuContent align="end" className="w-48">
         <DropdownMenuLabel>{session.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-        >
-          {theme === 'dark' ? (
-            <>
-              <Sun className="size-4" strokeWidth={1.5} />
-              <span>{t('lightMode')}</span>
-            </>
-          ) : (
-            <>
-              <Moon className="size-4" strokeWidth={1.5} />
-              <span>{t('darkMode')}</span>
-            </>
-          )}
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleLanguageToggle}>
-          {router.locale === 'fr' ? (
-            <>
-              <div className="flex size-4 items-center justify-center [&_svg]:size-4">
-                <EnIcon />
-              </div>
-              <span>{t('switchLanguage')}</span>
-            </>
-          ) : (
-            <>
-              <div className="flex size-4 items-center justify-center [&_svg]:size-4">
-                <FrIcon />
-              </div>
-              <span>{t('switchLanguage')}</span>
-            </>
-          )}
-        </DropdownMenuItem>
+        {/* Les flèches gauche/droite pilotent les segments ; sans cette barrière
+            le menu Radix les intercepterait pour naviguer entre ses items. */}
+        <div onKeyDown={stopHorizontalArrows}>
+          <div className="flex items-center justify-between gap-2 px-2 py-1.5 text-sm">
+            <span>{t('theme')}</span>
+            <SegmentedControl
+              value={resolvedTheme === 'dark' ? 'dark' : 'light'}
+              onValueChange={setTheme}
+            >
+              <SegmentedControlList>
+                <SegmentedControlItem value="light" aria-label={t('lightMode')}>
+                  <Sun strokeWidth={1.5} />
+                </SegmentedControlItem>
+                <SegmentedControlItem value="dark" aria-label={t('darkMode')}>
+                  <Moon strokeWidth={1.5} />
+                </SegmentedControlItem>
+              </SegmentedControlList>
+            </SegmentedControl>
+          </div>
+          <div className="flex items-center justify-between gap-2 px-2 py-1.5 text-sm">
+            <span>{t('language')}</span>
+            <SegmentedControl
+              value={router.locale === 'en' ? 'en' : 'fr'}
+              onValueChange={handleLocaleChange}
+            >
+              <SegmentedControlList>
+                <SegmentedControlItem value="fr" aria-label={t('french')}>
+                  <FrIcon />
+                </SegmentedControlItem>
+                <SegmentedControlItem value="en" aria-label={t('english')}>
+                  <EnIcon />
+                </SegmentedControlItem>
+              </SegmentedControlList>
+            </SegmentedControl>
+          </div>
+        </div>
+        <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={handleLogout}
           variant="destructive"
