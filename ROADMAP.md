@@ -53,7 +53,7 @@ Des défauts qui feront échouer les phases suivantes s'ils ne sont pas traités
       `z.date()`, validé côté serveur sur de vrais `Date`, mais le client reçoit des
       strings ISO typées `Date`. Toute utilisation comme date échoue.
       → `src/shared/api/contracts/auth/auth.schema.ts`
-- [ ] `P0-2` **Corriger la validation `children` du `GroupNode`** — le schéma Mongoose impose
+- [x] `P0-2` **Corriger la validation `children` du `GroupNode`** — le schéma Mongoose impose
       `arr.length > 0` alors que la factory crée le groupe avec `children: []`. Dès que
       la sauvegarde existera, tout questionnaire contenant un groupe vide sera rejeté.
       → `src/server/models/nodes/group/group.node.schema.ts`
