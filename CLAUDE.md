@@ -365,6 +365,8 @@ nécessaire pour un changement qui parle de lui-même.
 ci-dessus porte sur le _découpage_ — une fois le commit demandé, fais-en autant que le
 travail en contient, plutôt qu'un seul commit fourre-tout.
 
+Tu dois toujours faire le plus de commits possible, on évite au maximum de trop regrouper les fichiers entre eux.
+
 ## Règles de travail
 
 - Ne migre pas vers l'App Router, ne convertis pas de composants en RSC.
