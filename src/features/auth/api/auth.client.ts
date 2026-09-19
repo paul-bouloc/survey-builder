@@ -1,3 +1,4 @@
+import { sessionMapper } from '@/features/auth/mappers/session.mapper'
 import type {
   AuthCheckBody,
   AuthRegisterBody,
@@ -14,7 +15,7 @@ export const authClient = {
 
   getSession: async () => {
     const { data } = await http.get<SessionResponse>('/auth/session')
-    return data
+    return sessionMapper.toDomain(data)
   },
 
   logout: async () => {

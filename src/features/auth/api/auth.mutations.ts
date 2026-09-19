@@ -2,6 +2,8 @@ import type {
   AuthCheckBody,
   AuthRegisterBody
 } from '@/shared/api/contracts/auth/auth.contract'
+import type { Session } from '@/shared/types/auth/session.type'
+import type { Email, ObjectId } from '@/shared/types/brands.type'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { authClient } from './auth.client'
 import { authQueryKeys } from './query-keys'
@@ -14,13 +16,17 @@ export function useAuth() {
       authClient.auth(payload),
     onSuccess: async data => {
       if (data.userId && !data.needsRegistration) {
-        queryClient.setQueryData(authQueryKeys.session(), {
-          userId: data.userId,
-          email: data.email,
+        // `AuthResponse` ne porte pas les dates du compte : on amorce le cache avec
+        // l'instant de connexion, le prochain refetch de la session les corrigera.
+        const session: Session = {
+          userId: data.userId as ObjectId,
+          email: data.email as Email,
           name: data.name,
           createdAt: new Date(),
           updatedAt: new Date()
-        })
+        }
+
+        queryClient.setQueryData(authQueryKeys.session(), session)
       }
     }
   })

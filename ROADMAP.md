@@ -49,7 +49,7 @@ points seul : il pose la question.
 
 Des défauts qui feront échouer les phases suivantes s'ils ne sont pas traités d'abord.
 
-- [ ] `P0-1` **Corriger `SessionResponseSchema`** — déclare `createdAt`/`updatedAt` en
+- [x] `P0-1` **Corriger `SessionResponseSchema`** — déclare `createdAt`/`updatedAt` en
       `z.date()`, validé côté serveur sur de vrais `Date`, mais le client reçoit des
       strings ISO typées `Date`. Toute utilisation comme date échoue.
       → `src/shared/api/contracts/auth/auth.schema.ts`
