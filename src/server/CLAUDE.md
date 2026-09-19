@@ -198,6 +198,17 @@ Conséquences pratiques :
   de `shared/types`, le type discriminé, le `*.subdoc.ts`, le discriminator, et
   l'entrée dans le barrel. Les cinq, sinon ça casse silencieusement.
 
+### `required: true` sur une String, et les brouillons
+
+Mongoose traite la **chaîne vide comme absente** : `required: true` sur un `String`
+rejette `''`. Or les factories de l'éditeur créent les nodes avec des champs texte
+vides (`group: { title: '', description: '' }`), et un brouillon à moitié rempli doit
+pouvoir être sauvegardé.
+
+La règle : sur un champ texte d'un node, utilise `default: ''` plutôt que
+`required: true`. Exiger une valeur non vide est une contrainte de **publication**,
+pas de persistance — au même titre que la règle sur les `children` d'un groupe.
+
 ### Identité
 
 Deux identifiants coexistent, ne les confonds pas :

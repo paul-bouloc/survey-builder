@@ -143,8 +143,29 @@ Le pont est `surveyMapper.toDomain` (`features/surveys/common/mappers/`). Toute 
 API passe par un mapper avant d'entrer dans le code client. Si tu ajoutes un champ,
 mets à jour les deux plus le mapper.
 
-À terme, écrire de vrais schémas Zod récursifs pour les nodes remplacerait ces `z.any()`
-et permettrait de valider le PUT de sauvegarde de l'éditeur.
+### Le schéma Zod récursif des nodes
+
+`contracts/surveys/node.schema.ts` décrit l'arbre complet : conditions (récursives),
+triggers, actions, les huit configs de question, et `NodeSchema` / `PageNodeSchema`.
+Il valide le **corps du PUT** de sauvegarde de l'éditeur.
+
+Deux principes à respecter si tu le modifies :
+
+- **Permissif sur la complétude métier, strict sur la structure.** Un brouillon en
+  cours d'édition contient des questions à choix sans options et des titres vides :
+  il doit pouvoir être sauvegardé. Ce qui est vérifié, c'est `kind`, `type`, la
+  présence des sous-objets et le type des champs. La complétude est une règle de
+  publication (phase 5).
+- **`page` n'apparaît que dans `PageNodeSchema`.** `NodeSchema` est l'union des nodes
+  imbricables, `page` en est exclu — c'est ce qui interdit une page dans une page,
+  comme le `validate` Mongoose côté serveur.
+
+La cohérence entre `type` et `config.type` d'une question est assurée par un `refine`
+au runtime : les deux sont discriminés séparément, rien au niveau du typage ne les lie.
+
+`SurveySchema` (schéma de **réponse**) garde ses `z.any()` pour l'instant : le brancher
+ferait valider toutes les lectures, et un document déjà en base légèrement hors-schéma
+ferait échouer un GET. C'est le ticket `P8-7`.
 
 ## i18n
 

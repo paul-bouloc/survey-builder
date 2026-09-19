@@ -170,15 +170,25 @@ Certains fichiers sont des coquilles assumées (`NodeLogicPanel`,
 `SettingsPanelDividerComponent` retournent `null` ou un placeholder) : ce sont les
 points d'accroche de la logique conditionnelle à venir.
 
-### Persistance — à construire
+### Persistance — l'endpoint existe, le branchement reste à faire
 
-L'éditeur ne sauvegarde rien aujourd'hui : `isDirty` ne déclenche aucune requête.
+L'éditeur ne sauvegarde toujours rien : `isDirty` ne déclenche aucune requête. C'est
+l'objet de `P1-2`.
 
-La décision retenue est un **autosave debounced en PUT du draft complet** (meta +
-`pages`), avec statut de sauvegarde dans le header de l'éditeur. Quand tu l'implémentes :
-endpoint `PUT /api/surveys/[shortId]`, corps validé par un schéma Zod des pages
-(à écrire, voir `shared/CLAUDE.md`), vérification que l'appelant est le créateur et que
-le questionnaire est en `draft`, puis invalidation de `surveysQueryKeys.detail(shortId)`.
+Le transport, lui, est en place (`P1-1`) :
+
+- `PUT /api/surveys/[shortId]` — créateur et statut `draft` uniquement, corps validé
+  par `UpdateSurveyBodySchema` (voir `shared/CLAUDE.md`) ;
+- `surveysClient.updateSurvey(shortId, payload)` et le hook `useUpdateSurvey(shortId)`,
+  qui invalide déjà `surveysQueryKeys.detail(shortId)` au succès.
+
+Le corps attendu est le **draft complet**, pas un patch : `title`, `subtitle`,
+`description` et `pages` sont tous requis. Un `SurveyDraft` s'y envoie tel quel, aux
+optionnels près (`subtitle`/`description` sont `?: string` côté draft et `nullable`
+côté contrat — passe `?? null`).
+
+Reste donc à écrire : le debounce sur `isDirty`, l'indicateur de statut (`P1-3`), la
+garde anti-perte (`P1-4`) et le traitement des échecs (`P1-5`).
 
 Note `canEditSurvey` (`editor/lib/`) : l'édition exige `status === 'draft'`
 **et** `createdBy === session.userId`. Cette règle est vérifiée côté client pour l'UI ;

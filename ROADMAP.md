@@ -73,9 +73,12 @@ Des défauts qui feront échouer les phases suivantes s'ils ne sont pas traités
 L'éditeur perd tout au rechargement. C'est le blocage le plus grave : en l'état, c'est
 une démo.
 
-- [ ] `P1-1` **Endpoint `PUT /api/surveys/[shortId]`** — créateur + statut `draft` uniquement.
-      Nécessite un schéma Zod récursif des nodes, qui remplacera les `z.any()` du
-      contrat actuel.
+- [x] `P1-1` **Endpoint `PUT /api/surveys/[shortId]`** — créateur + statut `draft` uniquement.
+      Le schéma Zod récursif des nodes vit dans
+      `src/shared/api/contracts/surveys/node.schema.ts` et valide le corps du PUT.
+      Il est volontairement permissif sur la complétude métier (options vides,
+      titres vides) : c'est un brouillon. Les `z.any()` de `SurveySchema` (schéma
+      de **réponse**) sont laissés en place, voir `P8-7`.
 - [ ] `P1-2` **Autosave debounced** — PUT du draft complet (meta + pages), branché sur
       `isDirty`, avec invalidation de `surveysQueryKeys.detail(shortId)`.
 - [ ] `P1-3` **Statut de sauvegarde réel** — le header affiche du texte français en dur et le
@@ -203,6 +206,23 @@ C'est la phase la plus volumineuse de l'éditeur.
       shadcn.
 - [ ] `P8-6` **README** — encore le boilerplate `create-next-app` ; `README copy.md` à
       supprimer.
+- [ ] `P8-7` **Remplacer les `z.any()` du schéma de réponse** — `SurveySchema.pages` décrit
+      encore `condition`, `triggers` et `children` en `z.any()`. Le schéma récursif
+      écrit pour `P1-1` peut les remplacer, mais `createEndpoint` valide la réponse :
+      un document déjà en base légèrement hors-schéma ferait échouer un GET en 500.
+      À faire avec une vérification des documents existants.
+      → `src/shared/api/contracts/surveys/surveys.schema.ts`
+- [ ] `P8-8` **Aligner les longueurs de `CreateSurveyBodySchema`** — la création limite
+      `subtitle`/`description` à 200/1000 alors que l'éditeur et le PUT admettent
+      500/5000 (les valeurs de `editor/config/survey-meta.config.ts`). Un même champ
+      a donc deux limites selon le point d'entrée.
+      → `src/shared/api/contracts/surveys/surveys.request.ts`
+- [ ] `P8-9` **`scale.labels` est perdu à la relecture** — le champ est une `Map` Mongoose ;
+      `find-one.get.ts` lit en `.lean()`, qui rend une `Map` JS native, et
+      `JSON.stringify` la sérialise en `{}`. Le PUT renvoie bien les libellés (document
+      hydraté) mais le GET suivant les rend vides. Sans effet aujourd'hui — aucune UI
+      n'édite `labels` — mais bloquant dès `P3-8`.
+      → `src/server/api/routes/surveys/find-one.get.ts`
 
 ---
 
