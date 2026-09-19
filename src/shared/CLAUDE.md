@@ -31,13 +31,17 @@ Survey
 
 `Node` est une union discriminée sur `kind` :
 
-| kind       | Contenu propre                  | Enfants        |
-| ---------- | ------------------------------- | -------------- |
-| `page`     | `page.skippable`                | oui            |
-| `group`    | `group.{title,description}`     | oui (non vide) |
-| `question` | `type` + `config`               | optionnels     |
-| `info`     | `info.{type,title,description}` | non            |
-| `divider`  | —                               | non            |
+| kind       | Contenu propre                  | Enfants    |
+| ---------- | ------------------------------- | ---------- |
+| `page`     | `page.skippable`                | oui        |
+| `group`    | `group.{title,description}`     | oui        |
+| `question` | `type` + `config`               | optionnels |
+| `info`     | `info.{type,title,description}` | non        |
+| `divider`  | —                               | non        |
+
+Un `group` peut être vide : c'est l'état dans lequel la factory de l'éditeur le crée.
+Exiger qu'il porte au moins un enfant est une règle de **publication** (phase 5), pas
+une contrainte de persistance du brouillon.
 
 Tous héritent de `BaseNode` : `id` (`NodeId`), `kind`, `order`, `title`, `subtitle`,
 `description`, `code`, `condition`, `triggers`. Les trois champs texte sont
