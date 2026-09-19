@@ -89,10 +89,28 @@ une démo.
       dernier daté par `formatSavedAt`. Le bouton « Enregistrer » a été supprimé —
       l'autosave est le seul chemin d'écriture.
       → `survey-editor-header.component.tsx`
-- [ ] `P1-4` **Garde anti-perte** — confirmation avant de quitter avec des changements non
-      sauvegardés.
-- [ ] `P1-5` **Gestion des échecs de sauvegarde** — comportement si le PUT échoue, et si deux
-      onglets éditent le même questionnaire.
+- [x] `P1-4` **Garde anti-perte** — **abandonné, ne pas reprendre.** Avec l'autosave
+      debounced à 2 s, la fenêtre de perte est trop étroite pour justifier une
+      confirmation au départ : le coût pour l'utilisateur (un dialogue, ou la boîte
+      native du navigateur) dépasse le risque couvert. Une implémentation a été écrite
+      puis retirée — elle achoppait de toute façon sur le cas nominal, la sauvegarde
+      déclenchée au départ n'étant pas garantie d'aboutir après le démontage de la page.
+      Le cas où le PUT échoue est traité par le retry de `P1-5`. Reste le titre vide,
+      qui suspend l'envoi sans rien perdre : c'est le meta-block qui le signale.
+- [x] `P1-5` **Gestion des échecs de sauvegarde** — retry automatique avec backoff
+      exponentiel dans `useSurveyEditorAutosave` : 5 réessais (1/2/4/8/16 s, avec jitter),
+      uniquement sur erreur transitoire — panne de transport ou 5xx, via
+      `isRetriableApiError`. Un 4xx est la réponse délibérée du serveur à ce corps-là :
+      le rejouer redonnerait la même erreur, le statut passe donc directement à `error`.
+      Le statut reste `saving` pendant la séquence ; `error` n'apparaît qu'une fois les
+      réessais épuisés. Une modification pendant la séquence l'annule et repart du délai
+      le plus court. Le verrou « une requête en vol » est libéré au démontage et au
+      changement de `shortId` — hors ligne, React Query met la mutation en pause plutôt
+      que de la rejeter, et le verrou serait resté fermé à vie ; les retours tardifs sont
+      périmés par `generationRef`.
+      **La gestion multi-onglets est explicitement abandonnée** : détection de version
+      côté serveur et stratégie de résolution, hors de proportion pour un projet à un
+      seul éditeur. À rouvrir sous un nouveau numéro si le besoin apparaît.
 
 ## Phase 2 — Éditeur : manipulation des blocs
 
