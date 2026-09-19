@@ -226,6 +226,34 @@ Ces emplacements contiennent des valeurs factices, à remplacer dès que le mod�
 - [index.tsx](src/pages/index.tsx) — `mockResponses` en dur, et `respondedSurveys`
   toujours vide.
 
+## Commits
+
+**Commite le plus souvent possible.** Un commit par unité de changement cohérente, pas
+un gros commit en fin de tâche. Dès qu'un changement se tient tout seul — il compile, il
+ne casse rien, il a un sens isolément — il mérite son commit.
+
+Concrètement : sépare toujours un `fix` d'un `refactor`, la documentation du code, une
+correction de typo d'une évolution fonctionnelle. Si le message doit dire « et aussi »,
+c'est qu'il fallait deux commits. Le but est que chaque commit puisse être lu, relu ou
+annulé indépendamment.
+
+Convention : **Conventional Commits**, message en anglais, descriptif plutôt que
+télégraphique. Les types en usage dans le repo sont `feat`, `fix`, `refactor`, `chore`,
+`style`, `docs`.
+
+```
+feat: add updateSurveyMeta and setSelection reducers to survey editor slice
+fix: adjust padding in survey editor page header for improved layout consistency
+```
+
+Le corps du message sert à expliquer le _pourquoi_ quand il n'est pas évident : une
+décision d'architecture, un effet de bord, une contrainte d'environnement. Il n'est pas
+nécessaire pour un changement qui parle de lui-même.
+
+**Ne commite pas de ta propre initiative** : attends que ce soit demandé. La règle
+ci-dessus porte sur le _découpage_ — une fois le commit demandé, fais-en autant que le
+travail en contient, plutôt qu'un seul commit fourre-tout.
+
 ## Règles de travail
 
 - Ne migre pas vers l'App Router, ne convertis pas de composants en RSC.
