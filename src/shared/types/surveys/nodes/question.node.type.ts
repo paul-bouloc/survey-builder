@@ -1,6 +1,6 @@
 import {
   BaseNode,
-  Node,
+  ChildNode,
   NodeKind
 } from '@/shared/types/surveys/nodes/node.type'
 
@@ -109,7 +109,7 @@ export interface ScaleConfig {
 export interface BaseQuestionNode extends BaseNode {
   kind: typeof NodeKind.QUESTION
   required?: boolean
-  children?: Node[]
+  children?: ChildNode[]
 }
 
 /* ---- discriminated question node variants ---- */

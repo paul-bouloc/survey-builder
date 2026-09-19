@@ -47,3 +47,10 @@ export interface BaseNode {
 }
 
 export type Node = PageNode | GroupNode | QuestionNode | InfoNode | DividerNode
+
+/**
+ * Ce qu'un node peut contenir : tout sauf une `page`, qui n'existe qu'à la
+ * racine du questionnaire. Mongoose applique la même règle par un `validate` sur
+ * chaque schéma porteur d'enfants.
+ */
+export type ChildNode = Exclude<Node, PageNode>

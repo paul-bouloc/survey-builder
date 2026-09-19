@@ -24,6 +24,22 @@ export type ConditionOperatorType =
   (typeof ConditionOperator)[keyof typeof ConditionOperator]
 
 /**
+ * Opérateurs à valeur : ceux qui comparent une cible à une `value`.
+ * Les exclure de la branche simple de `Condition` est ce qui rend l'union
+ * réellement discriminée sur `op` — sinon `{ op: 'and', value }` la satisfait,
+ * alors que le discriminator Mongoose le rejette.
+ */
+export type SimpleConditionOperatorType =
+  | typeof ConditionOperator.EQUALS
+  | typeof ConditionOperator.NOT_EQUALS
+  | typeof ConditionOperator.IN
+  | typeof ConditionOperator.INCLUDES
+  | typeof ConditionOperator.GREATER_THAN
+  | typeof ConditionOperator.GREATER_THAN_OR_EQUALS
+  | typeof ConditionOperator.LESS_THAN
+  | typeof ConditionOperator.LESS_THAN_OR_EQUALS
+
+/**
  * If "path" is omitted, the engine may interpret the condition against
  * the current question value. If provided, it references context.
  *
@@ -34,7 +50,7 @@ export type ConditionOperatorType =
  */
 export type Condition =
   | {
-      op: ConditionOperatorType
+      op: SimpleConditionOperatorType
       path?: string
       value: unknown
     }
