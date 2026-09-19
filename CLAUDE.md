@@ -188,37 +188,34 @@ de ces zones.
 
 ## État d'avancement
 
-### Fonctionnel
+**L'inventaire du travail restant vit dans [ROADMAP.md](ROADMAP.md)**, pas ici. Consulte-le
+avant de commencer une tâche, et coche les cases que tu termines dans le même commit que
+le code. Il porte aussi une section « Questions ouvertes » : ces points ne se tranchent
+pas seul, demande.
 
-- Authentification par email seul (sans mot de passe) : JWT en cookie httpOnly, 7 jours
-- Création, listage et consultation de questionnaires
-- Page d'aperçu d'un questionnaire (stats partiellement mockées)
-- Éditeur visuel : canvas, sidebar, inspector, palette de commandes (cmdk),
-  ajout/édition/suppression de nodes — **en mémoire uniquement**
+Résumé : l'authentification, la création/consultation de questionnaires et l'UI de
+l'éditeur fonctionnent. L'éditeur **ne sauvegarde rien** (tout est perdu au
+rechargement), et le parcours de réponse, la publication, les résultats et les analytics
+sont des placeholders.
 
-### À construire
+### Décisions d'architecture prises
 
-1. **Persistance de l'éditeur** — le flag `isDirty` du slice ne mène à aucun endpoint.
-   Décision prise : **autosave debounced en PUT du draft complet** (meta + `pages`),
-   avec indicateur de statut dans le header de l'éditeur (déjà amorcé côté UI).
-2. **Modèle et API `SurveyResponse`** — le type existe dans `shared/types`, le schéma
-   Mongoose et les endpoints n'existent pas.
-3. **Moteur d'exécution** (conditions / triggers / actions) — entièrement typé,
-   zéro implémentation. Décision prise : **code partagé dans `src/shared/`, exécuté
-   côté client pour la réactivité puis rejoué côté serveur à chaque commit** pour que
-   la logique ne soit pas contournable.
-4. **Parcours de réponse** — `/run/[surveyShortId]` et `/answer/[surveyShortId]` sont
-   des placeholders. Répondre exige un compte (`respondentUserId` est requis) : une
-   réponse par utilisateur et par questionnaire, reprise possible via
-   `status: 'in_progress'` + `currentPageId`.
-5. **Publication / archivage** — `SurveyStatus` et les dates existent, aucune transition
-   n'est implémentée.
-6. **Résultats et analytics** — pages placeholder.
+Elles orientent les tickets de la roadmap, ne les remets pas en cause sans raison :
 
-### Dette connue à résoudre
+- **Persistance de l'éditeur** — autosave debounced en **PUT du draft complet**
+  (meta + `pages`), avec indicateur de statut dans le header.
+- **Moteur d'exécution** (conditions / triggers / actions) — code partagé dans
+  `src/shared/`, exécuté côté client pour la réactivité **puis rejoué côté serveur** à
+  chaque commit, pour que la logique ne soit pas contournable.
+- **Répondants** — répondre exige un compte (`respondentUserId` requis) : une réponse par
+  utilisateur et par questionnaire, reprise via `status: 'in_progress'` +
+  `currentPageId`.
+- **Tests** — Vitest sur la logique pure en priorité (voir « Tests » plus haut).
 
-Ces emplacements contiennent des valeurs factices, à remplacer dès que le modèle
-`SurveyResponse` existera. Ne les recopie pas comme modèle :
+### Valeurs factices en place
+
+À remplacer dès que le modèle `SurveyResponse` existera — ne les recopie pas comme
+modèle :
 
 - [find-one-overview.get.ts](src/server/api/routes/surveys/find-one-overview.get.ts) —
   `completedCount`, `inProgressCount`, `completionRate`, `weeklyData` et `questionCount`
