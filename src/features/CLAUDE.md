@@ -214,9 +214,53 @@ Trois points de conception à ne pas défaire :
   « non enregistré » — c'est le meta-block qui signale le titre manquant, le statut
   de sauvegarde n'a pas à le redire.
 
-Un échec passe `saveStatus` à `error` et ne replanifie rien — la modification suivante
-relance la sauvegarde. La reprise après échec et le conflit multi-onglets sont `P1-5`,
-la garde anti-perte au départ de la page est `P1-4`.
+### Échecs de sauvegarde (`P1-5`)
+
+Un échec **transitoire** est réessayé automatiquement, avec un backoff exponentiel :
+5 réessais à 1/2/4/8/16 s (plus un jitter de 20 %, pour que deux onglets ne retombent
+pas en cadence sur un serveur qui se relève). Le statut reste `saving` pendant toute la
+séquence — une sauvegarde est bien en cours, et l'utilisateur n'a de toute façon aucune
+action à sa disposition. `error` n'apparaît qu'une fois les réessais épuisés.
+
+Est transitoire une panne de transport (pas de réponse : hors ligne, DNS, timeout) ou un
+5xx — c'est le test de `isRetriableApiError` (`lib/api-error.ts`). **Un 4xx ne l'est
+pas** : c'est la réponse délibérée du serveur à ce corps-là (corps invalide, plus
+créateur, questionnaire sorti du statut `draft`), le rejouer à l'identique redonnerait la
+même erreur. Le statut passe alors directement à `error`, sans réessai.
+
+Une modification pendant la séquence l'annule : le contenu à envoyer a changé, le
+compteur repart de zéro et le nouveau cycle prend le délai le plus court. Après
+épuisement, plus rien n'est planifié — c'est la frappe suivante qui relance.
+
+Le retry se replanifie via `saveRef`, parce qu'une fonction ne peut pas figurer dans ses
+propres dépendances de `useCallback` (`react-hooks/immutability` le refuse).
+
+Deux protections du cycle de vie, à ne pas retirer :
+
+- **Le verrou `isSavingRef` est libéré au démontage et à chaque changement de
+  `shortId`.** Il est posé avant l'`await` et n'est normalement levé qu'au règlement de
+  la promesse — mais hors ligne, React Query met la mutation **en pause** au lieu de la
+  rejeter, et elle ne se règle qu'au retour du réseau. Sans cette libération, quitter la
+  page pendant cette pause laisserait le verrou fermé et le hook définitivement muet :
+  une ref survit à tout sauf à un remontage, et `shortId` change sans remonter le
+  composant.
+- **`generationRef` périme les retours tardifs.** Une requête partie pour le
+  questionnaire précédent revient avec une génération obsolète et n'a plus le droit de
+  toucher au statut — sinon elle daterait comme « enregistré » un brouillon qui ne l'est
+  pas. Même rôle que `revision` pour les frappes, mais à l'échelle du questionnaire.
+
+À noter : React Query a son propre retry, désactivé par défaut sur les mutations
+(`retry: 0`). Le nôtre ne le double donc pas — ne l'active pas dans `useUpdateSurvey`
+sans retirer celui du hook.
+
+**Le conflit multi-onglets n'est pas géré et ne le sera pas** dans l'état : deux onglets
+sur le même questionnaire s'écrasent mutuellement, le dernier PUT gagne. Décision prise
+avec `P1-5`, pas un oubli.
+
+**Il n'y a volontairement aucune garde au départ de la page** — ni confirmation, ni
+`beforeunload`. Le debounce à 2 s rend la fenêtre de perte trop étroite pour justifier
+d'interrompre l'utilisateur. C'est une décision prise et non un oubli : voir `P1-4` dans
+la roadmap, abandonné.
 
 Côté affichage, le header dérive un `SavePhase`
 (`unsaved | saving | saved | error`) **distinct de `SaveStatus`**, qui sert de `key`
