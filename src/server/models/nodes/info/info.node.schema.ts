@@ -14,11 +14,11 @@ const InfoNodeSchema = new Schema(
           },
           title: {
             type: String,
-            required: true
+            default: ''
           },
           description: {
             type: String,
-            required: true
+            default: ''
           }
         },
         { _id: false }

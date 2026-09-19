@@ -22,8 +22,8 @@ const GroupNodeSchema = new Schema(
     group: {
       type: new Schema(
         {
-          title: { type: String, required: true },
-          description: { type: String, required: true }
+          title: { type: String, default: '' },
+          description: { type: String, default: '' }
         },
         { _id: false }
       ),
