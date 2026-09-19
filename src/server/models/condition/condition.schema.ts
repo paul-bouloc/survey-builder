@@ -11,7 +11,7 @@ export const ConditionSchema = new Schema(
 const SimpleConditionSchema = new Schema(
   {
     path: { type: String, required: false },
-    value: { type: Schema.Types.Mixed, required: true }
+    value: { type: Schema.Types.Mixed, required: false, default: null }
   },
   { _id: false }
 )

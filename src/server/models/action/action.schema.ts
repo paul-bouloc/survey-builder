@@ -11,7 +11,7 @@ const BaseActionSchema = new Schema(
 const FlagActionSchema = new Schema(
   {
     path: { type: String, required: true },
-    value: { type: Schema.Types.Mixed, required: true }
+    value: { type: Schema.Types.Mixed, required: false, default: null }
   },
   { _id: false }
 )
