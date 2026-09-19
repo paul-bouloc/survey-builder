@@ -136,6 +136,16 @@
       "noDescription": "Aucune description",
       "titleRequired": "Le titre est obligatoire"
     },
+    "save": {
+      "saved": "Enregistré",
+      "savedNow": "Enregistré à l'instant",
+      "savedRelative": "Enregistré {date}",
+      "savedAtTime": "Enregistré à {date}",
+      "savedOnDate": "Enregistré le {date}",
+      "saving": "Enregistrement…",
+      "unsaved": "Changements non enregistrés",
+      "error": "Échec de l'enregistrement"
+    },
     "pages": {
       "pageNumber": "Page {number}",
       "pageSettings": "Paramètres de la page",

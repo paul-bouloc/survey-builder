@@ -136,6 +136,16 @@
       "noDescription": "No description",
       "titleRequired": "Title is required"
     },
+    "save": {
+      "saved": "Saved",
+      "savedNow": "Saved just now",
+      "savedRelative": "Saved {date}",
+      "savedAtTime": "Saved at {date}",
+      "savedOnDate": "Saved on {date}",
+      "saving": "Saving…",
+      "unsaved": "Unsaved changes",
+      "error": "Failed to save"
+    },
     "pages": {
       "pageNumber": "Page {number}",
       "pageSettings": "Page settings",
