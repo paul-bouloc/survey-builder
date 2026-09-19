@@ -44,7 +44,6 @@ const NotConditionSchema = new Schema(
   { _id: false }
 )
 
-// Simple Conditions
 ConditionSchema.discriminator(ConditionOperator.EQUALS, SimpleConditionSchema)
 ConditionSchema.discriminator(
   ConditionOperator.NOT_EQUALS,
@@ -69,12 +68,9 @@ ConditionSchema.discriminator(
   SimpleConditionSchema
 )
 
-// Exists Condition
 ConditionSchema.discriminator(ConditionOperator.EXISTS, ExistsConditionSchema)
 
-// Logical Conditions
 ConditionSchema.discriminator(ConditionOperator.AND, LogicalConditionSchema)
 ConditionSchema.discriminator(ConditionOperator.OR, LogicalConditionSchema)
 
-// Not Condition
 ConditionSchema.discriminator(ConditionOperator.NOT, NotConditionSchema)

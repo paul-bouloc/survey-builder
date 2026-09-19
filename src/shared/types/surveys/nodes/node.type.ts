@@ -25,32 +25,11 @@ export interface BaseNode {
   title: string | null
   subtitle: string | null
   description: string | null
-
-  /**
-   * Optional stable code for "special questions" / reporting.
-   * Example: "IMMEDIATE_RISK", "CONSENT", etc.
-   */
   code: string | null
-
-  /**
-   * Visibility condition for this node itself.
-   * If false => node is hidden (and engine may clear answers below it).
-   */
   condition: Condition | null
-
-  /**
-   * Triggers for actions from this node.
-   * For a question, the engine evaluates triggers based on this question value.
-   * For a group/page, you can use triggers with conditions referencing answers.
-   */
   triggers: TriggerRule[]
 }
 
 export type Node = PageNode | GroupNode | QuestionNode | InfoNode | DividerNode
 
-/**
- * Ce qu'un node peut contenir : tout sauf une `page`, qui n'existe qu'à la
- * racine du questionnaire. Mongoose applique la même règle par un `validate` sur
- * chaque schéma porteur d'enfants.
- */
 export type ChildNode = Exclude<Node, PageNode>

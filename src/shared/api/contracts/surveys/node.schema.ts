@@ -8,22 +8,6 @@ import { QuestionType } from '@/shared/types/surveys/nodes/question.node.type'
 import { TriggerTiming } from '@/shared/types/surveys/trigger.type'
 import { z } from 'zod'
 
-/**
- * Schémas Zod de l'arbre d'un questionnaire.
- *
- * Ils décrivent la même structure que les discriminators Mongoose de
- * `src/server/models/nodes/`, mais côté contrat : ce sont eux qui valident le
- * corps du PUT de sauvegarde de l'éditeur.
- *
- * Volontairement **permissifs sur la complétude métier** : un brouillon en cours
- * d'édition contient des questions à choix sans options et des titres vides, et
- * doit pouvoir être sauvegardé. La complétude est une règle de publication.
- * Ce qui est vérifié ici, c'est la structure : `kind`, `type`, présence des
- * sous-objets et type des champs.
- */
-
-/* ---------------------------------- CONDITIONS ---------------------------- */
-
 const SimpleConditionOperator = z.enum([
   ConditionOperator.EQUALS,
   ConditionOperator.NOT_EQUALS,
@@ -41,9 +25,6 @@ const SimpleConditionSchema = z
     path: z.string().optional(),
     value: z.unknown()
   })
-  // `z.unknown()` accepte la clé absente, alors que Mongoose l'exige : sans ce
-  // contrôle, une condition à moitié saisie passe la validation puis fait
-  // échouer la sauvegarde. `null`, lui, est une valeur de comparaison légitime.
   .refine(condition => 'value' in condition, {
     message: 'errors.common.required',
     path: ['value']
@@ -63,8 +44,6 @@ export type ConditionInput =
     }
   | { op: typeof ConditionOperator.NOT; condition: ConditionInput }
 
-// `z.lazy` casse l'inférence sur un type récursif : le type est donc annoté
-// explicitement via ConditionInput.
 export const ConditionSchema: z.ZodType<ConditionInput> = z.lazy(() =>
   z.discriminatedUnion('op', [
     SimpleConditionSchema,
@@ -79,8 +58,6 @@ export const ConditionSchema: z.ZodType<ConditionInput> = z.lazy(() =>
     })
   ])
 )
-
-/* ----------------------------------- ACTIONS ------------------------------ */
 
 export const ActionSchema = z.discriminatedUnion('type', [
   z
@@ -116,8 +93,6 @@ export const ActionSchema = z.discriminatedUnion('type', [
   })
 ])
 
-/* ---------------------------------- TRIGGERS ------------------------------ */
-
 export const TriggerRuleSchema = z.object({
   timing: z.enum([
     TriggerTiming.CHANGE,
@@ -130,8 +105,6 @@ export const TriggerRuleSchema = z.object({
   actions: z.array(ActionSchema),
   dedupeKey: z.string().max(200, 'errors.common.max').optional()
 })
-
-/* ------------------------------ QUESTION CONFIGS -------------------------- */
 
 const ChoiceOptionSchema = z.object({
   value: z.string(),
@@ -198,14 +171,10 @@ export const QuestionConfigSchema = z.discriminatedUnion('type', [
     min: z.number(),
     max: z.number(),
     step: z.number().optional(),
-    // `labels` est un Record<number, string> côté domaine, mais JSON n'a que des
-    // clés string : c'est cette forme-là qui transite réellement.
     labels: z.record(z.string(), z.string()).optional(),
     commit: z.enum(['change', 'next']).optional()
   })
 ])
-
-/* ------------------------------------ NODES ------------------------------- */
 
 const BaseNodeFieldsSchema = z.object({
   id: z.string('errors.common.required').min(1, 'errors.common.required'),
@@ -229,17 +198,6 @@ const GroupNodeDetailsSchema = z.object({
   description: z.string().max(5000, 'errors.common.max')
 })
 
-/**
- * Un node non-page. `group` et `question` portent des enfants, eux-mêmes des
- * nodes non-page : c'est la récursivité de l'arbre, et la raison pour laquelle
- * `page` est exclu de cette union — seule la racine du questionnaire en porte.
- *
- * Ce type décrit ce qui **transite en JSON**, pas ce que le code manipule : les
- * ids y sont des `string` et non des `NodeId` brandés, et la cohérence entre
- * `type` et `config.type` d'une question est assurée au runtime par le `refine`
- * plutôt que par le typage. C'est le décalage contrat / domaine habituel du
- * projet, que le mapper comble.
- */
 export type NodeInput =
   | ({ kind: typeof NodeKind.GROUP } & z.infer<typeof BaseNodeFieldsSchema> & {
         children: NodeInput[]
@@ -272,9 +230,6 @@ export const NodeSchema: z.ZodType<NodeInput> = z.lazy(() =>
       config: QuestionConfigSchema,
       children: z.array(NodeSchema).optional()
     }).refine(node => node.type === node.config.type, {
-      // Le node et sa config sont discriminés séparément : sans ce contrôle, on
-      // peut persister une question `radio` portant une config `text`, que le
-      // discriminator Mongoose accepterait sans broncher.
       message: 'errors.common.format',
       path: ['config', 'type']
     }),

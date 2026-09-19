@@ -27,8 +27,6 @@ export type QuestionConfig =
   | SelectConfig
   | ScaleConfig
 
-/* ---- configs ---- */
-
 export interface TextConfig {
   type: 'text'
   placeholder?: string
@@ -104,15 +102,11 @@ export interface ScaleConfig {
   commit?: 'change' | 'next'
 }
 
-/* ---- base question node (common fields) ---- */
-
 export interface BaseQuestionNode extends BaseNode {
   kind: typeof NodeKind.QUESTION
   required?: boolean
   children?: ChildNode[]
 }
-
-/* ---- discriminated question node variants ---- */
 
 export interface TextQuestionNode extends BaseQuestionNode {
   type: typeof QuestionType.TEXT
@@ -153,8 +147,6 @@ export interface ScaleQuestionNode extends BaseQuestionNode {
   type: typeof QuestionType.SCALE
   config: ScaleConfig
 }
-
-/* ---- union ---- */
 
 export type QuestionNode =
   | TextQuestionNode

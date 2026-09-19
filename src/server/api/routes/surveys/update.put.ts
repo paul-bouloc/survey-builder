@@ -26,8 +26,6 @@ export const updateSurvey = createEndpoint(
     if (!survey) {
       throw new NotFoundException('Survey not found')
     }
-    // Pendant de `canEditSurvey` côté client : la règle est vérifiée là-bas pour
-    // l'UI, ici pour de bon.
     if (survey.createdBy.toString() !== user._id.toString()) {
       throw new ForbiddenException('Only the creator can update this survey')
     }
