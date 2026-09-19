@@ -4,6 +4,7 @@ import SurveyEditorInspectorComponent from '@/features/surveys/editor/components
 import SurveyEditorCanvasComponent from '@/features/surveys/editor/components/survey-editor-canvas.component'
 import SurveyEditorHeaderComponent from '@/features/surveys/editor/components/survey-editor-header.component'
 import SurveyEditorSidebarComponent from '@/features/surveys/editor/components/survey-editor-sidebar.component'
+import { useSurveyEditorAutosave } from '@/features/surveys/editor/hooks'
 import { canEditSurvey } from '@/features/surveys/editor/lib/can-edit-survey'
 import {
   loadError,
@@ -43,31 +44,43 @@ const EditSurveyPage: NextPageWithLayout = () => {
   const { data: session } = useSession()
 
   const lastSyncedShortId = useRef<string | null>(null)
+  // Le draft n'est chargé qu'une fois par questionnaire : les refetchs déclenchés
+  // par l'autosave ne doivent pas réécraser les modifications en cours de frappe.
+  const loadedShortId = useRef<string | null>(null)
+
+  useSurveyEditorAutosave(shortId)
 
   useEffect(() => {
     if (!shortId) {
       dispatch(resetEditor())
       lastSyncedShortId.current = null
+      loadedShortId.current = null
       return
     }
 
     if (shortId !== lastSyncedShortId.current) {
       dispatch(resetEditor())
       lastSyncedShortId.current = shortId
+      loadedShortId.current = null
     }
 
-    if (isLoading) {
-      dispatch(loadStart())
-      return
-    }
+    if (loadedShortId.current !== shortId) {
+      if (isLoading) {
+        dispatch(loadStart())
+        return
+      }
 
-    if (isError) {
-      dispatch(loadError())
-      return
+      if (isError) {
+        dispatch(loadError())
+        return
+      }
     }
 
     if (survey && session) {
       if (survey.shortId !== shortId) return
+      if (loadedShortId.current === shortId) return
+
+      loadedShortId.current = shortId
 
       if (canEditSurvey(survey, { userId: session.userId })) {
         dispatch(loadSuccess(survey))
