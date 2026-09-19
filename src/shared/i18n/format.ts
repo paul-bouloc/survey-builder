@@ -21,11 +21,15 @@ export function formatDate(
 
   if (diffInDays < oneWeekInDays && diffInDays >= 0) {
     // Use relative time for dates less than 1 week old
+    // `now` est explicite partout : sans lui, next-intl utilise le `now` du
+    // provider, figé au montage de l'app (`_app.tsx`), et le libellé relatif
+    // ne se met plus à jour tant qu'on ne recharge pas la page.
     if (diffInDays === 0) {
       const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
       if (diffInHours === 0) {
         return {
           value: formatter.relativeTime(dateObj, {
+            now,
             unit: 'minute',
             style: 'long'
           }),
@@ -33,12 +37,20 @@ export function formatDate(
         }
       }
       return {
-        value: formatter.relativeTime(dateObj, { unit: 'hour', style: 'long' }),
+        value: formatter.relativeTime(dateObj, {
+          now,
+          unit: 'hour',
+          style: 'long'
+        }),
         isRelative: true
       }
     }
     return {
-      value: formatter.relativeTime(dateObj, { unit: 'day', style: 'long' }),
+      value: formatter.relativeTime(dateObj, {
+        now,
+        unit: 'day',
+        style: 'long'
+      }),
       isRelative: true
     }
   }
