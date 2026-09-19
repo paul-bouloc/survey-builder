@@ -10,6 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger
 } from '@/components/ui/tooltip'
+import { clientEnv } from '@/shared/config/env.client'
 import type { SurveyOverview } from '@/shared/types/surveys/survey-overview.type'
 import { Copy, ExternalLink } from 'lucide-react'
 import { useTranslations } from 'next-intl'
@@ -27,7 +28,7 @@ export function SurveyOverviewFormLink({
 
   const formUrl = useMemo(() => {
     const baseUrl =
-      process.env.NEXT_PUBLIC_APP_URL ||
+      clientEnv.NEXT_PUBLIC_APP_URL ||
       (typeof window !== 'undefined' ? window.location.origin : '')
     return `${baseUrl}/run/${survey.shortId}`
   }, [survey.shortId])

@@ -1,14 +1,9 @@
+import { serverEnv } from '@/server/config/env'
 import mongoose from 'mongoose'
 
-if (!process.env.MONGODB_URI) {
-  throw new Error(
-    'Please define the MONGODB_URI environment variable inside .env'
-  )
-}
-
-const uri: string = process.env.MONGODB_URI
+const uri = serverEnv.MONGODB_URI
 const databaseName =
-  process.env.MONGO_DATABASE || uri.split('/').pop()?.split('?')[0] || ''
+  serverEnv.MONGO_DATABASE || uri.split('/').pop()?.split('?')[0] || ''
 
 interface MongooseCache {
   conn: typeof mongoose | null

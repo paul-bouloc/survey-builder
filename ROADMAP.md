@@ -61,10 +61,12 @@ Des défauts qui feront échouer les phases suivantes s'ils ne sont pas traités
       contrairement à `getSurvey` : les dates restent des strings et `formatDate` les
       reparse. Fonctionne par chance.
       → `src/features/surveys/common/api/surveys.client.ts`
-- [ ] `P0-4` **Supprimer le fallback `JWT_SECRET`** — vaut
-      `'your-secret-key-change-in-production'` si la variable est absente. Doit throw au
-      démarrage comme `MONGODB_URI`.
-      → `src/server/auth/jwt.ts`
+- [x] `P0-4` **Valider les variables d'environnement avec Zod** — le fallback
+      `JWT_SECRET` (`'your-secret-key-change-in-production'`) est supprimé au profit de
+      deux schémas : `src/server/config/env.ts` (serveur, `JWT_SECRET` en 32 caractères
+      minimum) et `src/shared/config/env.client.ts` (variables `NEXT_PUBLIC_*`). Les deux
+      throw au démarrage avec le détail des champs fautifs.
+      → `src/server/config/env.ts`, `src/shared/config/env.client.ts`
 
 ## Phase 1 — Éditeur : persistance
 

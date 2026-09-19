@@ -1,8 +1,7 @@
+import { serverEnv } from '@/server/config/env'
 import jwt from 'jsonwebtoken'
 
-const JWT_SECRET =
-  process.env.JWT_SECRET || 'your-secret-key-change-in-production'
-const JWT_EXPIRES_IN = (process.env.JWT_EXPIRES_IN || '7d') as string
+const { JWT_SECRET, JWT_EXPIRES_IN } = serverEnv
 
 export interface JWTPayload {
   userId: string
