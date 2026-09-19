@@ -223,6 +223,104 @@ modèle :
 - [index.tsx](src/pages/index.tsx) — `mockResponses` en dur, et `respondedSurveys`
   toujours vide.
 
+## Traiter un ticket de la roadmap
+
+Quand on te demande de « traiter le prochain point de la roadmap » (ou un ticket
+précis), suis ce déroulé. Il vaut pour tout ticket de [ROADMAP.md](ROADMAP.md).
+
+### 1. Choisir le ticket
+
+Le « prochain point » est le **premier `[ ]` non coché dans l'ordre du fichier**, en
+partant de la phase la plus basse. Les phases sont ordonnées par dépendance : la phase 0
+corrige ce qui ferait échouer le reste, la phase 1 débloque l'éditeur, etc.
+
+Avant de démarrer, vérifie deux choses :
+
+- le ticket n'est pas bloqué par une **question ouverte** en tête de roadmap — si c'est
+  le cas, pose la question et attends la réponse plutôt que de trancher ;
+- le ticket est encore valide — la codebase a pu bouger depuis sa rédaction. Si le
+  constat est obsolète, dis-le et propose la mise à jour.
+
+Si le prochain ticket te semble mal ordonné (une dépendance non satisfaite, un gain à le
+faire plus tard), signale-le au lieu de l'exécuter mécaniquement.
+
+### 2. Analyser l'existant
+
+Lis le code concerné **avant** de proposer quoi que ce soit. Le ticket donne des
+pointeurs, pas une spec : la ligne `→ fichier` est un point d'entrée, pas le périmètre
+complet.
+
+Cherche en particulier :
+
+- ce qui existe déjà et peut être réutilisé (composant, hook, helper, reducer) ;
+- les patterns équivalents ailleurs dans le repo — ce projet est très homogène, il y a
+  presque toujours un précédent à imiter (voir les `CLAUDE.md` scopés) ;
+- les endroits qui devront suivre : i18n `fr` **et** `en`, contrat Zod partagé, mapper,
+  barrel `index.ts`, sélecteur, clé de query.
+
+### 3. Poser les questions
+
+Regroupe **toutes** tes questions en une fois, avant d'écrire du code. Une question vaut
+la peine d'être posée quand deux réponses raisonnables mènent à un travail différent.
+Pour le reste, prends la décision et mentionne-la.
+
+Sont typiquement des questions à poser : un choix d'UX visible, un changement de forme
+d'une donnée persistée, l'ajout d'une dépendance, une règle métier non écrite.
+
+### 4. Présenter le plan et attendre le feu vert
+
+Avant d'écrire du code, expose brièvement :
+
+- ce que tu vas faire, dans l'ordre ;
+- les fichiers créés ou modifiés ;
+- ce que le ticket **n'inclut pas** volontairement ;
+- les risques ou effets de bord que tu anticipes.
+
+Puis **attends la validation**. Court et concret : c'est un plan, pas une spec.
+
+### 5. Implémenter
+
+Une fois le plan validé, déroule le ticket en entier sans t'interrompre. Respecte les
+conventions de ce fichier et des `CLAUDE.md` scopés. Ne réduis pas le périmètre en
+silence : si une partie s'avère bloquée, termine tout le reste et dis explicitement ce
+que tu as laissé de côté et pourquoi.
+
+**Hors périmètre.** Si tu découvres un bug ou un manque étranger au ticket :
+
+- si c'est trivial (typo, one-liner évident), corrige-le dans un **commit séparé** ;
+- sinon, ajoute une ligne dans la phase appropriée de la ROADMAP et signale-le. Ne
+  l'embarque pas dans le ticket en cours.
+
+### 6. Vérifier
+
+Avant d'annoncer que c'est terminé, lance :
+
+```bash
+pnpm exec tsc --noEmit   # doit passer sans erreur
+pnpm lint                # voir ci-dessous
+pnpm build               # doit passer
+```
+
+`pnpm lint` remonte **120 erreurs préexistantes** dans six primitives de
+`src/components/ui/` (guillemets doubles et classes Tailwind non triées, telles
+qu'installées par la CLI shadcn). N'exige pas zéro erreur : vérifie que tu n'en as pas
+**ajouté** sur les fichiers que tu as touchés.
+
+Dans ton rapport, énonce ce que tu as vérifié et ce que tu n'as pas pu vérifier.
+N'affirme pas qu'une fonctionnalité marche si tu ne l'as pas réellement exercée — dire
+« le build passe, je n'ai pas testé le parcours dans le navigateur » est une réponse
+correcte.
+
+### 7. Clore le ticket
+
+Coche la case `[x]` dans ROADMAP.md et commite-la **avec** le code, pour que le fichier
+reflète toujours l'état réel du repo. Une case ne se coche que si la fonctionnalité est
+utilisable de bout en bout, pas si le code compile. Si le ticket n'est que partiellement
+traité, utilise `[~]` et précise ce qu'il reste.
+
+Rappel : on travaille directement sur `main`, sans branche par ticket. Voir la section
+« Commits » ci-dessous pour le découpage — et ne commite pas de ta propre initiative.
+
 ## Commits
 
 **Commite le plus souvent possible.** Un commit par unité de changement cohérente, pas
