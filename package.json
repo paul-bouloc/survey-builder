@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@12.4.2",
+  "engines": {
+    "node": ">=20.19.0",
+    "pnpm": ">=12"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -16,9 +21,9 @@
     "docker:stop": "docker-compose stop",
     "docker:restart": "docker-compose restart",
     "docker:clean": "docker-compose down -v",
-    "db:start": "npm run docker:up",
-    "db:stop": "npm run docker:down",
-    "db:logs": "npm run docker:logs"
+    "db:start": "pnpm docker:up",
+    "db:stop": "pnpm docker:down",
+    "db:logs": "pnpm docker:logs"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",

@@ -39,6 +39,24 @@ pnpm docker:logs     # logs du conteneur mongo
 
 Il n'y a **pas encore** de runner de tests installé (voir « Tests » plus bas).
 
+### Version du gestionnaire de paquets
+
+Le repo exige **pnpm >= 12** et **Node >= 20.19.0** (contrainte de Mongoose 9), déclarés
+dans `engines`. Le champ `packageManager: "pnpm@12.4.2"` fixe la version exacte : pnpm 12
+gère sa propre version, il se résout donc automatiquement à la bonne — d'où les entrées
+`packageManagerDependencies` dans le lockfile, qui sont des métadonnées, pas une
+installation.
+
+Attention si tu utilises nvm : Node livre un shim **corepack** nommé `pnpm` qui peut
+masquer l'installation réelle dans le `PATH` et exposer une version plus ancienne. Le
+symptôme est `ERR_PNPM_UNEXPECTED_STORE` (node_modules lié à un store d'une autre version
+majeure). Vérifie avec `which -a pnpm` et `pnpm --version` ; la solution est soit de
+laisser corepack honorer `packageManager`, soit de placer `~/Library/pnpm/bin` avant le
+répertoire nvm dans le `PATH`.
+
+Les scripts de build autorisés sont déclarés dans `pnpm-workspace.yaml` sous `allowBuilds`
+(syntaxe pnpm 12, qui remplace `onlyBuiltDependencies`).
+
 ## Variables d'environnement
 
 `.env` à la racine, calqué sur `.env.example` :
@@ -211,8 +229,7 @@ Ces emplacements contiennent des valeurs factices, à remplacer dès que le mod�
 ## Règles de travail
 
 - Ne migre pas vers l'App Router, ne convertis pas de composants en RSC.
-- Utilise `pnpm`, jamais `npm` ni `yarn` (les scripts `db:*` appellent `npm run` en
-  interne, c'est un héritage — ne t'en sers pas comme modèle).
+- Utilise `pnpm`, jamais `npm` ni `yarn`, y compris dans les scripts de `package.json`.
 - Tout nouveau texte visible passe par next-intl, dans les **deux** locales.
   `en` doit satisfaire `satisfies typeof frMessages` : une clé oubliée casse le typage.
 - Avant d'ajouter une dépendance, vérifie que la stack ne couvre pas déjà le besoin
