@@ -82,6 +82,13 @@ N'appelle jamais `axios` ni `fetch` depuis un composant.
 `features/surveys/editor/` — c'est la partie la plus structurée, et la convention y est
 la plus stricte.
 
+> **Refonte en cours (phase 2.5 de la [ROADMAP](../../ROADMAP.md)).** La maquette v2
+> supprime les deux panneaux latéraux : la **sidebar** et l'**inspector** disparaissent,
+> et toutes les propriétés s'éditent en ligne dans la card du bloc. Ce qui suit décrit
+> la structure **actuelle**, encore en place — n'investis pas dans `components/inspector/`
+> ni dans la sidebar sans avoir lu la phase 2.5 d'abord. Le reste (state, tree,
+> selectors, factories, sanitizers) n'est pas concerné et reste la référence.
+
 ```
 editor/
   state/
@@ -370,7 +377,26 @@ Reste sobre : l'animation sert la lisibilité du changement, elle n'est pas déc
 
 ### Responsive
 
-Hooks disponibles : `useIsMobile`, `useMediaQuery`, `useAutoResize`,
-`useMinDurationValue` (`src/hooks/`).
-L'inspector de l'éditeur bascule en `Drawer` (vaul) sur mobile et en panneau latéral sur
-desktop — reprends ce pattern plutôt que de masquer du contenu.
+**Tout écran est responsive — ce n'est pas une finition à repasser plus tard.** Un écran
+n'est pas terminé s'il ne tient que sur un grand écran. Les maquettes v2 le sont toutes ;
+la règle complète est dans « Décisions produit » de [ROADMAP.md](../../ROADMAP.md).
+
+Trois techniques, dans cet ordre de préférence :
+
+1. **Espacements et tailles fluides** — `clamp()` sur les marges, les écarts et les
+   titres. C'est le gros du travail et ça ne demande aucune logique React.
+2. **Grilles qui se replient seules** —
+   `repeat(auto-fit, minmax(min(150px,100%),1fr))`. Le `min(…,100%)` est ce qui évite le
+   débordement en très petite largeur ; ne l'oublie pas.
+3. **Adaptation structurelle**, seulement quand les deux premières ne suffisent pas :
+   un split qui passe en colonne unique, une liste latérale qui perd son `sticky`, un
+   libellé raccourci. Les hooks `useIsMobile` et `useMediaQuery` (`src/hooks/`) servent
+   à ça.
+
+Les breakpoints sont **ceux de Tailwind** (`sm` 640, `md` 768, `lg` 1024). Les maquettes
+emploient parfois des valeurs voisines (720, 900, 980) : aligne-toi sur Tailwind plutôt
+que d'introduire une seconde échelle.
+
+Attention : certaines adaptations **changent ce qui est affiché**, pas seulement sa
+taille — le graphique de l'overview masque ses totaux et resserre ses barres en petite
+largeur. Ce sont des décisions de contenu, elles sont décrites dans les tickets.

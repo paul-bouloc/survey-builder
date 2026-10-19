@@ -200,7 +200,9 @@ placeholders.
 
 ### Décisions d'architecture prises
 
-Elles orientent les tickets de la roadmap, ne les remets pas en cause sans raison :
+Elles orientent les tickets de la roadmap, ne les remets pas en cause sans raison. Les
+décisions **produit** transverses (par exemple ce qu'est une réponse abandonnée) vivent
+dans la section « Décisions produit » de [ROADMAP.md](ROADMAP.md) :
 
 - **Persistance de l'éditeur** — autosave debounced en **PUT du draft complet**
   (meta + `pages`), avec indicateur de statut dans le header.
